@@ -15,20 +15,18 @@ public class Browser {
 	@Before
 	public void startBrowser() {
 		webDriver = null;
-		selectWebDriver("webdriver");
-		if (webDriver == null) {
-			selectWebDriver("defaultwebdriver");
-		}
+		String webDriverName = System.getProperty("webdriver");
+		selectWebDriver(webDriverName);
 	}
 
-	private void selectWebDriver(String property) {
-		String webdriverName = System.getProperty(property);
-		if ("firefox".equalsIgnoreCase(webdriverName)) {
+	private void selectWebDriver(String name) {
+		if ("firefox".equalsIgnoreCase(name)) {
 			webDriver = new FirefoxDriver();
-		} else if ("htmlunit".equalsIgnoreCase(webdriverName)) {
-			webDriver = new HtmlUnitDriver();
-		} else if ("chrome".equalsIgnoreCase(webdriverName)) {
-			System.setProperty("webdriver.reap_profile", "true");
+		} else if ("htmlunit".equalsIgnoreCase(name)) {
+			HtmlUnitDriver htmlUnitDriver = new HtmlUnitDriver();
+			htmlUnitDriver.setJavascriptEnabled(true);
+			webDriver = htmlUnitDriver;
+		} else if ("chrome".equalsIgnoreCase(name)) {
 			webDriver = new ChromeDriver();
 		}
 	}

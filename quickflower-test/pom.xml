@@ -9,6 +9,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<webdriver>firefox</webdriver>
 	</properties>
 
 	<repositories>
@@ -102,19 +103,17 @@
 				<artifactId>cuke4duke-maven-plugin</artifactId>
 				<configuration>
 					<jvmArgs>
-						<!--
-							<jvmArg>
-							-Dcuke4duke.objectFactory=cuke4duke.internal.jvmclass.PicoFactory
-							</jvmArg>
-						-->
 						<jvmArg>-Dwebdriver=${webdriver}</jvmArg>
-						<jvmArg>-Ddefaultwebdriver=firefox</jvmArg>
 					</jvmArgs>
 					<cucumberArgs>
 						<cucumberArg>--verbose</cucumberArg>
 						<cucumberArg>--color</cucumberArg>
 						<cucumberArg>--require</cucumberArg>
 						<cucumberArg>${basedir}/target/test-classes</cucumberArg>
+						<!-- TODO create profiles for html and console targets
+						<cucumberArg>-FIXME-format html</cucumberArg>
+						<cucumberArg>-FIXME-out target/out.html</cucumberArg>
+						 -->
 					</cucumberArgs>
 					<gems>
 						<gem>install cuke4duke --version 0.3.0</gem>
