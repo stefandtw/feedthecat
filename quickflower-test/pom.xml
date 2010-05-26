@@ -63,6 +63,12 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>1.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.seleniumhq.webdriver</groupId>
 			<artifactId>webdriver-htmlunit</artifactId>
 			<version>0.9.7376</version>
@@ -110,10 +116,11 @@
 						<cucumberArg>--color</cucumberArg>
 						<cucumberArg>--require</cucumberArg>
 						<cucumberArg>${basedir}/target/test-classes</cucumberArg>
-						<!-- TODO create profiles for html and console targets
-						<cucumberArg>-FIXME-format html</cucumberArg>
-						<cucumberArg>-FIXME-out target/out.html</cucumberArg>
-						 -->
+						<!--
+							TODO create profiles for html and console targets
+							<cucumberArg>-FIXME-format html</cucumberArg>
+							<cucumberArg>-FIXME-out target/out.html</cucumberArg>
+						-->
 					</cucumberArgs>
 					<gems>
 						<gem>install cuke4duke --version 0.3.0</gem>

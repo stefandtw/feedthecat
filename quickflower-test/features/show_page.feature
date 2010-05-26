@@ -6,8 +6,9 @@ Feature: Show a possibly filtered web page
 Scenario: See google weather applet
 
 Given homepage
-When I set source url to "http://www.google.com/search?q=weather+berlin"
-And I set name to "berlin weather"
-And I click "Submit"
-Then result page for "berlin weather" contains "°C"
+When I set source url to 'http://www.google.com/search?q=weather+berlin'
+And I set name to 'berlin weather'
+And I click the 'Save' button
+Then result page for 'berlin weather' contains '°'
+And result page for 'berlin weather' does not contain 'Google'
 

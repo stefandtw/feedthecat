@@ -7,10 +7,29 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>quickflower</name>
 	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
 	<!--
 		include for production build <init-param>
 		<param-name>configuration</param-name>
 		<param-value>deployment</param-value> </init-param>
+	-->
+	<!-- Repository for Abdera
+	<repositories>
+		<repository>
+			<id>apache-snapshots</id>
+			<name>Apache Snapshot Repository</name>
+			<url>http://people.apache.org/repo/m2-snapshot-repository</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
 	-->
 	<dependencies>
 		<dependency>
@@ -19,16 +38,41 @@
 			<version>1.4.8</version>
 		</dependency>
 		<dependency>
+			<!-- required by wicket -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.htmlunit</groupId>
+			<artifactId>htmlunit</artifactId>
+			<version>2.7</version>
+		</dependency>
+		<!-- Feed library: Rome
+		<dependency>
+			<groupId>rome</groupId>
+			<artifactId>rome</artifactId>
+			<version>0.9</version>
+		</dependency>
+		 -->
+		<!-- Feed library: Abdera
+		<dependency>
+			<groupId>org.apache.abdera</groupId>
+			<artifactId>abdera-client</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		 -->
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		<!-- required by wicket -->
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.4.2</version>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>1.1</version>
+			<scope>test</scope>
 		</dependency>
 		<!--
 			<dependency> <groupId>org.mortbay.jetty</groupId>
@@ -74,6 +118,13 @@
 						</goals>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>net.sourceforge.winstone</groupId>
+						<artifactId>winstone-lite</artifactId>
+						<version>0.9.10</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
@@ -82,8 +133,6 @@
 				<configuration>
 					<reload>automatic</reload>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
-					<stopKey>foo</stopKey>
-					<stopPort>9999</stopPort>
 				</configuration>
 				<!--
 					<executions> <execution> <id>start-jetty</id>
@@ -94,6 +143,13 @@
 					<phase>post-integration-test</phase> <goals> <goal>stop</goal>
 					</goals> </execution> </executions>
 				-->
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

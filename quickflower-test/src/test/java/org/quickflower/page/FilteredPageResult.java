@@ -1,6 +1,9 @@
 package org.quickflower.page;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
+
 import org.openqa.selenium.WebDriver;
 import org.quickflower.tools.Browser;
 
@@ -8,27 +11,31 @@ import cuke4duke.annotation.I18n.EN.Then;
 
 public class FilteredPageResult {
 
-	private static final String RESULT_PAGE_URL = "http://localhost:8080/resultpage";
-	
-	private WebDriver driver;
+	private static final String BASIC_RESULT_URL = "http://localhost:8080/page/weather";
+
+	private final WebDriver driver;
 
 	public FilteredPageResult(Browser browser) {
 		driver = browser.getDriver();
 	}
-	
-	@Then("^result page contains \"(.*)\"$")
-	public void containsText(String text) {
-		assertOnPage();
-		boolean containsTheText = driver.getPageSource().contains(text);
-		assertTrue(containsTheText);
-	}
-	
-	private void assertOnPage() {
-		driver.get(RESULT_PAGE_URL);
+
+	@Then("^result page for '(.*)' contains '(.*)'$")
+	public void resultPageForNameContains(String name, String text) {
+		switchToResultPage(name);
 		String pageSource = driver.getPageSource();
-		assertNotNull(pageSource);
-		//TODO test; remove
-		throw new RuntimeException("check if assertOnPage works. pageSource: " + pageSource);
+		assertThat(pageSource, containsString(text));
 	}
-	
+
+	@Then("^result page for '(.*)' does not contain '(.*)'$")
+	public void resultPageForNameDoesNotContain(String name, String text) {
+		switchToResultPage(name);
+		String pageSource = driver.getPageSource();
+		assertThat(pageSource, not(containsString(text)));
+	}
+
+	private void switchToResultPage(String name) {
+		String resultUrl = BASIC_RESULT_URL + "?name=" + name;
+		driver.get(resultUrl);
+	}
+
 }
