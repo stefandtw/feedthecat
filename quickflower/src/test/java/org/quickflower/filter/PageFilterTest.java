@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.quickflower.webpagefilter.PageConfig;
+import org.quickflower.webpagefilter.PageFilter;
 
 public class PageFilterTest {
 

@@ -2,7 +2,9 @@ package org.quickflower.application;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.ResourceReference;
+import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.quickflower.generatedresource.GeneratedPageResource;
 import org.quickflower.page.CreatePage;
 
 public class QuickflowerApplication extends WebApplication {
@@ -19,9 +21,22 @@ public class QuickflowerApplication extends WebApplication {
 	@Override
 	protected void init() {
 		super.init();
-		getSharedResources().add("filteredPage", new DynamicPage());
-		mountSharedResource("/page/weather", new ResourceReference(
-				"filteredPage").getSharedResourceKey());
+		GuiceComponentInjector injector = initDependencyManagement();
+		initGeneratedResources(injector);
 	}
 
+	private void initGeneratedResources(GuiceComponentInjector injector) {
+		GeneratedPageResource resource = (GeneratedPageResource) injector
+				.inject(new GeneratedPageResource());
+		getSharedResources().add("filteredPage", resource);
+		mountSharedResource("/page", new ResourceReference("filteredPage")
+				.getSharedResourceKey());
+	}
+
+	private GuiceComponentInjector initDependencyManagement() {
+		GuiceComponentInjector injector = new GuiceComponentInjector(this,
+				new DefaultModule());
+		addComponentInstantiationListener(injector);
+		return injector;
+	}
 }

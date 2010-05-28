@@ -1,4 +1,4 @@
-package org.quickflower.filter;
+package org.quickflower.webpagefilter;
 
 import java.util.ArrayList;
 import java.util.List;

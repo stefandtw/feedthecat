@@ -1,4 +1,4 @@
-package org.quickflower.filter;
+package org.quickflower.webpagefilter;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
