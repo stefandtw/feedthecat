@@ -1,0 +1,2 @@
+default: --verbose --color
+html: --format progress --format html --out target/report.html features  

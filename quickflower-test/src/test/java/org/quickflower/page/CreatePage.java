@@ -12,6 +12,7 @@ public class CreatePage {
 	private static final String HOMEPAGE_URL = "http://localhost:8080/";
 	private static final String SOURCE_URL_ID = "sourceUrl";
 	private static final String NAME_ID = "name";
+	private static final String XPATH_ID = "xpath";
 
 	private final WebDriver driver;
 
@@ -26,12 +27,17 @@ public class CreatePage {
 
 	@When("^I set source url to '(.*)'$")
 	public void setSourceUrlTo(String sourceUrl) {
-		driver.findElement(By.id(SOURCE_URL_ID)).sendKeys(sourceUrl);
+		driver.findElement(By.name(SOURCE_URL_ID)).sendKeys(sourceUrl);
 	}
 
 	@When("^I set name to '(.*)'$")
 	public void setNameTo(String name) {
-		driver.findElement(By.id(NAME_ID)).sendKeys(name);
+		driver.findElement(By.name(NAME_ID)).sendKeys(name);
+	}
+
+	@When("^I set xpath to ''(.*)''$")
+	public void setXPathTo(String xpath) {
+		driver.findElement(By.name(XPATH_ID)).sendKeys(xpath);
 	}
 
 	@When("I click the '(.*)' button")

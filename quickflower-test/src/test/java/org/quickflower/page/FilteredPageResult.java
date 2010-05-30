@@ -11,7 +11,7 @@ import cuke4duke.annotation.I18n.EN.Then;
 
 public class FilteredPageResult {
 
-	private static final String BASIC_RESULT_URL = "http://localhost:8080/page/weather";
+	private static final String BASIC_RESULT_URL = "http://localhost:8080/page";
 
 	private final WebDriver driver;
 

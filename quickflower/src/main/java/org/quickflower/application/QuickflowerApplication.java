@@ -28,8 +28,8 @@ public class QuickflowerApplication extends WebApplication {
 	private void initGeneratedResources(GuiceComponentInjector injector) {
 		GeneratedPageResource resource = (GeneratedPageResource) injector
 				.inject(new GeneratedPageResource());
-		getSharedResources().add("filteredPage", resource);
-		mountSharedResource("/page", new ResourceReference("filteredPage")
+		getSharedResources().add(GeneratedPageResource.REFERENCE_NAME, resource);
+		mountSharedResource("/page", new ResourceReference(GeneratedPageResource.REFERENCE_NAME)
 				.getSharedResourceKey());
 	}
 

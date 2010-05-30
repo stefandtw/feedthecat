@@ -8,18 +8,26 @@
 <body>
 <h2>Create a new page</h2>
 <form wicket:id="createPageForm">
+<div>
+<span wicket:id="feedback"></span> 
+</div>
 <p>
 <span>
 URL:
- <input id="sourceUrl" type="text" />
+ <input wicket:id="sourceUrl" type="text" />
 </span>
 <br />
 <span>
 Name:
- <input id="name" type="text" />
+ <input wicket:id="name" type="text" />
 </span>
 <br />
-<input wicket:id="submit" type="button" value="Save" />
+<span>
+XPath:
+ <input wicket:id="xpath" type="text" />
+</span>
+<br />
+<input wicket:id="submit" type="submit" value="Save" />
 </p>
 </form>
 </body>
