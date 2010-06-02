@@ -1,13 +1,20 @@
 package org.quickflower.page;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.quickflower.tools.Browser;
 
 import cuke4duke.annotation.I18n.EN.Given;
+import cuke4duke.annotation.I18n.EN.Then;
 import cuke4duke.annotation.I18n.EN.When;
 
-public class CreatePage {
+public class CreateNewPage {
 
 	private static final String HOMEPAGE_URL = "http://localhost:8080/";
 	private static final String SOURCE_URL_ID = "sourceUrl";
@@ -16,7 +23,7 @@ public class CreatePage {
 
 	private final WebDriver driver;
 
-	public CreatePage(Browser browser) {
+	public CreateNewPage(Browser browser) {
 		this.driver = browser.getDriver();
 	}
 
@@ -40,11 +47,24 @@ public class CreatePage {
 		driver.findElement(By.name(XPATH_ID)).sendKeys(xpath);
 	}
 
-	@When("I click the '(.*)' button")
+	@When("^I click the '(.*)' button$")
 	public void clickThe(String button) {
 		driver.findElement(
 				By.xpath("/html/body/form//input[@value='" + button + "']"))
 				.click();
 	}
 
+	@Then("^show error message ''(.*)''$")
+	public void showErrorMessage(String message) {
+		String className = "feedbackPanelERROR";
+		List<WebElement> errorMessageElements = driver.findElements(By
+				.className(className));
+		boolean found = false;
+		for (WebElement element : errorMessageElements) {
+			if (element.getText().equals(message)) {
+				found = true;
+			}
+		}
+		assertThat(found, is(true));
+	}
 }

@@ -13,3 +13,10 @@ And I click the 'Save' button
 Then result page for 'berlin weather' contains '°'
 And result page for 'berlin weather' does not contain 'Google'
 
+
+Scenario: Show error messages
+
+Given homepage
+When I click the 'Save' button
+Then show error message ''Field 'Name' is required.''
+And show error message ''Field 'URL' is required.''
