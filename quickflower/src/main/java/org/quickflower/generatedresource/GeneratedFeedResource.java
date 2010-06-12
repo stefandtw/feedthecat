@@ -1,22 +1,19 @@
-/**
- * 
- */
 package org.quickflower.generatedresource;
 
 import java.io.UnsupportedEncodingException;
 
 import org.apache.wicket.markup.html.DynamicWebResource;
 import org.quickflower.datasource.DataSource;
-import org.quickflower.webpagefilter.PageBuilder;
-import org.quickflower.webpagefilter.PageConfig;
+import org.quickflower.webpagefilter.FeedBuilder;
+import org.quickflower.webpagefilter.FeedConfig;
 
 import com.google.inject.Inject;
 
-public class GeneratedPageResource extends DynamicWebResource {
+public class GeneratedFeedResource extends DynamicWebResource {
 
-	public static final String REFERENCE_NAME = "filteredPage";
+	private static final long serialVersionUID = -7600238538904382642L;
 
-	private static final long serialVersionUID = -8313265218186839656L;
+	public static final String REFERENCE_NAME = "generatedFeed";
 	private static final String PARAMETER_KEY_NAME = "name";
 
 	@Inject
@@ -33,21 +30,21 @@ public class GeneratedPageResource extends DynamicWebResource {
 
 			@Override
 			public String getContentType() {
-				return "text/html";
+				return "application/atom+xml";
 			}
 		};
 	}
 
 	private byte[] loadContent() {
 		String name = getParameters().getString(PARAMETER_KEY_NAME);
-		PageConfig pageConfig = dataSource.loadPageConfig(name);
-		PageBuilder builder = new PageBuilder(pageConfig);
+		FeedConfig feedConfig = dataSource.loadFeedConfig(name);
+		FeedBuilder builder = new FeedBuilder(feedConfig);
 		final byte[] data;
 		try {
-			String resultSource = builder.getResultHtml();
+			String resultSource = builder.getFeedSource();
 			data = resultSource.getBytes("UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException("error reading dynamic page", e);
+			throw new RuntimeException("error reading feed", e);
 		}
 		return data;
 	}

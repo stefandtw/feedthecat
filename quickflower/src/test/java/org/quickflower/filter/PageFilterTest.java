@@ -6,7 +6,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.quickflower.webpagefilter.PageConfig;
-import org.quickflower.webpagefilter.PageFilter;
+import org.quickflower.webpagefilter.Filter;
 
 public class PageFilterTest {
 
@@ -15,10 +15,12 @@ public class PageFilterTest {
 
 	@Test
 	public void filterOutGoogleTexts() {
-		PageConfig pageConfig = new PageConfig(WEATHER_URL);
+		PageConfig pageConfig = new PageConfig();
+		pageConfig.setUrl(WEATHER_URL);
 		pageConfig.showByXPath(WEATHER_XPATH);
 
-		String pageSource = new PageFilter(pageConfig).getResultHtml();
+		String pageSource = new Filter(pageConfig).getResultHtml(pageConfig
+				.getVisibleElementXPaths());
 		assertThat(pageSource, containsString("°"));
 		assertThat(pageSource, not(containsString("Google")));
 	}

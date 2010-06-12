@@ -4,7 +4,9 @@ import org.apache.wicket.Page;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.quickflower.generatedresource.GeneratedFeedResource;
 import org.quickflower.generatedresource.GeneratedPageResource;
+import org.quickflower.page.CreateFeed;
 import org.quickflower.page.CreatePage;
 
 public class QuickflowerApplication extends WebApplication {
@@ -23,14 +25,23 @@ public class QuickflowerApplication extends WebApplication {
 		super.init();
 		GuiceComponentInjector injector = initDependencyManagement();
 		initGeneratedResources(injector);
+		mountPageUrls();
 	}
 
 	private void initGeneratedResources(GuiceComponentInjector injector) {
-		GeneratedPageResource resource = (GeneratedPageResource) injector
+		GeneratedPageResource pageResource = (GeneratedPageResource) injector
 				.inject(new GeneratedPageResource());
-		getSharedResources().add(GeneratedPageResource.REFERENCE_NAME, resource);
-		mountSharedResource("/page", new ResourceReference(GeneratedPageResource.REFERENCE_NAME)
-				.getSharedResourceKey());
+		getSharedResources().add(GeneratedPageResource.REFERENCE_NAME,
+				pageResource);
+		mountSharedResource("/page", new ResourceReference(
+				GeneratedPageResource.REFERENCE_NAME).getSharedResourceKey());
+
+		GeneratedFeedResource feedResource = (GeneratedFeedResource) injector
+				.inject(new GeneratedFeedResource());
+		getSharedResources().add(GeneratedFeedResource.REFERENCE_NAME,
+				feedResource);
+		mountSharedResource("/feed", new ResourceReference(
+				GeneratedFeedResource.REFERENCE_NAME).getSharedResourceKey());
 	}
 
 	private GuiceComponentInjector initDependencyManagement() {
@@ -38,5 +49,10 @@ public class QuickflowerApplication extends WebApplication {
 				new DefaultModule());
 		addComponentInstantiationListener(injector);
 		return injector;
+	}
+
+	private void mountPageUrls() {
+		mountBookmarkablePage("createPage", CreatePage.class);
+		mountBookmarkablePage("createFeed", CreateFeed.class);
 	}
 }

@@ -10,20 +10,20 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import org.quickflower.datasource.DataSource;
-import org.quickflower.generatedresource.GeneratedPageResource;
+import org.quickflower.generatedresource.GeneratedFeedResource;
 import org.quickflower.page.tools.Validators;
-import org.quickflower.webpagefilter.PageConfig;
+import org.quickflower.webpagefilter.FeedConfig;
 
 import com.google.inject.Inject;
 
-public class CreatePage extends WebPage {
+public class CreateFeed extends WebPage {
 
 	@Inject
 	private DataSource dataSource;
-	private final PageConfig pageConfig = new PageConfig();
+	private final FeedConfig feedConfig = new FeedConfig();
 
-	public CreatePage() {
-		Form<?> form = new Form<Object>("createPageForm");
+	public CreateFeed() {
+		Form<?> form = new Form<Object>("createFeedForm");
 		add(form);
 
 		form.add(new FeedbackPanel("feedback"));
@@ -40,26 +40,36 @@ public class CreatePage extends WebPage {
 		urlField.add(Validators.URL_VALIDATOR);
 		form.add(urlField);
 
-		final IModel<String> xpathModel = new Model<String>();
-		TextField<String> xpathField = new TextField<String>("xpath",
-				xpathModel);
-		form.add(xpathField);
+		final IModel<String> titleXPathModel = new Model<String>();
+		TextField<String> titleXPathField = new TextField<String>("titleXPath",
+				titleXPathModel);
+		titleXPathField.setRequired(true);
+		form.add(titleXPathField);
+
+		final IModel<String> contentXPathModel = new Model<String>();
+		TextField<String> contentXPathField = new TextField<String>(
+				"contentXPath", contentXPathModel);
+		form.add(contentXPathField);
 
 		Button submitButton = new Button("submit") {
+
 			@Override
 			public void onSubmit() {
-				pageConfig.setName(nameModel.getObject());
-				pageConfig.setUrl(urlModel.getObject());
-				pageConfig.showByXPath(xpathModel.getObject());
-				dataSource.savePageConfig(pageConfig);
+
+				feedConfig.setName(nameModel.getObject());
+				feedConfig.setUrl(urlModel.getObject());
+				feedConfig.setTitleXPath(titleXPathModel.getObject());
+				feedConfig.setContentXPath(contentXPathModel.getObject());
+				dataSource.saveFeedConfig(feedConfig);
 
 				getRequestCycle().setRequestTarget(
 						new RedirectRequestTarget(
 								(String) urlFor(new ResourceReference(
-										GeneratedPageResource.REFERENCE_NAME))
-										+ "?name=" + pageConfig.getName()));
+										GeneratedFeedResource.REFERENCE_NAME))
+										+ "?name=" + feedConfig.getName()));
 			}
 		};
 		form.add(submitButton);
 	}
+
 }

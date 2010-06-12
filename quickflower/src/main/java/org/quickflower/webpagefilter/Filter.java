@@ -3,6 +3,7 @@ package org.quickflower.webpagefilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
@@ -10,25 +11,25 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class PageFilter {
+public class Filter {
 
-	private final PageConfig pageConfig;
+	private final Config config;
 
-	public PageFilter(PageConfig pageConfig) {
-		this.pageConfig = pageConfig;
+	public Filter(Config config) {
+		this.config = config;
 	}
 
-	public String getResultHtml() {
+	public String getResultHtml(List<String> visibleXPaths) {
 		HtmlPage page = loadPage();
-		filter(page);
+		filter(page, visibleXPaths);
 		return page.getBody().asXml();
 	}
 
-	private HtmlPage loadPage() {
+	public HtmlPage loadPage() {
 		WebClient webClient = new WebClient();
 		HtmlPage page = null;
 		try {
-			page = webClient.getPage(pageConfig.getUrl());
+			page = webClient.getPage(config.getUrl());
 		} catch (FailingHttpStatusCodeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -42,8 +43,8 @@ public class PageFilter {
 		return page;
 	}
 
-	private void filter(HtmlPage page) {
-		List<HtmlElement> elements = getVisibleElements(page);
+	private void filter(HtmlPage page, List<String> visibleXPaths) {
+		List<HtmlElement> elements = getVisibleElements(page, visibleXPaths);
 		HtmlElement root = page.getBody();
 		root.removeAllChildren();
 		for (HtmlElement element : elements) {
@@ -51,15 +52,28 @@ public class PageFilter {
 		}
 	}
 
-	private List<HtmlElement> getVisibleElements(HtmlPage page) {
+	private List<HtmlElement> getVisibleElements(HtmlPage page,
+			List<String> visibleXPaths) {
 		List<HtmlElement> visibleElements = new ArrayList<HtmlElement>();
-		for (String xpath : pageConfig.getVisibleElementXPaths()) {
+		for (String xpath : visibleXPaths) {
 			for (HtmlElement next : (List<HtmlElement>) page.getByXPath(xpath)) {
 				HtmlElement clone = (HtmlElement) next.cloneNode(true);
 				visibleElements.add(clone);
 			}
 		}
 		return visibleElements;
+	}
+
+	public List<String> getVisibleElementsAsText(HtmlPage originalPage,
+			String titleXPath) {
+		HtmlPage page = originalPage.cloneNode(true);
+		List<HtmlElement> visibleElements = getVisibleElements(page, Arrays
+				.asList(titleXPath));
+		List<String> results = new ArrayList<String>();
+		for (HtmlElement element : visibleElements) {
+			results.add(element.asText());
+		}
+		return results;
 	}
 
 }

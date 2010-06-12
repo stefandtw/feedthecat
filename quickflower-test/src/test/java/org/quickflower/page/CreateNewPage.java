@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.quickflower.tools.Browser;
+import org.quickflower.tools.LocalResource;
 
 import cuke4duke.annotation.I18n.EN.Given;
 import cuke4duke.annotation.I18n.EN.Then;
@@ -35,6 +36,12 @@ public class CreateNewPage {
 	@When("^I set source url to '(.*)'$")
 	public void setSourceUrlTo(String sourceUrl) {
 		driver.findElement(By.name(SOURCE_URL_ID)).sendKeys(sourceUrl);
+	}
+
+	@When("^I set source url to local file '(.*)'$")
+	public void setSourceUrlToLocalFile(String localFile) {
+		String url = new LocalResource(localFile).getUrl();
+		driver.findElement(By.name(SOURCE_URL_ID)).sendKeys(url);
 	}
 
 	@When("^I set name to '(.*)'$")

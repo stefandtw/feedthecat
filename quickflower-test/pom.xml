@@ -87,7 +87,12 @@
 			<version>0.9.7376</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>net.java.dev.rome</groupId>
+			<artifactId>rome</artifactId>
+			<version>1.0.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<pluginManagement>

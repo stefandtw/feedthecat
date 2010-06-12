@@ -3,23 +3,17 @@ package org.quickflower.webpagefilter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PageConfig {
+public class PageConfig implements Config {
 
 	private String name;
 	private String url;
 	private final List<String> visibleElementXPaths = new ArrayList<String>();
 
-	public PageConfig(String url) {
-		this.url = url;
-	}
-
-	public PageConfig() {
-	}
-
 	public void showByXPath(String xpath) {
 		visibleElementXPaths.add(xpath);
 	}
 
+	@Override
 	public String getUrl() {
 		return url;
 	}
@@ -32,6 +26,7 @@ public class PageConfig {
 		return visibleElementXPaths;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
