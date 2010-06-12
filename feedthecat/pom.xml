@@ -1,0 +1,144 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>feedthecat</groupId>
+	<artifactId>feedthecat</artifactId>
+	<packaging>war</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>FeedTheCat</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+	<!--
+		include for production build <init-param>
+		<param-name>configuration</param-name>
+		<param-value>deployment</param-value> </init-param>
+	-->
+	<repositories>
+		<repository>
+			<!-- Contains latest version of Rome -->
+			<id>java.net</id>
+			<url>http://oss.sonatype.org/content/groups/public</url>
+		</repository>
+	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket</artifactId>
+			<version>1.4.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-guice</artifactId>
+			<version>1.4.9</version>
+		</dependency>
+		<dependency>
+			<!-- required by wicket -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.htmlunit</groupId>
+			<artifactId>htmlunit</artifactId>
+			<version>2.7</version>
+		</dependency>
+		<dependency>
+			<groupId>net.java.dev.rome</groupId>
+			<artifactId>rome</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>1.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>FeedTheCat</finalName>
+		<plugins>
+			<plugin>
+				<groupId>net.sf.alchim</groupId>
+				<artifactId>winstone-maven-plugin</artifactId>
+				<configuration>
+					<cmdLineOptions>
+						<property>
+							<name>httpPort</name>
+							<value>8080</value>
+						</property>
+						<property>
+							<name>ajp13Port</name>
+							<value>-1</value>
+						</property>
+						<property>
+							<name>controlPort</name>
+							<value>-1</value>
+						</property>
+						<property>
+							<name>directoryListings</name>
+							<value>false</value>
+						</property>
+						<property>
+							<name>useInvoker</name>
+							<value>false</value>
+						</property>
+					</cmdLineOptions>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>embed</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>net.sourceforge.winstone</groupId>
+						<artifactId>winstone-lite</artifactId>
+						<version>0.9.10</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>7.1.0.v20100505</version>
+				<configuration>
+					<reload>automatic</reload>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+				</configuration>
+				<!--
+					<executions> <execution> <id>start-jetty</id>
+					<phase>pre-integration-test</phase> <goals> <goal>run</goal>
+					</goals> <configuration>
+					<scanIntervalSeconds>0</scanIntervalSeconds> <daemon>true</daemon>
+					</configuration> </execution> <execution> <id>stop-jetty</id>
+					<phase>post-integration-test</phase> <goals> <goal>stop</goal>
+					</goals> </execution> </executions>
+				-->
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
