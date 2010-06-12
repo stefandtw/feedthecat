@@ -23,7 +23,6 @@ public class FeedBuilderTest {
 
 	private final String wikiNewsUrl = new LocalResource("Wikinews.html")
 			.getUrl();
-	private SyndFeed build;
 
 	@Test
 	public void feedTitleEqualsConfigName() {

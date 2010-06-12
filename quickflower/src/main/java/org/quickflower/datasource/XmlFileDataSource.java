@@ -1,36 +1,79 @@
 package org.quickflower.datasource;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+
+import org.quickflower.webpagefilter.Config;
 import org.quickflower.webpagefilter.FeedConfig;
 import org.quickflower.webpagefilter.PageConfig;
 
 import com.google.inject.Singleton;
+import com.thoughtworks.xstream.XStream;
 
 @Singleton
 public class XmlFileDataSource implements DataSource {
 
-	private volatile PageConfig pageConfig;
-	private volatile FeedConfig feedConfig;
+	private final XStream xstream;
 
-	// TODO implement persistence and support multiple configurations
+	public XmlFileDataSource() {
+		xstream = new XStream();
+	}
 
 	@Override
 	public PageConfig loadPageConfig(String name) {
-		return pageConfig;
+		return (PageConfig) loadConfig(name);
+	}
+
+	private Config loadConfig(String name) {
+		Reader reader;
+		try {
+			reader = new FileReader(name);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+		Config config = (Config) xstream.fromXML(reader);
+		try {
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return config;
 	}
 
 	@Override
 	public void savePageConfig(PageConfig pageConfig) {
-		this.pageConfig = pageConfig;
+		saveConfig(pageConfig);
+	}
+
+	private void saveConfig(Config pageConfig) {
+		Writer writer;
+		try {
+			writer = new FileWriter(pageConfig.getName());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		xstream.toXML(pageConfig, writer);
+		try {
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public FeedConfig loadFeedConfig(String name) {
-		return feedConfig;
+		return (FeedConfig) loadConfig(name);
 	}
 
 	@Override
 	public void saveFeedConfig(FeedConfig feedConfig) {
-		this.feedConfig = feedConfig;
+		saveConfig(feedConfig);
 	}
 
 }
