@@ -40,6 +40,11 @@ public class CreateFeed extends WebPage {
 		urlField.add(Validators.URL_VALIDATOR);
 		form.add(urlField);
 
+		final IModel<String> descriptionModel = new Model<String>();
+		TextField<String> descriptionField = new TextField<String>(
+				"description", descriptionModel);
+		form.add(descriptionField);
+
 		final IModel<String> titleXPathModel = new Model<String>();
 		TextField<String> titleXPathField = new TextField<String>("titleXPath",
 				titleXPathModel);
@@ -58,6 +63,7 @@ public class CreateFeed extends WebPage {
 
 				feedConfig.setName(nameModel.getObject());
 				feedConfig.setUrl(urlModel.getObject());
+				feedConfig.setDescription(descriptionModel.getObject());
 				feedConfig.setTitleXPath(titleXPathModel.getObject());
 				feedConfig.setContentXPath(contentXPathModel.getObject());
 				dataSource.saveFeedConfig(feedConfig);

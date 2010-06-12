@@ -40,7 +40,7 @@ public class FeedBuilder {
 		feed.setFeedType("atom_1.0");
 		feed.setTitle(feedConfig.getName());
 		feed.setLink(feedConfig.getUrl());
-		// feed.setDescription("");
+		feed.setDescription(feedConfig.getDescription());
 		List<SyndEntry> entries = createEntries(titles);
 		feed.setEntries(entries);
 		return feed;

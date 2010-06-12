@@ -6,6 +6,7 @@ public class FeedConfig implements Config {
 	private String url;
 	private String contentXPath;
 	private String titleXPath;
+	private String description = "";
 
 	public FeedConfig(String url) {
 		this.url = url;
@@ -47,4 +48,13 @@ public class FeedConfig implements Config {
 	public String getContentXPath() {
 		return contentXPath;
 	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
 }

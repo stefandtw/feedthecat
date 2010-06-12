@@ -1,12 +1,14 @@
 package org.quickflower.filter;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.quickflower.page.tools.FeedAssert;
 import org.quickflower.page.tools.LocalResource;
@@ -21,19 +23,27 @@ import com.sun.syndication.io.XmlReader;
 
 public class FeedBuilderTest {
 
-	private final String wikiNewsUrl = new LocalResource("Wikinews.html")
+	private static final String NEWS_NAME = "wikipedia news";
+	private static final String NEWS_DESCRIPTION = "Wiki News: News reported by users.";
+	private static final String NEWS_URL = new LocalResource("Wikinews.html")
 			.getUrl();
 
 	@Test
 	public void feedTitleEqualsConfigName() {
 		SyndFeed feed = createWikiNewsFeed();
-		assertEquals(feed.getTitle(), "wikipedia news");
+		assertThat(feed.getTitle(), is(NEWS_NAME));
 	}
 
 	@Test
 	public void feedUrlLinkEqualsUrlInConfig() {
 		SyndFeed feed = createWikiNewsFeed();
-		assertEquals(feed.getLink(), wikiNewsUrl);
+		assertThat(feed.getLink(), is(NEWS_URL));
+	}
+
+	@Test
+	public void testFeedDescription() {
+		SyndFeed feed = createWikiNewsFeed();
+		assertThat(feed.getDescription(), is(NEWS_DESCRIPTION));
 	}
 
 	@Test
@@ -47,7 +57,7 @@ public class FeedBuilderTest {
 		FeedAssert
 				.assertEntryTitle(feed, 2,
 						"Football: Chelsea confirm Joe Cole and Michael Ballack departure");
-		assertEquals(feed.getLink(), wikiNewsUrl);
+		assertEquals(feed.getLink(), NEWS_URL);
 	}
 
 	private SyndFeed createWikiNewsFeed() {
@@ -58,10 +68,11 @@ public class FeedBuilderTest {
 
 	private FeedConfig createWikiNewsConfig() {
 		FeedConfig config = new FeedConfig();
-		config.setName("wikipedia news");
+		config.setName(NEWS_NAME);
 		String titleXPath = "/html/body/div[@id='content']/div[@id='bodyContent']/table/tbody/tr[2]/td[@id='MainPage_latest_news']/div[@id='MainPage_latest_news_text']/ul/li/a";
 		config.setTitleXPath(titleXPath);
-		config.setUrl(wikiNewsUrl);
+		config.setUrl(NEWS_URL);
+		config.setDescription(NEWS_DESCRIPTION);
 		return config;
 	}
 
@@ -73,7 +84,7 @@ public class FeedBuilderTest {
 		SyndFeedInput input = new SyndFeedInput();
 		InputStream stream = new ByteArrayInputStream(xml.getBytes());
 		SyndFeed feed = input.build(new XmlReader(stream, "UTF-8"));
-		Assert.assertNotNull(feed);
+		assertNotNull(feed);
 	}
 
 }

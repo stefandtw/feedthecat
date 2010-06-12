@@ -1,5 +1,8 @@
 package org.quickflower.page;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.quickflower.tools.Browser;
@@ -16,6 +19,7 @@ public class CreateNewFeed {
 
 	private static final String CREATE_FEED_URL = "http://localhost:8080/createFeed";
 	private static final String TITLE_XPATH_ID = "titleXPath";
+	private static final String DESCRIPTION_ID = "description";
 
 	private final WebDriver driver;
 
@@ -33,9 +37,20 @@ public class CreateNewFeed {
 		driver.findElement(By.name(TITLE_XPATH_ID)).sendKeys(titleXPath);
 	}
 
+	@When("^I set description to '(.*)'$")
+	public void setFeedDescription(String description) {
+		driver.findElement(By.name(DESCRIPTION_ID)).sendKeys(description);
+	}
+
 	@Then("^feed item title (\\d+) for '(.*)' is ''(.*)''$")
 	public void feedItemTitleIs(int index, String feedName, String expected) {
 		SyndFeed feed = FeedLoader.get(feedName);
 		FeedAssert.assertEntryTitle(feed, index, expected);
+	}
+
+	@Then("^description for '(.*)' is '(.*)'$")
+	public void feedDescriptionIs(String feedName, String expected) {
+		SyndFeed feed = FeedLoader.get(feedName);
+		assertThat(feed.getDescription(), is(expected));
 	}
 }
