@@ -12,7 +12,6 @@ And show error message ''Field 'URL' is required.''
 And show error message ''Field 'Item Title XPath' is required.''
 
 
-@dev
 Scenario: Wikipedia news
 
 Given page to create a new feed

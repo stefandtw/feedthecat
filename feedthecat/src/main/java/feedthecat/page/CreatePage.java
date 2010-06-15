@@ -9,12 +9,13 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
+
+import com.google.inject.Inject;
+
 import feedthecat.datasource.DataSource;
 import feedthecat.generatedresource.GeneratedPageResource;
 import feedthecat.page.tools.Validators;
 import feedthecat.webpagefilter.PageConfig;
-
-import com.google.inject.Inject;
 
 public class CreatePage extends WebPage {
 
@@ -25,6 +26,7 @@ public class CreatePage extends WebPage {
 	public CreatePage() {
 		Form<?> form = new Form<Object>("createPageForm");
 		add(form);
+		add(new NavigationPanel("navigationPanel"));
 
 		form.add(new FeedbackPanel("feedback"));
 
@@ -46,6 +48,8 @@ public class CreatePage extends WebPage {
 		form.add(xpathField);
 
 		Button submitButton = new Button("submit") {
+			private static final long serialVersionUID = -1818593647660875031L;
+
 			@Override
 			public void onSubmit() {
 				pageConfig.setName(nameModel.getObject());

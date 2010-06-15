@@ -8,12 +8,12 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import feedthecat.tools.Browser;
-import feedthecat.tools.LocalResource;
 
 import cuke4duke.annotation.I18n.EN.Given;
 import cuke4duke.annotation.I18n.EN.Then;
 import cuke4duke.annotation.I18n.EN.When;
+import feedthecat.tools.Browser;
+import feedthecat.tools.LocalResource;
 
 public class CreateNewPage {
 
@@ -28,7 +28,7 @@ public class CreateNewPage {
 		this.driver = browser.getDriver();
 	}
 
-	@Given("^homepage$")
+	@Given("^home page$")
 	public void givenHomepage() {
 		driver.get(HOMEPAGE_URL);
 	}
@@ -57,7 +57,7 @@ public class CreateNewPage {
 	@When("^I click the '(.*)' button$")
 	public void clickThe(String button) {
 		driver.findElement(
-				By.xpath("/html/body/form//input[@value='" + button + "']"))
+				By.xpath("/html/body//form//input[@value='" + button + "']"))
 				.click();
 	}
 

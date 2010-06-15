@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<wicket:head>
+	<style type="text/css">
+body {
+	font-family: Tahoma, Verdana, Arial, sans-serif;
+}
+
+div#middle {
+	font-size: 13px;
+}
+
+div.navigation {
+	margin-bottom: 40px;
+}
+
+.navigation a:link,a:visited {
+	color: black;
+	font-weight: bold;
+}
+
+fieldset {
+	width: 510px;
+	padding-top: 18px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+fieldset legend {
+	background-color: #EEE;
+}
+
+fieldset label {
+	float: left;
+	width: 110px;
+}
+
+fieldset input,label {
+	margin: 3px;
+}
+
+fieldset input[type="text"] {
+	width: 330px;
+}
+</style>
+</wicket:head>
+<body>
+<wicket:panel>
+	<div class="navigation"><a wicket:id="createFeed">Create a feed</a> / <a wicket:id="filterPage">Filter a web page</a></div>
+</wicket:panel>
+</body>
+</html>

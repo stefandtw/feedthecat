@@ -6,41 +6,24 @@
 <title>FeedTheCat - Create a new feed</title>
 </head>
 <body>
-<h2>Create a new feed</h2>
+<div wicket:id="navigationPanel" />
+<div id="middle">
+<h2>Create a feed</h2>
 <form wicket:id="createFeedForm">
-<div>
-<span wicket:id="feedback"></span> 
-</div>
-<p>
-<span>
-URL:
- <input wicket:id="sourceUrl" type="text" />
-</span>
-<br />
-<span>
-Name:
- <input wicket:id="name" type="text" />
-</span>
-<br />
-<span>
-Description:
- <input wicket:id="description" type="text" />
-</span>
-<br />
-<span>
-Item Title
-XPath:
- <input wicket:id="titleXPath" type="text" />
-</span>
-<br />
-<span>
-Item Content
-XPath:
- <input wicket:id="contentXPath" type="text" />
-</span>
-<br />
+<div><span wicket:id="feedback"></span></div>
+<fieldset>
+<legend>General</legend>
+<label>URL:</label><input wicket:id="sourceUrl" type="text" /><br />
+<label>Name:</label><input wicket:id="name" type="text" /><br />
+<label>Description:</label><input wicket:id="description" type="text" /><br />
+</fieldset>
+<fieldset>
+<legend>Feed entries</legend>
+<label>Title XPath:</label><input wicket:id="titleXPath" type="text" /><br />
+<label>Content XPath:</label><input wicket:id="contentXPath" type="text" /><br />
 <input wicket:id="submit" type="submit" value="Save" />
-</p>
+</fieldset>
 </form>
+</div>
 </body>
 </html>
