@@ -19,6 +19,18 @@ public class NavigationPanel extends Panel {
 				setResponsePage(new CreateFeed());
 			}
 		});
+		add(new Link("feeds") {
+			@Override
+			public void onClick() {
+				setResponsePage(new FeedList());
+			}
+		});
+		add(new Link("webPages") {
+			@Override
+			public void onClick() {
+				setResponsePage(new PageList());
+			}
+		});
 	}
 
 }

@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -13,6 +16,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class Filter {
 
+	private static final Logger logger = LoggerFactory.getLogger(Filter.class);
 	private final Config config;
 
 	public Filter(Config config) {
@@ -31,14 +35,11 @@ public class Filter {
 		try {
 			page = webClient.getPage(config.getUrl());
 		} catch (FailingHttpStatusCodeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug(e.getMessage(), e);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug(e.getMessage(), e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug(e.getMessage(), e);
 		}
 		return page;
 	}
