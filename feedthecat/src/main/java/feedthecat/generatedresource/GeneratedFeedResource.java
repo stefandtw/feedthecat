@@ -3,15 +3,14 @@ package feedthecat.generatedresource;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.wicket.markup.html.DynamicWebResource;
+
+import com.google.inject.Inject;
+
 import feedthecat.datasource.DataSource;
 import feedthecat.webpagefilter.FeedBuilder;
 import feedthecat.webpagefilter.FeedConfig;
 
-import com.google.inject.Inject;
-
 public class GeneratedFeedResource extends DynamicWebResource {
-
-	private static final long serialVersionUID = -7600238538904382642L;
 
 	public static final String REFERENCE_NAME = "generatedFeed";
 	private static final String PARAMETER_KEY_NAME = "name";

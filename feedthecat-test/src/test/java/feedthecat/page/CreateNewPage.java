@@ -1,7 +1,7 @@
 package feedthecat.page;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 import java.util.List;
 
@@ -14,10 +14,11 @@ import cuke4duke.annotation.I18n.EN.Then;
 import cuke4duke.annotation.I18n.EN.When;
 import feedthecat.tools.Browser;
 import feedthecat.tools.LocalResource;
+import feedthecat.tools.Settings;
 
 public class CreateNewPage {
 
-	private static final String HOMEPAGE_URL = "http://localhost:8080/";
+	private static final String HOMEPAGE_URL = Settings.BASE_URL;
 	private static final String SOURCE_URL_ID = "sourceUrl";
 	private static final String NAME_ID = "name";
 	private static final String XPATH_ID = "xpath";

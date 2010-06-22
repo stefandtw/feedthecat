@@ -1,4 +1,3 @@
-@dev
 Feature: Navigate the web site
 	
 	As a visitor I want to reach all important pages by clicking on a link on the home page.

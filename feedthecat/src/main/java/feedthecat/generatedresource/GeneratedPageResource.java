@@ -6,17 +6,17 @@ package feedthecat.generatedresource;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.wicket.markup.html.DynamicWebResource;
+
+import com.google.inject.Inject;
+
 import feedthecat.datasource.DataSource;
 import feedthecat.webpagefilter.PageBuilder;
 import feedthecat.webpagefilter.PageConfig;
-
-import com.google.inject.Inject;
 
 public class GeneratedPageResource extends DynamicWebResource {
 
 	public static final String REFERENCE_NAME = "filteredPage";
 
-	private static final long serialVersionUID = -8313265218186839656L;
 	private static final String PARAMETER_KEY_NAME = "name";
 
 	@Inject

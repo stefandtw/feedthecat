@@ -1,17 +1,17 @@
 package feedthecat.page;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 import org.openqa.selenium.WebDriver;
-import feedthecat.tools.Browser;
 
 import cuke4duke.annotation.I18n.EN.Then;
+import feedthecat.tools.Browser;
+import feedthecat.tools.Settings;
 
 public class FilteredPageResult {
 
-	private static final String BASIC_RESULT_URL = "http://localhost:8080/page";
+	private static final String BASIC_RESULT_URL = Settings.BASE_URL + "page";
 
 	private final WebDriver driver;
 

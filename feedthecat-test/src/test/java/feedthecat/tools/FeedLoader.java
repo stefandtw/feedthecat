@@ -11,7 +11,7 @@ import com.sun.syndication.io.XmlReader;
 
 public class FeedLoader {
 
-	private static final String URL_PREFIX = "http://localhost:8080/feed?name=";
+	private static final String URL_PREFIX = Settings.BASE_URL + "feed?name=";
 
 	public static SyndFeed get(String feedName) {
 		feedName = feedName.replaceAll(" ", "%20");

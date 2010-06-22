@@ -1,11 +1,15 @@
 package feedthecat.datasource;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,4 +87,23 @@ public class XmlFileDataSource implements DataSource {
 		saveConfig(feedConfig, feedConfig.getName() + FEED_EXTENSION);
 	}
 
+	@Override
+	public List<FeedConfig> loadFeeds() {
+		String[] fileNames = new File(".").list(new FilenameFilter() {
+			@Override
+			public boolean accept(File file, String fileName) {
+				return fileName.endsWith(FEED_EXTENSION);
+			}
+		});
+		List<FeedConfig> feeds = new ArrayList<FeedConfig>();
+		for (String fileName : fileNames) {
+			feeds.add((FeedConfig) loadConfig(fileName));
+		}
+		return feeds;
+	}
+
+	@Override
+	public void deleteFeed(FeedConfig feedConfig) {
+		new File(feedConfig.getName() + FEED_EXTENSION).delete();
+	}
 }

@@ -12,7 +12,6 @@ public class Validators {
 
 	private static final class FileUrlValidator extends
 			AbstractValidator<String> {
-		private static final long serialVersionUID = 4334232098106529939L;
 
 		@Override
 		protected void onValidate(IValidatable<String> validatable) {

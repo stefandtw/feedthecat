@@ -1,4 +1,4 @@
-Feature: Show a possibly filtered web page
+Feature: Show a filtered web page
 	
 	As a web user I want to see only relevant things on a web page
 

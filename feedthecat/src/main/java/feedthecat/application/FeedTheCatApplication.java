@@ -4,10 +4,13 @@ import org.apache.wicket.Page;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.protocol.http.WebApplication;
+
 import feedthecat.generatedresource.GeneratedFeedResource;
 import feedthecat.generatedresource.GeneratedPageResource;
 import feedthecat.page.CreateFeed;
 import feedthecat.page.CreatePage;
+import feedthecat.page.FeedList;
+import feedthecat.page.PageList;
 
 public class FeedTheCatApplication extends WebApplication {
 
@@ -54,5 +57,7 @@ public class FeedTheCatApplication extends WebApplication {
 	private void mountPageUrls() {
 		mountBookmarkablePage("createPage", CreatePage.class);
 		mountBookmarkablePage("createFeed", CreateFeed.class);
+		mountBookmarkablePage("feedList", FeedList.class);
+		mountBookmarkablePage("pageList", PageList.class);
 	}
 }

@@ -48,7 +48,6 @@ public class CreatePage extends WebPage {
 		form.add(xpathField);
 
 		Button submitButton = new Button("submit") {
-			private static final long serialVersionUID = -1818593647660875031L;
 
 			@Override
 			public void onSubmit() {
