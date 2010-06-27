@@ -1,8 +1,7 @@
 package feedthecat.filter;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ public class PageFilterTest {
 		String pageSource = new Filter(pageConfig).getResultHtml(pageConfig
 				.getVisibleElementXPaths());
 		assertThat(pageSource, containsString("°"));
-		assertThat(pageSource, not(containsString("Google")));
+		assertThat(pageSource, not(containsString("<input")));
 	}
 
 }

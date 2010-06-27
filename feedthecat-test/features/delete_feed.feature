@@ -1,4 +1,3 @@
-@dev
 Feature: Delete a feed
 	
 	As a user I want to delete a feed that is no longer relevant.

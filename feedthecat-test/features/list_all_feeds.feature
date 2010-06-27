@@ -1,4 +1,3 @@
-@dev
 Feature: List all feeds
 	
 	As a visitor I want to see all feeds created in the application.

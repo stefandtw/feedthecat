@@ -43,22 +43,22 @@ public class FeedListPageObject {
 			deleteLinks.get(0).click();
 			deleteLinks = driver.findElements(By.linkText(DELETE_TEXT));
 		}
-		showAFeedListWithEntries(0);
+		showAFeedListWithEntries("feed", 0);
 	}
 
-	@Then("^show a feed list with (\\d+) entries$")
-	public void showAFeedListWithEntries(int count) {
+	@Then("^show a (feed|page) list with (\\d+) entries$")
+	public void showAFeedListWithEntries(String ignore, int count) {
 		List<WebElement> entries = driver.findElements(By
 				.xpath("/html/body//ul/li"));
 		assertThat(entries.size(), is(count));
 	}
 
-	@Given("^feed list has a link '(.*)'$")
-	public void feedListHasALink(String feedName) {
+	@Given("^(feed|page) list has a link '(.*)'$")
+	public void feedListHasALink(String ignore, String linkText) {
 		try {
-			driver.findElement(By.linkText(feedName));
+			driver.findElement(By.linkText(linkText));
 		} catch (NoSuchElementException e) {
-			fail("Feed " + feedName + " is not listed: " + e.getMessage());
+			fail(linkText + " is not listed: " + e.getMessage());
 		}
 	}
 

@@ -53,7 +53,8 @@ public class CreatePage extends WebPage {
 			public void onSubmit() {
 				pageConfig.setName(nameModel.getObject());
 				pageConfig.setUrl(urlModel.getObject());
-				pageConfig.showByXPath(xpathModel.getObject());
+				String xpath = xpathModel.getObject();
+				pageConfig.showByXPath(xpath != null ? xpath : "//body/*");
 				dataSource.savePageConfig(pageConfig);
 
 				getRequestCycle().setRequestTarget(

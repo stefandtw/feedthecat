@@ -9,6 +9,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import cuke4duke.StepMother;
+import cuke4duke.Steps;
 import cuke4duke.annotation.I18n.EN.Given;
 import cuke4duke.annotation.I18n.EN.Then;
 import cuke4duke.annotation.I18n.EN.When;
@@ -16,7 +18,7 @@ import feedthecat.tools.Browser;
 import feedthecat.tools.LocalResource;
 import feedthecat.tools.Settings;
 
-public class CreateNewPage {
+public class CreateNewPage extends Steps {
 
 	private static final String HOMEPAGE_URL = Settings.BASE_URL;
 	private static final String SOURCE_URL_ID = "sourceUrl";
@@ -25,7 +27,8 @@ public class CreateNewPage {
 
 	private final WebDriver driver;
 
-	public CreateNewPage(Browser browser) {
+	public CreateNewPage(Browser browser, StepMother stepMother) {
+		super(stepMother);
 		this.driver = browser.getDriver();
 	}
 
@@ -74,5 +77,14 @@ public class CreateNewPage {
 			}
 		}
 		assertThat(found, is(true));
+	}
+
+	@Given("^a page called '(.*)'$")
+	public void aPageCalled(String pageName) {
+		givenHomepage();
+		When("I set source url to local file 'Wikinews.html'");
+		When("I set name to '" + pageName + "'");
+		When("I click the 'Save' button");
+		Then("result page for '" + pageName + ("' contains 'html'"));
 	}
 }

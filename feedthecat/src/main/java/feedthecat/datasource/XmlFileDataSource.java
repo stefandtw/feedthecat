@@ -106,4 +106,24 @@ public class XmlFileDataSource implements DataSource {
 	public void deleteFeed(FeedConfig feedConfig) {
 		new File(feedConfig.getName() + FEED_EXTENSION).delete();
 	}
+
+	@Override
+	public List<PageConfig> loadPages() {
+		String[] fileNames = new File(".").list(new FilenameFilter() {
+			@Override
+			public boolean accept(File file, String fileName) {
+				return fileName.endsWith(PAGE_EXTENSION);
+			}
+		});
+		List<PageConfig> pages = new ArrayList<PageConfig>();
+		for (String fileName : fileNames) {
+			pages.add((PageConfig) loadConfig(fileName));
+		}
+		return pages;
+	}
+
+	@Override
+	public void deletePage(PageConfig pageConfig) {
+		new File(pageConfig.getName() + PAGE_EXTENSION).delete();
+	}
 }

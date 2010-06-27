@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.xml.serialize.DOMSerializerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,7 @@ public class Filter {
 	public String getResultHtml(List<String> visibleXPaths) {
 		HtmlPage page = loadPage();
 		filter(page, visibleXPaths);
-		return page.getBody().asXml();
+		return new DOMSerializerImpl().writeToString(page);
 	}
 
 	public HtmlPage loadPage() {

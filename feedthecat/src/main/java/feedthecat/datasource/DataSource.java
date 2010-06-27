@@ -19,4 +19,7 @@ public interface DataSource {
 
 	public void deleteFeed(FeedConfig feedConfig);
 
+	public List<PageConfig> loadPages();
+
+	public void deletePage(PageConfig pageConfig);
 }

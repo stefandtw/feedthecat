@@ -1,9 +1,12 @@
 package feedthecat.page;
 
-import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+
+import com.gargoylesoftware.htmlunit.ScriptException;
 
 import cuke4duke.annotation.I18n.EN.Then;
 import feedthecat.tools.Browser;
@@ -33,9 +36,13 @@ public class FilteredPageResult {
 		assertThat(pageSource, not(containsString(text)));
 	}
 
-	private void switchToResultPage(String name) {
+	public void switchToResultPage(String name) {
 		String resultUrl = BASIC_RESULT_URL + "?name=" + name;
-		driver.get(resultUrl);
+		try {
+			driver.get(resultUrl);
+		} catch (WebDriverException e) {
+			assertTrue(e.getCause() instanceof ScriptException);
+		}
 	}
 
 }
