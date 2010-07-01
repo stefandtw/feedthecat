@@ -5,8 +5,8 @@ public class FeedConfig implements Config {
 	private String name;
 	private String url;
 	private String contentXPath;
-	private String titleXPath;
 	private String description = "";
+	private Selector titleSelector;
 
 	public FeedConfig(String url) {
 		this.url = url;
@@ -33,14 +33,6 @@ public class FeedConfig implements Config {
 		this.name = name;
 	}
 
-	public void setTitleXPath(String xpath) {
-		this.titleXPath = xpath;
-	}
-
-	public String getTitleXPath() {
-		return titleXPath;
-	}
-
 	public void setContentXPath(String xpath) {
 		this.contentXPath = xpath;
 	}
@@ -55,6 +47,14 @@ public class FeedConfig implements Config {
 
 	public String getDescription() {
 		return description;
+	}
+
+	public Selector getTitleSelector() {
+		return titleSelector;
+	}
+
+	public void setTitleSelector(Selector titleSelector) {
+		this.titleSelector = titleSelector;
 	}
 
 }

@@ -7,10 +7,12 @@ public class PageBuilder {
 
 	public PageBuilder(PageConfig pageConfig) {
 		this.pageConfig = pageConfig;
-		this.filter = new Filter(pageConfig);
+		this.filter = new Filter(pageConfig.getUrl());
 	}
 
 	public String getResultHtml() {
-		return filter.getResultHtml(pageConfig.getVisibleElementXPaths());
+		Selector selector = new XPathSelector(pageConfig
+				.getVisibleElementXPath());
+		return filter.getResultHtml(selector);
 	}
 }

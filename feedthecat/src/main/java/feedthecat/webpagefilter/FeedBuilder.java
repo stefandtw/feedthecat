@@ -18,7 +18,7 @@ public class FeedBuilder {
 
 	public FeedBuilder(FeedConfig feedConfig) {
 		this.feedConfig = feedConfig;
-		this.filter = new Filter(feedConfig);
+		this.filter = new Filter(feedConfig.getUrl());
 	}
 
 	public String getFeedSource() {
@@ -34,7 +34,7 @@ public class FeedBuilder {
 	public SyndFeed getFeed() {
 		HtmlPage page = filter.loadPage();
 		List<String> titles = filter.getVisibleElementsAsText(page, feedConfig
-				.getTitleXPath());
+				.getTitleSelector());
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("atom_1.0");

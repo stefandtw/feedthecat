@@ -3,7 +3,6 @@ package feedthecat.webpagefilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.xml.serialize.DOMSerializerImpl;
@@ -18,15 +17,15 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class Filter {
 
 	private static final Logger logger = LoggerFactory.getLogger(Filter.class);
-	private final Config config;
+	private final String url;
 
-	public Filter(Config config) {
-		this.config = config;
+	public Filter(String url) {
+		this.url = url;
 	}
 
-	public String getResultHtml(List<String> visibleXPaths) {
+	public String getResultHtml(Selector selector) {
 		HtmlPage page = loadPage();
-		filter(page, visibleXPaths);
+		filter(page, selector);
 		return new DOMSerializerImpl().writeToString(page);
 	}
 
@@ -34,7 +33,7 @@ public class Filter {
 		WebClient webClient = new WebClient();
 		HtmlPage page = null;
 		try {
-			page = webClient.getPage(config.getUrl());
+			page = webClient.getPage(url);
 		} catch (FailingHttpStatusCodeException e) {
 			logger.debug(e.getMessage(), e);
 		} catch (MalformedURLException e) {
@@ -45,8 +44,9 @@ public class Filter {
 		return page;
 	}
 
-	private void filter(HtmlPage page, List<String> visibleXPaths) {
-		List<HtmlElement> elements = getVisibleElements(page, visibleXPaths);
+	private void filter(HtmlPage page, Selector selector) {
+		List<HtmlElement> elements = selector.getElements(page
+				.getDocumentElement());
 		HtmlElement root = page.getBody();
 		root.removeAllChildren();
 		for (HtmlElement element : elements) {
@@ -54,28 +54,15 @@ public class Filter {
 		}
 	}
 
-	private List<HtmlElement> getVisibleElements(HtmlPage page,
-			List<String> visibleXPaths) {
-		List<HtmlElement> visibleElements = new ArrayList<HtmlElement>();
-		for (String xpath : visibleXPaths) {
-			for (HtmlElement next : (List<HtmlElement>) page.getByXPath(xpath)) {
-				HtmlElement clone = (HtmlElement) next.cloneNode(true);
-				visibleElements.add(clone);
-			}
-		}
-		return visibleElements;
-	}
-
 	public List<String> getVisibleElementsAsText(HtmlPage originalPage,
-			String titleXPath) {
+			Selector itemsSelector) {
 		HtmlPage page = originalPage.cloneNode(true);
-		List<HtmlElement> visibleElements = getVisibleElements(page, Arrays
-				.asList(titleXPath));
+		List<HtmlElement> visibleElements = itemsSelector.getElements(page
+				.getDocumentElement());
 		List<String> results = new ArrayList<String>();
 		for (HtmlElement element : visibleElements) {
 			results.add(element.asText());
 		}
 		return results;
 	}
-
 }

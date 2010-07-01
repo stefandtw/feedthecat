@@ -7,6 +7,8 @@ import org.junit.Test;
 
 import feedthecat.webpagefilter.Filter;
 import feedthecat.webpagefilter.PageConfig;
+import feedthecat.webpagefilter.Selector;
+import feedthecat.webpagefilter.XPathSelector;
 
 public class PageFilterTest {
 
@@ -19,8 +21,10 @@ public class PageFilterTest {
 		pageConfig.setUrl(WEATHER_URL);
 		pageConfig.showByXPath(WEATHER_XPATH);
 
-		String pageSource = new Filter(pageConfig).getResultHtml(pageConfig
-				.getVisibleElementXPaths());
+		Selector selector = new XPathSelector(pageConfig
+				.getVisibleElementXPath());
+		String pageSource = new Filter(pageConfig.getUrl())
+				.getResultHtml(selector);
 		assertThat(pageSource, containsString("°"));
 		assertThat(pageSource, not(containsString("<input")));
 	}

@@ -1,16 +1,14 @@
 package feedthecat.webpagefilter;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class PageConfig implements Config {
 
 	private String name;
 	private String url;
-	private final List<String> visibleElementXPaths = new ArrayList<String>();
+	private String visibleElementXPath;
 
 	public void showByXPath(String xpath) {
-		visibleElementXPaths.add(xpath);
+		visibleElementXPath = xpath;
 	}
 
 	@Override
@@ -22,10 +20,6 @@ public class PageConfig implements Config {
 		this.url = url;
 	}
 
-	public List<String> getVisibleElementXPaths() {
-		return visibleElementXPaths;
-	}
-
 	@Override
 	public String getName() {
 		return name;
@@ -33,6 +27,10 @@ public class PageConfig implements Config {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getVisibleElementXPath() {
+		return visibleElementXPath;
 	}
 
 }

@@ -16,6 +16,7 @@ import feedthecat.datasource.DataSource;
 import feedthecat.generatedresource.GeneratedFeedResource;
 import feedthecat.page.tools.Validators;
 import feedthecat.webpagefilter.FeedConfig;
+import feedthecat.webpagefilter.XPathSelector;
 
 public class CreateFeed extends WebPage {
 
@@ -59,7 +60,6 @@ public class CreateFeed extends WebPage {
 		form.add(contentXPathField);
 
 		Button submitButton = new Button("submit") {
-			private static final long serialVersionUID = -2406869082584848447L;
 
 			@Override
 			public void onSubmit() {
@@ -67,7 +67,8 @@ public class CreateFeed extends WebPage {
 				feedConfig.setName(nameModel.getObject());
 				feedConfig.setUrl(urlModel.getObject());
 				feedConfig.setDescription(descriptionModel.getObject());
-				feedConfig.setTitleXPath(titleXPathModel.getObject());
+				feedConfig.setTitleSelector(new XPathSelector(titleXPathModel
+						.getObject()));
 				feedConfig.setContentXPath(contentXPathModel.getObject());
 				dataSource.saveFeedConfig(feedConfig);
 
@@ -80,5 +81,4 @@ public class CreateFeed extends WebPage {
 		};
 		form.add(submitButton);
 	}
-
 }

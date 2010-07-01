@@ -1,25 +1,25 @@
 package feedthecat.filter;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
-import feedthecat.page.tools.FeedAssert;
-import feedthecat.page.tools.LocalResource;
-import feedthecat.webpagefilter.FeedBuilder;
-import feedthecat.webpagefilter.FeedConfig;
 
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.SyndFeedOutput;
 import com.sun.syndication.io.XmlReader;
+
+import feedthecat.page.tools.FeedAssert;
+import feedthecat.page.tools.LocalResource;
+import feedthecat.webpagefilter.FeedBuilder;
+import feedthecat.webpagefilter.FeedConfig;
+import feedthecat.webpagefilter.XPathSelector;
 
 public class FeedBuilderTest {
 
@@ -70,7 +70,7 @@ public class FeedBuilderTest {
 		FeedConfig config = new FeedConfig();
 		config.setName(NEWS_NAME);
 		String titleXPath = "/html/body/div[@id='content']/div[@id='bodyContent']/table/tbody/tr[2]/td[@id='MainPage_latest_news']/div[@id='MainPage_latest_news_text']/ul/li/a";
-		config.setTitleXPath(titleXPath);
+		config.setTitleSelector(new XPathSelector(titleXPath));
 		config.setUrl(NEWS_URL);
 		config.setDescription(NEWS_DESCRIPTION);
 		return config;
