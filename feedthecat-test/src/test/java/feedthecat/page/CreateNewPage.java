@@ -23,7 +23,7 @@ public class CreateNewPage extends Steps {
 	private static final String HOMEPAGE_URL = Settings.BASE_URL;
 	private static final String SOURCE_URL_ID = "sourceUrl";
 	private static final String NAME_ID = "name";
-	private static final String XPATH_ID = "xpath";
+	private static final String XPATH_ID = "selector:xpath";
 
 	private final WebDriver driver;
 

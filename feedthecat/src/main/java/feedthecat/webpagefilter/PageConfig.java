@@ -1,15 +1,10 @@
 package feedthecat.webpagefilter;
 
-
 public class PageConfig implements Config {
 
 	private String name;
 	private String url;
-	private String visibleElementXPath;
-
-	public void showByXPath(String xpath) {
-		visibleElementXPath = xpath;
-	}
+	private Selector contentSelector;
 
 	@Override
 	public String getUrl() {
@@ -29,8 +24,12 @@ public class PageConfig implements Config {
 		this.name = name;
 	}
 
-	public String getVisibleElementXPath() {
-		return visibleElementXPath;
+	public Selector getContentSelector() {
+		return contentSelector;
+	}
+
+	public void setContentSelector(Selector contentSelector) {
+		this.contentSelector = contentSelector;
 	}
 
 }

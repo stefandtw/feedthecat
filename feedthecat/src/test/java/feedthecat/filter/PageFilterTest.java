@@ -19,10 +19,9 @@ public class PageFilterTest {
 	public void filterOutGoogleTexts() {
 		PageConfig pageConfig = new PageConfig();
 		pageConfig.setUrl(WEATHER_URL);
-		pageConfig.showByXPath(WEATHER_XPATH);
+		Selector selector = new XPathSelector(WEATHER_XPATH);
+		pageConfig.setContentSelector(selector);
 
-		Selector selector = new XPathSelector(pageConfig
-				.getVisibleElementXPath());
 		String pageSource = new Filter(pageConfig.getUrl())
 				.getResultHtml(selector);
 		assertThat(pageSource, containsString("°"));

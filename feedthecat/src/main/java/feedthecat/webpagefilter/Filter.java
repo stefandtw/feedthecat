@@ -24,8 +24,7 @@ public class Filter {
 	}
 
 	public String getResultHtml(Selector selector) {
-		HtmlPage page = loadPage();
-		filter(page, selector);
+		HtmlPage page = getResultPage(selector);
 		return new DOMSerializerImpl().writeToString(page);
 	}
 
@@ -48,6 +47,11 @@ public class Filter {
 		List<HtmlElement> elements = selector.getElements(page
 				.getDocumentElement());
 		HtmlElement root = page.getBody();
+		if (elements.size() == 1
+				&& (root.equals(elements.get(0)) || elements.get(0)
+						.isAncestorOf(root))) {
+			return;
+		}
 		root.removeAllChildren();
 		for (HtmlElement element : elements) {
 			root.appendChild(element);
@@ -64,5 +68,11 @@ public class Filter {
 			results.add(element.asText());
 		}
 		return results;
+	}
+
+	public HtmlPage getResultPage(Selector selector) {
+		HtmlPage page = loadPage();
+		filter(page, selector);
+		return page;
 	}
 }

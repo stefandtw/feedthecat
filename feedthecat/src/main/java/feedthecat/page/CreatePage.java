@@ -42,10 +42,8 @@ public class CreatePage extends WebPage {
 		urlField.add(Validators.URL_VALIDATOR);
 		form.add(urlField);
 
-		final IModel<String> xpathModel = new Model<String>();
-		TextField<String> xpathField = new TextField<String>("xpath",
-				xpathModel);
-		form.add(xpathField);
+		final SelectorPanel selectorPanel = new SelectorPanel("selector");
+		form.add(selectorPanel);
 
 		Button submitButton = new Button("submit") {
 
@@ -53,8 +51,7 @@ public class CreatePage extends WebPage {
 			public void onSubmit() {
 				pageConfig.setName(nameModel.getObject());
 				pageConfig.setUrl(urlModel.getObject());
-				String xpath = xpathModel.getObject();
-				pageConfig.showByXPath(xpath != null ? xpath : "//body/*");
+				pageConfig.setContentSelector(selectorPanel.getSelector());
 				dataSource.savePageConfig(pageConfig);
 
 				getRequestCycle().setRequestTarget(

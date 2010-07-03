@@ -11,8 +11,7 @@ public class PageBuilder {
 	}
 
 	public String getResultHtml() {
-		Selector selector = new XPathSelector(pageConfig
-				.getVisibleElementXPath());
+		Selector selector = pageConfig.getContentSelector();
 		return filter.getResultHtml(selector);
 	}
 }
