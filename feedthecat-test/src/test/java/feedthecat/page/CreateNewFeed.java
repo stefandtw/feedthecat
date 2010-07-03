@@ -22,7 +22,7 @@ public class CreateNewFeed extends Steps {
 
 	private static final String CREATE_FEED_URL = Settings.BASE_URL
 			+ "createFeed";
-	private static final String TITLE_XPATH_ID = "titleXPath";
+	private static final String TITLE_XPATH_ID = "titleSelector:xpath";
 	private static final String DESCRIPTION_ID = "description";
 
 	private final WebDriver driver;

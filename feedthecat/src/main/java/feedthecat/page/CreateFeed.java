@@ -16,7 +16,6 @@ import feedthecat.datasource.DataSource;
 import feedthecat.generatedresource.GeneratedFeedResource;
 import feedthecat.page.tools.Validators;
 import feedthecat.webpagefilter.FeedConfig;
-import feedthecat.webpagefilter.XPathSelector;
 
 public class CreateFeed extends WebPage {
 
@@ -48,11 +47,10 @@ public class CreateFeed extends WebPage {
 				"description", descriptionModel);
 		form.add(descriptionField);
 
-		final IModel<String> titleXPathModel = new Model<String>();
-		TextField<String> titleXPathField = new TextField<String>("titleXPath",
-				titleXPathModel);
-		titleXPathField.setRequired(true);
-		form.add(titleXPathField);
+		final SelectorPanel titleSelectorPanel = new SelectorPanel(
+				"titleSelector");
+		titleSelectorPanel.setRequired(true);
+		form.add(titleSelectorPanel);
 
 		final IModel<String> contentXPathModel = new Model<String>();
 		TextField<String> contentXPathField = new TextField<String>(
@@ -67,8 +65,7 @@ public class CreateFeed extends WebPage {
 				feedConfig.setName(nameModel.getObject());
 				feedConfig.setUrl(urlModel.getObject());
 				feedConfig.setDescription(descriptionModel.getObject());
-				feedConfig.setTitleSelector(new XPathSelector(titleXPathModel
-						.getObject()));
+				feedConfig.setTitleSelector(titleSelectorPanel.getSelector());
 				feedConfig.setContentXPath(contentXPathModel.getObject());
 				dataSource.saveFeedConfig(feedConfig);
 

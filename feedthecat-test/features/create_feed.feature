@@ -1,3 +1,4 @@
+@dev
 Feature: Create a feed
 	
 	As a web user I want a web feed compiled of interesting things on a web page.
@@ -9,7 +10,7 @@ Given page to create a new feed
 When I click the 'Save' button
 Then show error message ''Field 'Name' is required.''
 And show error message ''Field 'URL' is required.''
-And show error message ''Field 'Item Title XPath' is required.''
+And show error message ''Please select feed entry titles.''
 
 
 Scenario: Wikipedia news

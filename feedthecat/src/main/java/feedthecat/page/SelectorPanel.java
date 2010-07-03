@@ -34,6 +34,15 @@ public class SelectorPanel extends FormComponentPanel<Selector> {
 		setConvertedInput(selector);
 	}
 
+	@Override
+	public boolean checkRequired() {
+		if (isRequired()) {
+			xpathField.setRequired(true);
+			return xpathField.checkRequired();
+		}
+		return super.checkRequired();
+	}
+
 	public Selector getSelector() {
 		return selector;
 	}
