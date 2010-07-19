@@ -52,10 +52,9 @@ public class CreateFeed extends WebPage {
 		titleSelectorPanel.setRequired(true);
 		form.add(titleSelectorPanel);
 
-		final IModel<String> contentXPathModel = new Model<String>();
-		TextField<String> contentXPathField = new TextField<String>(
-				"contentXPath", contentXPathModel);
-		form.add(contentXPathField);
+		final SelectorPanel contentSelectorPanel = new SelectorPanel(
+				"contentSelector");
+		form.add(contentSelectorPanel);
 
 		Button submitButton = new Button("submit") {
 
@@ -66,7 +65,8 @@ public class CreateFeed extends WebPage {
 				feedConfig.setUrl(urlModel.getObject());
 				feedConfig.setDescription(descriptionModel.getObject());
 				feedConfig.setTitleSelector(titleSelectorPanel.getSelector());
-				feedConfig.setContentXPath(contentXPathModel.getObject());
+				feedConfig.setContentSelector(contentSelectorPanel
+						.getSelector());
 				dataSource.saveFeedConfig(feedConfig);
 
 				getRequestCycle().setRequestTarget(

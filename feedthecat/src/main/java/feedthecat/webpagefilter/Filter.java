@@ -2,7 +2,6 @@ package feedthecat.webpagefilter;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.xml.serialize.DOMSerializerImpl;
@@ -43,36 +42,32 @@ public class Filter {
 		return page;
 	}
 
-	private void filter(HtmlPage page, Selector selector) {
-		List<HtmlElement> elements = selector.getElements(page
-				.getDocumentElement());
-		HtmlElement root = page.getBody();
-		if (elements.size() == 1
-				&& (root.equals(elements.get(0)) || elements.get(0)
-						.isAncestorOf(root))) {
-			return;
-		}
-		root.removeAllChildren();
+	public static String asText(List<HtmlElement> elements) {
+		String result = "";
 		for (HtmlElement element : elements) {
-			root.appendChild(element);
+			result += element.asText();
+			result += " ";
 		}
-	}
-
-	public List<String> getVisibleElementsAsText(HtmlPage originalPage,
-			Selector itemsSelector) {
-		HtmlPage page = originalPage.cloneNode(true);
-		List<HtmlElement> visibleElements = itemsSelector.getElements(page
-				.getDocumentElement());
-		List<String> results = new ArrayList<String>();
-		for (HtmlElement element : visibleElements) {
-			results.add(element.asText());
-		}
-		return results;
+		return result;
 	}
 
 	public HtmlPage getResultPage(Selector selector) {
 		HtmlPage page = loadPage();
 		filter(page, selector);
 		return page;
+	}
+
+	private void filter(HtmlPage page, Selector selector) {
+		List<HtmlElement> elements = selector.getElements(page
+				.getDocumentElement());
+		HtmlElement root = (HtmlElement) page.getBody().cloneNode(true);
+		if (elements.size() == 1 && elements.get(0).getTagName().equals("html")) {
+			return;
+		}
+		root.removeAllChildren();
+		for (HtmlElement element : elements) {
+			root.appendChild(element);
+		}
+		page.getBody().replace(root);
 	}
 }

@@ -1,9 +1,13 @@
 package feedthecat.webpagefilter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.sun.syndication.feed.synd.SyndContent;
+import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -32,28 +36,38 @@ public class FeedBuilder {
 	}
 
 	public SyndFeed getFeed() {
-		HtmlPage page = filter.loadPage();
-		List<String> titles = filter.getVisibleElementsAsText(page, feedConfig
-				.getTitleSelector());
-
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("atom_1.0");
 		feed.setTitle(feedConfig.getName());
 		feed.setLink(feedConfig.getUrl());
 		feed.setDescription(feedConfig.getDescription());
-		List<SyndEntry> entries = createEntries(titles);
+		List<SyndEntry> entries = createEntries();
 		feed.setEntries(entries);
 		return feed;
 	}
 
-	private List<SyndEntry> createEntries(List<String> titles) {
+	private List<SyndEntry> createEntries() {
+		HtmlPage page = filter.loadPage();
+		Selector titleSelector = feedConfig.getTitleSelector();
+		List<HtmlElement> titleElements = titleSelector.getElements(page
+				.getDocumentElement());
+		Selector contentSelector = feedConfig.getContentSelector();
+
 		List<SyndEntry> entries = new ArrayList<SyndEntry>();
-		for (String title : titles) {
+		for (HtmlElement titleElement : titleElements) {
 			SyndEntry entry = new SyndEntryImpl();
+			String title = titleElement.asText();
 			entry.setTitle(title);
+
+			SyndContent content = new SyndContentImpl();
+			content.setMode("text");
+			String contentValue = Filter.asText(contentSelector
+					.getElements(titleElement));
+			content.setValue(contentValue);
+			entry.setContents(Arrays.asList(content));
+
 			entries.add(entry);
 		}
 		return entries;
 	}
-
 }

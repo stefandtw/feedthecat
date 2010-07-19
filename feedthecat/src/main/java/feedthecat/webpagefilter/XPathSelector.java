@@ -25,8 +25,7 @@ public class XPathSelector implements Selector {
 		for (String xpath : visibleXPaths) {
 			for (HtmlElement next : (List<HtmlElement>) element
 					.getByXPath(xpath)) {
-				HtmlElement clone = (HtmlElement) next.cloneNode(true);
-				visibleElements.add(clone);
+				visibleElements.add(next);
 			}
 		}
 		return visibleElements;
