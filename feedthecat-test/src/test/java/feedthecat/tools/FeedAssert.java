@@ -24,7 +24,7 @@ public class FeedAssert {
 		return entry;
 	}
 
-	public static void assertEntryContentText(SyndFeed feed, int index,
+	public static void assertEntryContentContains(SyndFeed feed, int index,
 			String expected) {
 		SyndEntry entry = getEntry(feed, index);
 		List<SyndContent> contents = entry.getContents();
@@ -32,6 +32,6 @@ public class FeedAssert {
 		for (SyndContent content : contents) {
 			text += content.getValue();
 		}
-		assertThat(text, is(expected));
+		assertThat(text, containsString(expected));
 	}
 }

@@ -59,10 +59,10 @@ public class CreateNewFeed extends Steps {
 		FeedAssert.assertEntryTitle(feed, index, expected);
 	}
 
-	@Then("^feed item content (\\d+) for '(.*)' as text is ''(.*)''$")
+	@Then("^feed item content (\\d+) for '(.*)' contains ''(.*)''$")
 	public void feedItemContentIs(int index, String feedName, String expected) {
 		SyndFeed feed = FeedLoader.get(feedName);
-		FeedAssert.assertEntryContentText(feed, index, expected);
+		FeedAssert.assertEntryContentContains(feed, index, expected);
 	}
 
 	@Then("^description for '(.*)' is '(.*)'$")

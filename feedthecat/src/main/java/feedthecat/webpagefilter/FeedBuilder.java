@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.sun.syndication.feed.atom.Content;
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
@@ -60,8 +61,8 @@ public class FeedBuilder {
 			entry.setTitle(title);
 
 			SyndContent content = new SyndContentImpl();
-			content.setMode("text");
-			String contentValue = Filter.asText(contentSelector
+			content.setType(Content.HTML);
+			String contentValue = Filter.asHtmlSource(contentSelector
 					.getElements(titleElement));
 			content.setValue(contentValue);
 			entry.setContents(Arrays.asList(content));

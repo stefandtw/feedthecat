@@ -26,5 +26,5 @@ Then feed item title 0 for 'wikipedia news' is ''Noynoy Aquino elected Philippin
 And feed item title 1 for 'wikipedia news' is '''Dewey Defeats Truman' incident in California State Senate election''
 And feed item title 2 for 'wikipedia news' is ''Football: Chelsea confirm Joe Cole and Michael Ballack departure''
 And description for 'wikipedia news' is 'Wiki News.'
-And feed item content 0 for 'wikipedia news' as text is ''Noynoy Aquino elected Philippine president''
+And feed item content 0 for 'wikipedia news' contains ''Noynoy Aquino elected Philippine president''
 

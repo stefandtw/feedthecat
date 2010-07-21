@@ -42,11 +42,10 @@ public class Filter {
 		return page;
 	}
 
-	public static String asText(List<HtmlElement> elements) {
+	public static String asHtmlSource(List<HtmlElement> elements) {
 		String result = "";
 		for (HtmlElement element : elements) {
-			result += element.asText();
-			result += " ";
+			result += new DOMSerializerImpl().writeToString(element);
 		}
 		return result;
 	}
