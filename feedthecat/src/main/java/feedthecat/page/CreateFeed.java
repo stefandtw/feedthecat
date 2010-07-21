@@ -52,6 +52,10 @@ public class CreateFeed extends WebPage {
 		titleSelectorPanel.setRequired(true);
 		form.add(titleSelectorPanel);
 
+		final SelectorPanel linkSelectorPanel = new SelectorPanel(
+				"linkSelector");
+		form.add(linkSelectorPanel);
+
 		final SelectorPanel contentSelectorPanel = new SelectorPanel(
 				"contentSelector");
 		form.add(contentSelectorPanel);
@@ -65,6 +69,7 @@ public class CreateFeed extends WebPage {
 				feedConfig.setUrl(urlModel.getObject());
 				feedConfig.setDescription(descriptionModel.getObject());
 				feedConfig.setTitleSelector(titleSelectorPanel.getSelector());
+				feedConfig.setLinkSelector(linkSelectorPanel.getSelector());
 				feedConfig.setContentSelector(contentSelectorPanel
 						.getSelector());
 				dataSource.saveFeedConfig(feedConfig);

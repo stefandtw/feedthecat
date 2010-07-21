@@ -23,6 +23,7 @@ public class CreateNewFeed extends Steps {
 	private static final String CREATE_FEED_URL = Settings.BASE_URL
 			+ "createFeed";
 	private static final String TITLE_XPATH_ID = "titleSelector:xpath";
+	private static final String LINK_XPATH_ID = "linkSelector:xpath";
 	private static final String DESCRIPTION_ID = "description";
 	private static final String CONTENT_XPATH_ID = "contentSelector:xpath";
 
@@ -43,6 +44,11 @@ public class CreateNewFeed extends Steps {
 		driver.findElement(By.name(TITLE_XPATH_ID)).sendKeys(titleXPath);
 	}
 
+	@When("^I set linkXPath to ''(.*)''$")
+	public void setLinkXPath(String linkXPath) {
+		driver.findElement(By.name(LINK_XPATH_ID)).sendKeys(linkXPath);
+	}
+
 	@When("^I set contentXPath to ''(.*)''$")
 	public void setContentXPath(String contentXPath) {
 		driver.findElement(By.name(CONTENT_XPATH_ID)).sendKeys(contentXPath);
@@ -57,6 +63,12 @@ public class CreateNewFeed extends Steps {
 	public void feedItemTitleIs(int index, String feedName, String expected) {
 		SyndFeed feed = FeedLoader.get(feedName);
 		FeedAssert.assertEntryTitle(feed, index, expected);
+	}
+
+	@Then("^feed item link (\\d+) for '(.*)' is ''(.*)''$")
+	public void feedItemLinkIs(int index, String feedName, String expected) {
+		SyndFeed feed = FeedLoader.get(feedName);
+		FeedAssert.assertEntryLink(feed, index, expected);
 	}
 
 	@Then("^feed item content (\\d+) for '(.*)' contains ''(.*)''$")

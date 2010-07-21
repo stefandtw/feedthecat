@@ -69,4 +69,14 @@ public class Filter {
 		}
 		page.getBody().replace(root);
 	}
+
+	public static String getLinkSource(List<HtmlElement> linkElementList) {
+		for (HtmlElement link : linkElementList) {
+			String href = link.getAttribute("href");
+			if (href != null) {
+				return href;
+			}
+		}
+		return "";
+	}
 }

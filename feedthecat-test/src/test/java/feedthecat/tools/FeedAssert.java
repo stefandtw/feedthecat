@@ -24,6 +24,11 @@ public class FeedAssert {
 		return entry;
 	}
 
+	public static void assertEntryLink(SyndFeed feed, int index, String expected) {
+		SyndEntry entry = getEntry(feed, index);
+		assertThat(entry.getLink(), is(expected));
+	}
+
 	public static void assertEntryContentContains(SyndFeed feed, int index,
 			String expected) {
 		SyndEntry entry = getEntry(feed, index);

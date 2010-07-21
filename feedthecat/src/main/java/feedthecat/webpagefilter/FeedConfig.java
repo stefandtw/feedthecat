@@ -7,6 +7,7 @@ public class FeedConfig implements Config {
 	private String description = "";
 	private Selector titleSelector;
 	private Selector contentSelector = new EmptySelector();
+	private Selector linkSelector = new EmptySelector();
 
 	public FeedConfig(String url) {
 		this.url = url;
@@ -55,6 +56,14 @@ public class FeedConfig implements Config {
 
 	public void setContentSelector(Selector contentSelector) {
 		this.contentSelector = contentSelector;
+	}
+
+	public Selector getLinkSelector() {
+		return linkSelector;
+	}
+
+	public void setLinkSelector(Selector linkSelector) {
+		this.linkSelector = linkSelector;
 	}
 
 }

@@ -67,6 +67,11 @@ public class FeedBuilder {
 			content.setValue(contentValue);
 			entry.setContents(Arrays.asList(content));
 
+			List<HtmlElement> linkElementList = feedConfig.getLinkSelector()
+					.getElements(titleElement);
+			String entryLink = Filter.getLinkSource(linkElementList);
+			entry.setLink(entryLink);
+
 			entries.add(entry);
 		}
 		return entries;

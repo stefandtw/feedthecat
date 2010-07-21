@@ -57,7 +57,27 @@ public class FeedBuilderTest {
 		FeedAssert
 				.assertEntryTitle(feed, 2,
 						"Football: Chelsea confirm Joe Cole and Michael Ballack departure");
-		assertEquals(feed.getLink(), NEWS_URL);
+	}
+
+	@Test
+	public void testFeedEntryLinks() {
+		SyndFeed feed = createWikiNewsFeed();
+		FeedAssert
+				.assertEntryLink(
+						feed,
+						0,
+						"http://en.wikinews.org/wiki/Noynoy_Aquino_elected_Philippine_president?dpl_id=190484");
+		FeedAssert
+				.assertEntryLink(
+						feed,
+						1,
+						"http://en.wikinews.org/wiki/%27Dewey_Defeats_Truman%27_incident_in_California_State_Senate_election?dpl_id=190686");
+		FeedAssert
+				.assertEntryLink(
+						feed,
+						2,
+						"http://en.wikinews.org/wiki/Football:_Chelsea_confirm_Joe_Cole_and_Michael_Ballack_departure?dpl_id=190604");
+
 	}
 
 	private SyndFeed createWikiNewsFeed() {
@@ -71,6 +91,7 @@ public class FeedBuilderTest {
 		config.setName(NEWS_NAME);
 		String titleXPath = "/html/body/div[@id='content']/div[@id='bodyContent']/table/tbody/tr[2]/td[@id='MainPage_latest_news']/div[@id='MainPage_latest_news_text']/ul/li/a";
 		config.setTitleSelector(new XPathSelector(titleXPath));
+		config.setLinkSelector(new XPathSelector("."));
 		config.setUrl(NEWS_URL);
 		config.setDescription(NEWS_DESCRIPTION);
 		return config;
