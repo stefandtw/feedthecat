@@ -3,8 +3,18 @@
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 <body>
 <wicket:panel>
-	XPath:
+<div>
+Select
+<a wicket:id="useGraphicalSelector">graphically</a>
+or using
+<a wicket:id="useXPathSelector">XPath</a>
+</div>
+<div wicket:id="xpathSelectorDiv">
+	<br />
+	XPath expression:
 	<input wicket:id="xpath" type="text" />
+	<a wicket:id="hideXPathSelectorDiv">hide</a>
+</div>
 </wicket:panel>
 </body>
 </html>

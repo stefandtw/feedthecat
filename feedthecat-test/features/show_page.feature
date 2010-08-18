@@ -3,6 +3,7 @@ Feature: Show a filtered web page
 	As a web user I want to see only relevant things on a web page
 
 
+@dev
 Scenario: See google weather applet
 
 Given home page

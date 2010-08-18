@@ -23,7 +23,7 @@ public class CreateNewPage extends Steps {
 	private static final String HOMEPAGE_URL = Settings.BASE_URL;
 	private static final String SOURCE_URL_ID = "sourceUrl";
 	private static final String NAME_ID = "name";
-	private static final String XPATH_ID = "selector:xpath";
+	private static final String XPATH_ID = "selector:xpathSelectorDiv:xpath";
 
 	private final WebDriver driver;
 
@@ -55,6 +55,7 @@ public class CreateNewPage extends Steps {
 
 	@When("^I set xpath to ''(.*)''$")
 	public void setXPathTo(String xpath) {
+		Given("I choose xpath selector for 'selector'");
 		driver.findElement(By.name(XPATH_ID)).sendKeys(xpath);
 	}
 

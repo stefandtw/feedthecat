@@ -11,11 +11,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
-	<!--
-		include for production build <init-param>
-		<param-name>configuration</param-name>
-		<param-value>deployment</param-value> </init-param>
-	-->
 	<repositories>
 		<repository>
 			<!-- Contains latest version of Rome -->

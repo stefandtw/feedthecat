@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import com.gargoylesoftware.htmlunit.ScriptException;
 
@@ -42,6 +43,9 @@ public class FilteredPageResult {
 			driver.get(resultUrl);
 		} catch (WebDriverException e) {
 			assertTrue(e.getCause() instanceof ScriptException);
+			((HtmlUnitDriver) driver).setJavascriptEnabled(false);
+			driver.get(resultUrl);
+			((HtmlUnitDriver) driver).setJavascriptEnabled(true);
 		}
 	}
 

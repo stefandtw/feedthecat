@@ -17,15 +17,16 @@ import feedthecat.tools.Browser;
 import feedthecat.tools.FeedAssert;
 import feedthecat.tools.FeedLoader;
 import feedthecat.tools.Settings;
+import feedthecat.tools.AjaxTools;
 
 public class CreateNewFeed extends Steps {
 
 	private static final String CREATE_FEED_URL = Settings.BASE_URL
 			+ "createFeed";
-	private static final String TITLE_XPATH_ID = "titleSelector:xpath";
-	private static final String LINK_XPATH_ID = "linkSelector:xpath";
+	private static final String TITLE_XPATH_ID = "titleSelector:xpathSelectorDiv:xpath";
+	private static final String LINK_XPATH_ID = "linkSelector:xpathSelectorDiv:xpath";
 	private static final String DESCRIPTION_ID = "description";
-	private static final String CONTENT_XPATH_ID = "contentSelector:xpath";
+	private static final String CONTENT_XPATH_ID = "contentSelector:xpathSelectorDiv:xpath";
 
 	private final WebDriver driver;
 
@@ -41,16 +42,19 @@ public class CreateNewFeed extends Steps {
 
 	@When("^I set titleXPath to ''(.*)''$")
 	public void setTitleXPath(String titleXPath) {
+		Given("I choose xpath selector for 'titleSelector'");
 		driver.findElement(By.name(TITLE_XPATH_ID)).sendKeys(titleXPath);
 	}
 
 	@When("^I set linkXPath to ''(.*)''$")
 	public void setLinkXPath(String linkXPath) {
+		Given("I choose xpath selector for 'linkSelector'");
 		driver.findElement(By.name(LINK_XPATH_ID)).sendKeys(linkXPath);
 	}
 
 	@When("^I set contentXPath to ''(.*)''$")
 	public void setContentXPath(String contentXPath) {
+		Given("I choose xpath selector for 'contentSelector'");
 		driver.findElement(By.name(CONTENT_XPATH_ID)).sendKeys(contentXPath);
 	}
 
@@ -91,5 +95,19 @@ public class CreateNewFeed extends Steps {
 		setTitleXPath("/foo/xpath");
 		When("I click the 'Save' button");
 		assertThat(FeedLoader.get(feedName), is(notNullValue()));
+	}
+
+	@When("^I choose graphical selector for '(.*)'$")
+	public void iChooseGraphicalSelectorFor(String selectorName) {
+		driver.findElement(By.id(selectorName)).findElement(
+				By.linkText("graphically")).click();
+	}
+
+	@When("^I choose xpath selector for '(.*)'$")
+	public void iChooseXPathSelectorFor(String selectorName) {
+		driver.findElement(By.id(selectorName)).findElement(
+				By.linkText("XPath")).click();
+		AjaxTools.waitForElement(driver, By.name(selectorName
+				+ ":xpathSelectorDiv:xpath"));
 	}
 }
