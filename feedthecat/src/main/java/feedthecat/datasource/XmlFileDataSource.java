@@ -19,24 +19,17 @@ import com.thoughtworks.xstream.XStream;
 
 import feedthecat.webpagefilter.Config;
 import feedthecat.webpagefilter.FeedConfig;
-import feedthecat.webpagefilter.PageConfig;
 
 @Singleton
 public class XmlFileDataSource implements DataSource {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(XmlFileDataSource.class);
-	private static final String PAGE_EXTENSION = ".page";
 	private static final String FEED_EXTENSION = ".feed";
 	private final XStream xstream;
 
 	public XmlFileDataSource() {
 		xstream = new XStream();
-	}
-
-	@Override
-	public PageConfig loadPageConfig(String name) {
-		return (PageConfig) loadConfig(name + PAGE_EXTENSION);
 	}
 
 	private Config loadConfig(String fileName) {
@@ -56,12 +49,7 @@ public class XmlFileDataSource implements DataSource {
 		return config;
 	}
 
-	@Override
-	public void savePageConfig(PageConfig pageConfig) {
-		saveConfig(pageConfig, pageConfig.getName() + PAGE_EXTENSION);
-	}
-
-	private void saveConfig(Config pageConfig, String fileName) {
+	private void saveConfig(Config config, String fileName) {
 		Writer writer;
 		try {
 			writer = new FileWriter(fileName);
@@ -69,7 +57,7 @@ public class XmlFileDataSource implements DataSource {
 			logger.error("Can't write " + fileName, e);
 			return;
 		}
-		xstream.toXML(pageConfig, writer);
+		xstream.toXML(config, writer);
 		try {
 			writer.close();
 		} catch (IOException e) {
@@ -107,23 +95,4 @@ public class XmlFileDataSource implements DataSource {
 		new File(feedConfig.getName() + FEED_EXTENSION).delete();
 	}
 
-	@Override
-	public List<PageConfig> loadPages() {
-		String[] fileNames = new File(".").list(new FilenameFilter() {
-			@Override
-			public boolean accept(File file, String fileName) {
-				return fileName.endsWith(PAGE_EXTENSION);
-			}
-		});
-		List<PageConfig> pages = new ArrayList<PageConfig>();
-		for (String fileName : fileNames) {
-			pages.add((PageConfig) loadConfig(fileName));
-		}
-		return pages;
-	}
-
-	@Override
-	public void deletePage(PageConfig pageConfig) {
-		new File(pageConfig.getName() + PAGE_EXTENSION).delete();
-	}
 }

@@ -6,11 +6,8 @@ import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.protocol.http.WebApplication;
 
 import feedthecat.generatedresource.GeneratedFeedResource;
-import feedthecat.generatedresource.GeneratedPageResource;
 import feedthecat.page.CreateFeed;
-import feedthecat.page.CreatePage;
 import feedthecat.page.FeedList;
-import feedthecat.page.PageList;
 
 public class FeedTheCatApplication extends WebApplication {
 
@@ -20,7 +17,7 @@ public class FeedTheCatApplication extends WebApplication {
 
 	@Override
 	public Class<? extends Page> getHomePage() {
-		return CreatePage.class;
+		return FeedList.class;
 	}
 
 	@Override
@@ -32,13 +29,6 @@ public class FeedTheCatApplication extends WebApplication {
 	}
 
 	private void initGeneratedResources(GuiceComponentInjector injector) {
-		GeneratedPageResource pageResource = (GeneratedPageResource) injector
-				.inject(new GeneratedPageResource());
-		getSharedResources().add(GeneratedPageResource.REFERENCE_NAME,
-				pageResource);
-		mountSharedResource("/page", new ResourceReference(
-				GeneratedPageResource.REFERENCE_NAME).getSharedResourceKey());
-
 		GeneratedFeedResource feedResource = (GeneratedFeedResource) injector
 				.inject(new GeneratedFeedResource());
 		getSharedResources().add(GeneratedFeedResource.REFERENCE_NAME,
@@ -55,9 +45,7 @@ public class FeedTheCatApplication extends WebApplication {
 	}
 
 	private void mountPageUrls() {
-		mountBookmarkablePage("createPage", CreatePage.class);
 		mountBookmarkablePage("createFeed", CreateFeed.class);
 		mountBookmarkablePage("feedList", FeedList.class);
-		mountBookmarkablePage("pageList", PageList.class);
 	}
 }

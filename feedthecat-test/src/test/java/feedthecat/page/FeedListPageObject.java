@@ -46,14 +46,14 @@ public class FeedListPageObject {
 		showAFeedListWithEntries("feed", 0);
 	}
 
-	@Then("^show a (feed|page) list with (\\d+) entries$")
+	@Then("^show a page list with (\\d+) entries$")
 	public void showAFeedListWithEntries(String ignore, int count) {
 		List<WebElement> entries = driver.findElements(By
 				.xpath("/html/body//ul/li"));
 		assertThat(entries.size(), is(count));
 	}
 
-	@Given("^(feed|page) list has a link '(.*)'$")
+	@Given("^feed list has a link '(.*)'$")
 	public void feedListHasALink(String ignore, String linkText) {
 		try {
 			driver.findElement(By.linkText(linkText));

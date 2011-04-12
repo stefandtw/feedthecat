@@ -79,13 +79,4 @@ public class CreateNewPage {
 		assertThat(found, is(true));
 	}
 
-	@Given("^a page called '(.*)'$")
-	public void aPageCalled(String pageName) {
-		givenHomepage();
-		setSourceUrlTo("Wikinews.html");
-		setNameTo(pageName);
-		clickThe("Save");
-		new FilteredPageResult(browser).resultPageForNameContains(pageName,
-				"html");
-	}
 }

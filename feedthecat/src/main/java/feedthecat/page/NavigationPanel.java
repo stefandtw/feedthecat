@@ -7,12 +7,6 @@ public class NavigationPanel extends Panel {
 
 	public NavigationPanel(String id) {
 		super(id);
-		add(new Link("filterPage") {
-			@Override
-			public void onClick() {
-				setResponsePage(new CreatePage());
-			}
-		});
 		add(new Link("createFeed") {
 			@Override
 			public void onClick() {
@@ -23,12 +17,6 @@ public class NavigationPanel extends Panel {
 			@Override
 			public void onClick() {
 				setResponsePage(new FeedList());
-			}
-		});
-		add(new Link("webPages") {
-			@Override
-			public void onClick() {
-				setResponsePage(new PageList());
 			}
 		});
 	}
