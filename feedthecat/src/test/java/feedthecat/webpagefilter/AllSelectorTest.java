@@ -27,4 +27,5 @@ public class AllSelectorTest {
 
 		assertThat(filteredPage.asText(), equalTo(unfilteredPageText));
 	}
+
 }

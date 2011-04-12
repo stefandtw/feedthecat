@@ -13,38 +13,17 @@
 		<profile>default</profile>
 	</properties>
 
+<!-- 
 	<repositories>
 		<repository>
 			<id>codehaus</id>
 			<url>http://repository.codehaus.org</url>
 		</repository>
-		<repository>
-			<id>cukes</id>
-			<url>http://cukes.info/maven</url>
-		</repository>
 	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>cukes</id>
-			<url>http://cukes.info/maven</url>
-		</pluginRepository>
-	</pluginRepositories>
+ -->
 	<dependencies>
-		<!--
-			<dependency> <groupId>junit</groupId> <artifactId>junit</artifactId>
-			<version>4.0.0</version> <scope>test</scope> </dependency>
-		-->
-		<!--
-			<dependency> <groupId>org.jruby</groupId>
-			<artifactId>jruby-complete</artifactId> <version>1.2.0</version>
-			</dependency>
-		-->
-		<!--
-			<dependency> <groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-resources-plugin</artifactId>
-			<version>2.4.1</version> <scope>test</scope> </dependency>
-		-->
+		<!-- <dependency> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-resources-plugin</artifactId> 
+			<version>2.4.1</version> <scope>test</scope> </dependency> -->
 		<dependency>
 			<groupId>org.picocontainer</groupId>
 			<artifactId>picocontainer</artifactId>
@@ -52,15 +31,15 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>cuke4duke</groupId>
-			<artifactId>cuke4duke</artifactId>
-			<version>0.3.2</version>
+			<groupId>org.jbehave</groupId>
+			<artifactId>jbehave-core</artifactId>
+			<version>3.1.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
+			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -106,7 +85,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.0.2</version>
+					<version>2.3.2</version>
 					<configuration>
 						<source>1.6</source>
 						<target>1.6</target>
@@ -117,32 +96,43 @@
 
 		<plugins>
 			<plugin>
-				<groupId>cuke4duke</groupId>
-				<artifactId>cuke4duke-maven-plugin</artifactId>
-				<version>0.3.2</version>
-				<configuration>
+    <groupId>org.jbehave</groupId>
+    <artifactId>jbehave-maven-plugin</artifactId>
+    <version>3.1.2</version>
+    <executions>
+        <execution>
+            <id>run-stories-as-embeddables</id>
+            <phase>integration-test</phase>
+            <configuration>
+                <includes>
+                    <include>**/features/*.feature</include>
+                    <include>**/*Runner.java</include>
+                </includes>
+                <scope>test</scope>
+                <!-- 
+                <metaFilters>
+                    <metaFilter>+author *</metaFilter>
+                    <metaFilter>-skip</metaFilter>
+                </metaFilters>
+                <systemProperties>
+                    <property>
+                      <name>java.awt.headless</name>
+                      <value>true</value>
+                    </property>
+                </systemProperties> 
+                <ignoreFailureInStories>true</ignoreFailureInStories>
+                <ignoreFailureInView>false</ignoreFailureInView>
+                -->
 					<jvmArgs>
 						<jvmArg>-Dwebdriver=${webdriver}</jvmArg>
 					</jvmArgs>
-					<cucumberArgs>
-						<cucumberArg>--profile ${profile}</cucumberArg>
-						<cucumberArg>--require</cucumberArg>
-						<cucumberArg>${basedir}/target/test-classes</cucumberArg>
-					</cucumberArgs>
-					<gems>
-						<gem>install cuke4duke --version 0.3.2</gem>
-					</gems>
-				</configuration>
-				<executions>
-					<execution>
-						<id>run-features</id>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>cucumber</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+            </configuration>
+            <goals>
+                <goal>run-stories-as-embeddables</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
 		</plugins>
 	</build>
 </project>

@@ -3,21 +3,20 @@ package feedthecat.page;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.steps.Steps;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.sun.syndication.feed.synd.SyndFeed;
 
-import cuke4duke.StepMother;
-import cuke4duke.Steps;
-import cuke4duke.annotation.I18n.EN.Given;
-import cuke4duke.annotation.I18n.EN.Then;
-import cuke4duke.annotation.I18n.EN.When;
+import feedthecat.tools.AjaxTools;
 import feedthecat.tools.Browser;
 import feedthecat.tools.FeedAssert;
 import feedthecat.tools.FeedLoader;
 import feedthecat.tools.Settings;
-import feedthecat.tools.AjaxTools;
 
 public class CreateNewFeed extends Steps {
 
@@ -29,9 +28,10 @@ public class CreateNewFeed extends Steps {
 	private static final String CONTENT_XPATH_ID = "contentSelector:xpathSelectorDiv:xpath";
 
 	private final WebDriver driver;
+	private final Browser browser;
 
-	public CreateNewFeed(Browser browser, StepMother stepMother) {
-		super(stepMother);
+	public CreateNewFeed(Browser browser) {
+		this.browser = browser;
 		this.driver = browser.getDriver();
 	}
 
@@ -42,19 +42,19 @@ public class CreateNewFeed extends Steps {
 
 	@When("^I set titleXPath to ''(.*)''$")
 	public void setTitleXPath(String titleXPath) {
-		Given("I choose xpath selector for 'titleSelector'");
+		iChooseXPathSelectorFor("titleSelector");
 		driver.findElement(By.name(TITLE_XPATH_ID)).sendKeys(titleXPath);
 	}
 
 	@When("^I set linkXPath to ''(.*)''$")
 	public void setLinkXPath(String linkXPath) {
-		Given("I choose xpath selector for 'linkSelector'");
+		iChooseXPathSelectorFor("linkSelector");
 		driver.findElement(By.name(LINK_XPATH_ID)).sendKeys(linkXPath);
 	}
 
 	@When("^I set contentXPath to ''(.*)''$")
 	public void setContentXPath(String contentXPath) {
-		Given("I choose xpath selector for 'contentSelector'");
+		iChooseXPathSelectorFor("contentSelector");
 		driver.findElement(By.name(CONTENT_XPATH_ID)).sendKeys(contentXPath);
 	}
 
@@ -90,24 +90,24 @@ public class CreateNewFeed extends Steps {
 	@Given("^a feed called '(.*)'$")
 	public void aFeedCalled(String feedName) {
 		pageToCreateANewFeed();
-		When("I set source url to local file 'Wikinews.html'");
-		When("I set name to '" + feedName + "'");
+		new CreateNewPage(browser).setSourceUrlToLocalFile("Wikinews.html");
+		new CreateNewPage(browser).setNameTo(feedName);
 		setTitleXPath("/foo/xpath");
-		When("I click the 'Save' button");
+		new CreateNewPage(browser).clickThe("Save");
 		assertThat(FeedLoader.get(feedName), is(notNullValue()));
 	}
 
 	@When("^I choose graphical selector for '(.*)'$")
 	public void iChooseGraphicalSelectorFor(String selectorName) {
-		driver.findElement(By.id(selectorName)).findElement(
-				By.linkText("graphically")).click();
+		driver.findElement(By.id(selectorName))
+				.findElement(By.linkText("graphically")).click();
 	}
 
 	@When("^I choose xpath selector for '(.*)'$")
 	public void iChooseXPathSelectorFor(String selectorName) {
-		driver.findElement(By.id(selectorName)).findElement(
-				By.linkText("XPath")).click();
-		AjaxTools.waitForElement(driver, By.name(selectorName
-				+ ":xpathSelectorDiv:xpath"));
+		driver.findElement(By.id(selectorName))
+				.findElement(By.linkText("XPath")).click();
+		AjaxTools.waitForElement(driver,
+				By.name(selectorName + ":xpathSelectorDiv:xpath"));
 	}
 }

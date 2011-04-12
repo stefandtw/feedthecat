@@ -6,25 +6,22 @@ import static org.junit.Assert.*;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import cuke4duke.StepMother;
-import cuke4duke.Steps;
-import cuke4duke.annotation.I18n.EN.Given;
-import cuke4duke.annotation.I18n.EN.Then;
 import feedthecat.tools.Browser;
 import feedthecat.tools.Settings;
 
-public class PageListPageObject extends Steps {
+public class PageListPageObject {
 
 	private static final String PAGE_LIST_URL = Settings.BASE_URL + "pageList";
 	private static final String DELETE_TEXT = "delete";
 	private final WebDriver driver;
 
-	public PageListPageObject(Browser browser, StepMother stepMother) {
-		super(stepMother);
+	public PageListPageObject(Browser browser) {
 		this.driver = browser.getDriver();
 	}
 
@@ -42,7 +39,12 @@ public class PageListPageObject extends Steps {
 			deleteLinks.get(0).click();
 			deleteLinks = driver.findElements(By.linkText(DELETE_TEXT));
 		}
-		Then("show a page list with 0 entries");
+		showPageListWithEntries(0);
+	}
+
+	@Then("^show a page list with (\\d+) entries$")
+	public void showPageListWithEntries(int entries) {
+		fail("not yet implemented ?!");
 	}
 
 	@Then("^link '(.*)' leads to the page '(.*)'$")

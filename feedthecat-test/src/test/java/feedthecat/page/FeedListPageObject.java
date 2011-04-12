@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -12,9 +15,6 @@ import org.openqa.selenium.WebElement;
 
 import com.sun.syndication.feed.synd.SyndFeed;
 
-import cuke4duke.annotation.I18n.EN.Given;
-import cuke4duke.annotation.I18n.EN.Then;
-import cuke4duke.annotation.I18n.EN.When;
 import feedthecat.tools.Browser;
 import feedthecat.tools.FeedLoader;
 import feedthecat.tools.Settings;

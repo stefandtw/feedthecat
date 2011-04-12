@@ -3,13 +3,13 @@ package feedthecat.page;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import org.jbehave.core.annotations.Then;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import com.gargoylesoftware.htmlunit.ScriptException;
 
-import cuke4duke.annotation.I18n.EN.Then;
 import feedthecat.tools.Browser;
 import feedthecat.tools.Settings;
 

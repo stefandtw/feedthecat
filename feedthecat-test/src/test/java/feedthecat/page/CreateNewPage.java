@@ -5,20 +5,18 @@ import static org.hamcrest.Matchers.*;
 
 import java.util.List;
 
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import cuke4duke.StepMother;
-import cuke4duke.Steps;
-import cuke4duke.annotation.I18n.EN.Given;
-import cuke4duke.annotation.I18n.EN.Then;
-import cuke4duke.annotation.I18n.EN.When;
 import feedthecat.tools.Browser;
 import feedthecat.tools.LocalResource;
 import feedthecat.tools.Settings;
 
-public class CreateNewPage extends Steps {
+public class CreateNewPage {
 
 	private static final String HOMEPAGE_URL = Settings.BASE_URL;
 	private static final String SOURCE_URL_ID = "sourceUrl";
@@ -26,9 +24,10 @@ public class CreateNewPage extends Steps {
 	private static final String XPATH_ID = "selector:xpathSelectorDiv:xpath";
 
 	private final WebDriver driver;
+	private final Browser browser;
 
-	public CreateNewPage(Browser browser, StepMother stepMother) {
-		super(stepMother);
+	public CreateNewPage(Browser browser) {
+		this.browser = browser;
 		this.driver = browser.getDriver();
 	}
 
@@ -55,7 +54,7 @@ public class CreateNewPage extends Steps {
 
 	@When("^I set xpath to ''(.*)''$")
 	public void setXPathTo(String xpath) {
-		Given("I choose xpath selector for 'selector'");
+		new CreateNewFeed(browser).iChooseXPathSelectorFor("selector");
 		driver.findElement(By.name(XPATH_ID)).sendKeys(xpath);
 	}
 
@@ -83,9 +82,10 @@ public class CreateNewPage extends Steps {
 	@Given("^a page called '(.*)'$")
 	public void aPageCalled(String pageName) {
 		givenHomepage();
-		When("I set source url to local file 'Wikinews.html'");
-		When("I set name to '" + pageName + "'");
-		When("I click the 'Save' button");
-		Then("result page for '" + pageName + ("' contains 'html'"));
+		setSourceUrlTo("Wikinews.html");
+		setNameTo(pageName);
+		clickThe("Save");
+		new FilteredPageResult(browser).resultPageForNameContains(pageName,
+				"html");
 	}
 }

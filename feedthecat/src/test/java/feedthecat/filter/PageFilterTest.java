@@ -13,7 +13,7 @@ import feedthecat.webpagefilter.XPathSelector;
 public class PageFilterTest {
 
 	private static final String WEATHER_URL = "http://www.google.com/search?q=weather+berlin";
-	private static final String WEATHER_XPATH = "/html/body[@id='gsr']//div[@id='res']/div[1]/table/tbody/tr[2]/td/div[2]/nobr";
+	private static final String WEATHER_XPATH = "/html/body[@id='gsr']//div[@id='topstuff']/div/table/tbody/tr[2]/td/div[1]/div[1]/b";
 
 	@Test
 	public void filterOutGoogleTexts() {
