@@ -5,76 +5,71 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import org.jbehave.core.annotations.Given;
-import org.jbehave.core.annotations.Then;
-import org.jbehave.core.annotations.When;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import junit.framework.AssertionFailedError;
+import net.sourceforge.jwebunit.api.IElement;
+import net.sourceforge.jwebunit.junit.WebTester;
 
 import com.sun.syndication.feed.synd.SyndFeed;
 
-import feedthecat.tools.Browser;
 import feedthecat.tools.FeedLoader;
-import feedthecat.tools.Settings;
 
 public class FeedListPageObject {
 
 	private static final String DELETE_TEXT = "delete";
-	private static final String FEED_LIST_URL = Settings.BASE_URL + "feedList";
-	private final WebDriver driver;
 
-	public FeedListPageObject(Browser browser) {
-		this.driver = browser.getDriver();
+	private final WebTester tester;
+
+	public FeedListPageObject(WebTester tester) {
+		this.tester = tester;
 	}
 
-	@Given("^feed list page$")
 	public void feedListPage() {
-		driver.get(FEED_LIST_URL);
+		tester.beginAt("/feedList");
 	}
 
-	@Given("^all existing feeds have been deleted$")
 	public void allExistingFeedsHaveBeenDeleted() {
 		feedListPage();
-		List<WebElement> deleteLinks = driver.findElements(By
-				.linkText(DELETE_TEXT));
-		while (!deleteLinks.isEmpty()) {
-			deleteLinks.get(0).click();
-			deleteLinks = driver.findElements(By.linkText(DELETE_TEXT));
+
+		boolean moreFeeds = true;
+		while (moreFeeds) {
+			try {
+				tester.clickLinkWithExactText(DELETE_TEXT);
+			} catch (AssertionFailedError e) {
+				moreFeeds = false;
+			}
 		}
-		showAFeedListWithEntries("feed", 0);
+
+		showAFeedListWithEntries(0);
 	}
 
-	@Then("^show a page list with (\\d+) entries$")
-	public void showAFeedListWithEntries(String ignore, int count) {
-		List<WebElement> entries = driver.findElements(By
-				.xpath("/html/body//ul/li"));
-		assertThat(entries.size(), is(count));
+	public void showAFeedListWithEntries(int count) {
+		List<IElement> listElements = tester
+				.getElementsByXPath("/html/body//ul/li");
+		assertThat(listElements.size(), is(count));
 	}
 
-	@Given("^feed list has a link '(.*)'$")
-	public void feedListHasALink(String ignore, String linkText) {
-		try {
-			driver.findElement(By.linkText(linkText));
-		} catch (NoSuchElementException e) {
-			fail(linkText + " is not listed: " + e.getMessage());
-		}
+	public void feedListHasALink(String linkText) {
+		tester.assertLinkPresentWithExactText(linkText);
 	}
 
-	@When("^I click on the delete button next to '(.*)'$")
 	public void iClickOnTheDeleteButtonNextTo(String feedName) {
-		WebElement feedLink = driver.findElement(By.linkText(feedName));
-		WebElement deleteLink = feedLink.findElement(By.xpath(".."))
-				.findElement(By.linkText(DELETE_TEXT));
-		deleteLink.click();
+		/*
+		 * HtmlUnitTestingEngineImpl htmlUnitEngine =
+		 * (HtmlUnitTestingEngineImpl) tester .getTestingEngine(); WebClient
+		 * webClient = htmlUnitEngine.getWebClient(); HtmlPage page = (HtmlPage)
+		 * webClient.getCurrentWindow() .getEnclosedPage(); HtmlElement
+		 * deleteLink = page.getFirstByXPath("//a[text()='" + feedName +
+		 * "']/..//a[text()='" + DELETE_TEXT + "']"); try { deleteLink.click();
+		 * } catch (IOException e) { fail(e.getMessage()); }
+		 */
+		tester.clickElementByXPath("//a[text()='" + feedName
+				+ "']/..//a[text()='" + DELETE_TEXT + "']");
 	}
 
-	@Then("^link '(.*)' leads to the feed '(.*)'$")
 	public void linkLeadsToTheFeed(String linkText, String feedName) {
-		driver.findElement(By.linkText(linkText)).click();
+		tester.clickLinkWithExactText(linkText);
 		SyndFeed feed = FeedLoader.get(feedName);
 		assertThat(feed.getTitle(), is(feedName));
-		driver.navigate().back();
+		feedListPage();
 	}
 }

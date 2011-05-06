@@ -3,10 +3,10 @@
  */
 package feedthecat.application;
 
+import com.google.inject.AbstractModule;
+
 import feedthecat.datasource.DataSource;
 import feedthecat.datasource.XmlFileDataSource;
-
-import com.google.inject.AbstractModule;
 
 public class DefaultModule extends AbstractModule {
 
@@ -14,4 +14,5 @@ public class DefaultModule extends AbstractModule {
 	protected void configure() {
 		bind(DataSource.class).to(XmlFileDataSource.class);
 	}
+
 }

@@ -1,41 +1,39 @@
 package feedthecat.tools;
 
-import org.junit.After;
-import org.junit.Before;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import net.sourceforge.jwebunit.junit.WebTester;
 
+import com.google.inject.Singleton;
+
+@Singleton
 public class Browser {
 
-	private WebDriver webDriver;
+	private WebTester webTester;
 
-	@Before
-	public void startBrowser() {
-		webDriver = null;
-		String webDriverName = System.getProperty("webdriver");
-		selectWebDriver(webDriverName);
+	public Browser() {
+		startBrowser();
+		webTester.setBaseUrl(Settings.HOMEPAGE_URL);
 	}
 
-	private void selectWebDriver(String name) {
-		if ("firefox".equalsIgnoreCase(name)) {
-			webDriver = new FirefoxDriver();
-		} else if ("htmlunit".equalsIgnoreCase(name)) {
-			HtmlUnitDriver htmlUnitDriver = new HtmlUnitDriver();
-			htmlUnitDriver.setJavascriptEnabled(true);
-			webDriver = htmlUnitDriver;
-		} else if ("chrome".equalsIgnoreCase(name)) {
-			webDriver = new ChromeDriver();
-		}
+	private void startBrowser() {
+		webTester = new WebTester();
+
+		// Thread hook = new QuitBrowserHook();
+		// Runtime.getRuntime().addShutdownHook(hook);
 	}
 
-	@After
-	public void closeBrowser() {
-		webDriver.close();
+	// private void closeBrowser() {
+	// webTester.closeBrowser();
+	// }
+
+	// private final class QuitBrowserHook extends Thread {
+	// @Override
+	// public void run() {
+	// closeBrowser();
+	// }
+	// }
+
+	public WebTester getWebTester() {
+		return webTester;
 	}
 
-	public WebDriver getDriver() {
-		return webDriver;
-	}
 }

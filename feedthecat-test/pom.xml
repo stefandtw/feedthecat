@@ -9,8 +9,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- 
 		<webdriver>firefox</webdriver>
-		<profile>default</profile>
+		<profile>default</profile> -->
 	</properties>
 
 <!-- 
@@ -20,40 +21,78 @@
 			<url>http://repository.codehaus.org</url>
 		</repository>
 	</repositories>
- -->
-	<dependencies>
+  <repositories>
+    <repository>
+      <id>guiceyfruit.release</id>
+      <name>GuiceyFruit Release Repository</name>
+      <url>http://guiceyfruit.googlecode.com/svn/repo/releases/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+  </repositories> -->
+  	<dependencies>
 		<!-- <dependency> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-resources-plugin</artifactId> 
 			<version>2.4.1</version> <scope>test</scope> </dependency> -->
-		<dependency>
-			<groupId>org.picocontainer</groupId>
-			<artifactId>picocontainer</artifactId>
-			<version>2.10.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jbehave</groupId>
-			<artifactId>jbehave-core</artifactId>
-			<version>3.1.2</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- 
 		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>2.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.guiceyfruit</groupId>
+			<artifactId>guiceyfruit-junit4</artifactId>
+			<version>2.0</version>
+			<scope>test</scope>
+		</dependency>
+		 -->
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>3.0</version>
+			<scope>test</scope>
+		</dependency>
+<dependency>
+    <groupId>com.mycila.testing.plugins</groupId>
+    <artifactId>mycila-testing-guice2</artifactId>
+    <version>2.7</version>
+			<scope>test</scope>
+</dependency><dependency>
+    <groupId>com.mycila</groupId>
+    <artifactId>mycila-junit</artifactId>
+    <version>1.0.ga</version>
+			<scope>test</scope>
+</dependency><!-- <dependency>
+    <groupId>com.mycila</groupId>
+    <artifactId>mycila-guice</artifactId>
+    <version>2.0.ga</version>
+			<scope>test</scope>
+</dependency>-->		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
 			<version>1.1</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-htmlunit-driver</artifactId>
 			<version>2.0a5</version>
 			<scope>test</scope>
 		</dependency>
+		 -->
+		<!-- 
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-chrome-driver</artifactId>
@@ -72,6 +111,29 @@
 			<version>2.0a5</version>
 			<scope>test</scope>
 		</dependency>
+		 -->
+		        <dependency>
+            <groupId>net.sourceforge.jwebunit</groupId>
+            <artifactId>jwebunit-htmlunit-plugin</artifactId>
+            <version>2.5</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- 
+		        <dependency>
+            <groupId>net.sourceforge.jwebunit</groupId>
+            <artifactId>jwebunit-selenium-plugin</artifactId>
+            <version>2.5</version>
+            <scope>test</scope>
+        </dependency>
+         -->
+        <!-- needed by jwebunit
+		        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+           <artifactId>httpclient</artifactId>
+            <version>4.1.1</version>
+            <scope>test</scope>
+        </dependency> -->
+		
 		<dependency>
 			<groupId>net.java.dev.rome</groupId>
 			<artifactId>rome</artifactId>
@@ -93,46 +155,5 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-
-		<plugins>
-			<plugin>
-    <groupId>org.jbehave</groupId>
-    <artifactId>jbehave-maven-plugin</artifactId>
-    <version>3.1.2</version>
-    <executions>
-        <execution>
-            <id>run-stories-as-embeddables</id>
-            <phase>integration-test</phase>
-            <configuration>
-                <includes>
-                    <include>**/features/*.feature</include>
-                    <include>**/*Runner.java</include>
-                </includes>
-                <scope>test</scope>
-                <!-- 
-                <metaFilters>
-                    <metaFilter>+author *</metaFilter>
-                    <metaFilter>-skip</metaFilter>
-                </metaFilters>
-                <systemProperties>
-                    <property>
-                      <name>java.awt.headless</name>
-                      <value>true</value>
-                    </property>
-                </systemProperties> 
-                <ignoreFailureInStories>true</ignoreFailureInStories>
-                <ignoreFailureInView>false</ignoreFailureInView>
-                -->
-					<jvmArgs>
-						<jvmArg>-Dwebdriver=${webdriver}</jvmArg>
-					</jvmArgs>
-            </configuration>
-            <goals>
-                <goal>run-stories-as-embeddables</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-		</plugins>
 	</build>
 </project>

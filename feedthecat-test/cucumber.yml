@@ -1,3 +1,0 @@
-default: --verbose --color
-html: --format progress --format html --out target/report.html features  
-html_dev: --tag @dev --format progress --format html --out target/report.html features  

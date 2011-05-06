@@ -1,23 +1,27 @@
 package feedthecat.tools;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import static org.junit.Assert.*;
+import junit.framework.AssertionFailedError;
+import net.sourceforge.jwebunit.junit.WebTester;
 
 public class AjaxTools {
 
-	public static void waitForElement(WebDriver driver, final By by) {
-		Wait<WebDriver> wait = new WebDriverWait(driver, 10);
-		wait.until(new ExpectedCondition<Boolean>() {
-
-			@Override
-			public Boolean apply(WebDriver from) {
-				return from.findElement(by) != null;
+	public static void waitForElement(WebTester tester, String xpath) {
+		int timeout = 7;
+		for (int i = 0; i < timeout; i++) {
+			try {
+				tester.getElementByXPath(xpath);
+				return;
+			} catch (AssertionFailedError e) {
+				// keep trying
 			}
-		});
-
+			try {
+				Thread.sleep(200 + i * 500);
+			} catch (InterruptedException e) {
+				fail(e.getMessage());
+			}
+		}
+		fail("Element not found (timeout: " + timeout + ") - " + xpath);
 	}
 
 }
