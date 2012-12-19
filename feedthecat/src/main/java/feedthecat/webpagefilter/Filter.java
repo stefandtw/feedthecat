@@ -8,7 +8,6 @@ import org.apache.xml.serialize.DOMSerializerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -29,11 +28,11 @@ public class Filter {
 
 	public HtmlPage loadPage() {
 		WebClient webClient = new WebClient();
+		webClient.setThrowExceptionOnFailingStatusCode(false);
+		webClient.setThrowExceptionOnScriptError(false);
 		HtmlPage page = null;
 		try {
 			page = webClient.getPage(url);
-		} catch (FailingHttpStatusCodeException e) {
-			logger.debug(e.getMessage(), e);
 		} catch (MalformedURLException e) {
 			logger.debug(e.getMessage(), e);
 		} catch (IOException e) {
