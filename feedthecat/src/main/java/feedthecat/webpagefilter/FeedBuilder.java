@@ -48,6 +48,7 @@ public class FeedBuilder {
 	}
 
 	private List<SyndEntry> createEntries() {
+		filter.setUserAgent(feedConfig.getUserAgentForScraping());
 		HtmlPage page = filter.loadPage();
 		Selector titleSelector = feedConfig.getTitleSelector();
 		List<HtmlElement> titleElements = titleSelector.getElements(page

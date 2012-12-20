@@ -16,6 +16,7 @@ public class Filter {
 
 	private static final Logger logger = LoggerFactory.getLogger(Filter.class);
 	private final String url;
+	private String userAgent;
 
 	public Filter(String url) {
 		this.url = url;
@@ -30,6 +31,9 @@ public class Filter {
 		WebClient webClient = new WebClient();
 		webClient.setThrowExceptionOnFailingStatusCode(false);
 		webClient.setThrowExceptionOnScriptError(false);
+		if (userAgent != null) {
+			webClient.getBrowserVersion().setUserAgent(userAgent);
+		}
 		HtmlPage page = null;
 		try {
 			page = webClient.getPage(url);
@@ -77,5 +81,9 @@ public class Filter {
 			}
 		}
 		return "";
+	}
+
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
 	}
 }

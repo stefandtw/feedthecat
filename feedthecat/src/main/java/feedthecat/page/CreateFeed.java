@@ -8,6 +8,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.protocol.http.request.WebClientInfo;
 import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 
 import com.google.inject.Inject;
@@ -72,6 +73,10 @@ public class CreateFeed extends WebPage {
 				feedConfig.setLinkSelector(linkSelectorPanel.getSelector());
 				feedConfig.setContentSelector(contentSelectorPanel
 						.getSelector());
+				WebClientInfo webClientInfo = (WebClientInfo) this
+						.getRequestCycle().getClientInfo();
+				feedConfig
+						.setUserAgentForScraping(webClientInfo.getUserAgent());
 				dataSource.saveFeedConfig(feedConfig);
 
 				getRequestCycle().setRequestTarget(
