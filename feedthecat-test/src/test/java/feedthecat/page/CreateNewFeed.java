@@ -95,11 +95,13 @@ public class CreateNewFeed {
 	}
 
 	public void setSourceUrlToLocalFile(String localFile) {
+		tester.clickButtonWithText("Web Page");
 		String url = new LocalResource(localFile).getUrl();
 		tester.setTextField(SOURCE_URL_ID, url);
 	}
 
 	public void setNameTo(String name) {
+		tester.clickButtonWithText("Name");
 		tester.setTextField(NAME_ID, name);
 	}
 

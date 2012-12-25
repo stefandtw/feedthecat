@@ -3,7 +3,7 @@
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>FeedTheCat - Create a new feed</title>
+<title>feedthecat - Create a new feed</title>
 </head>
 <body>
 <div wicket:id="navigationPanel" />
@@ -12,17 +12,20 @@
 <form wicket:id="createFeedForm">
 <div><span wicket:id="feedback"></span></div>
 <fieldset>
-<legend>General</legend>
-<label>URL:</label><input wicket:id="sourceUrl" type="text" /><br />
-<label>Name:</label><input wicket:id="name" type="text" /><br />
-<label>Description:</label><input wicket:id="description" type="text" /><br />
+<legend>Feed:</legend>
+<button wicket:id="name">Name</button>
+<button wicket:id="sourceUrl">Web Page</button>
+<button wicket:id="description">Description</button>
 </fieldset>
 <fieldset>
-<legend>Feed entries</legend>
-<label>Title:</label><div wicket:id="titleSelector" /><br />
-<label>Link:</label><div wicket:id="linkSelector" /><br />
-<label>Content:</label><div wicket:id="contentSelector" /><br />
-<input wicket:id="submit" type="submit" value="Save" />
+<legend>Feed entries:</legend>
+<button wicket:id="titleSelector">Title</button>
+<button wicket:id="linkSelector">Link</button>
+<button wicket:id="contentSelector">Content</button>
+<input wicket:id="submit" type="submit" value="Create" />
+</fieldset>
+<fieldset>
+<input wicket:id="inputField" type="text" />
 </fieldset>
 </form>
 </div>

@@ -1,21 +1,17 @@
 package feedthecat.page;
 
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.protocol.http.request.WebClientInfo;
-import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 
 import com.google.inject.Inject;
 
 import feedthecat.datasource.DataSource;
-import feedthecat.generatedresource.GeneratedFeedResource;
-import feedthecat.page.tools.Validators;
 import feedthecat.webpagefilter.FeedConfig;
 
 public class CreateFeed extends WebPage {
@@ -24,66 +20,83 @@ public class CreateFeed extends WebPage {
 	private DataSource dataSource;
 	private final FeedConfig feedConfig = new FeedConfig();
 
+	public enum FeedConfigItem {
+		NAME("name"), WEB_PAGE("sourceUrl"), DESCRIPTION("description"), TITLE_SELECTOR(
+				"titleSelector"), LINKS_SELECTOR("linkSelector"), CONTENT_SELECTOR(
+				"contentSelector");
+
+		private String wicketId;
+		private Model<String> model;
+
+		private FeedConfigItem(String wicketId) {
+			this.wicketId = wicketId;
+			model = new Model<String>();
+		}
+
+		public String getWicketId() {
+			return wicketId;
+		}
+
+		public IModel<String> getModel() {
+			return model;
+		}
+
+		public String getModelString() {
+			return getModel().getObject();
+		}
+	}
+
 	public CreateFeed() {
-		Form<?> form = new Form<Object>("createFeedForm");
+		final Form<?> form = new Form<Object>("createFeedForm");
 		add(form);
 		add(new NavigationPanel("navigationPanel"));
 
 		form.add(new FeedbackPanel("feedback"));
 
-		final IModel<String> nameModel = new Model<String>();
-		TextField<String> nameField = new TextField<String>("name", nameModel);
-		nameField.setRequired(true);
-		form.add(nameField);
+		final TextField<String> inputField = new TextField<String>("inputField") {
+			// onchange ...
+		};
+		inputField.setVisible(false);
+		// inputField.validate();
+		form.add(inputField);
 
-		final IModel<String> urlModel = new Model<String>();
-		TextField<String> urlField = new TextField<String>("sourceUrl",
-				urlModel);
-		urlField.setRequired(true);
-		urlField.add(Validators.URL_VALIDATOR);
-		form.add(urlField);
+		for (final FeedConfigItem configItem : FeedConfigItem.values()) {
 
-		final IModel<String> descriptionModel = new Model<String>();
-		TextField<String> descriptionField = new TextField<String>(
-				"description", descriptionModel);
-		form.add(descriptionField);
-
-		final SelectorPanel titleSelectorPanel = new SelectorPanel(
-				"titleSelector");
-		titleSelectorPanel.setRequired(true);
-		form.add(titleSelectorPanel);
-
-		final SelectorPanel linkSelectorPanel = new SelectorPanel(
-				"linkSelector");
-		form.add(linkSelectorPanel);
-
-		final SelectorPanel contentSelectorPanel = new SelectorPanel(
-				"contentSelector");
-		form.add(contentSelectorPanel);
+			Link activateButton = new Link(configItem.getWicketId()) {
+				@Override
+				public void onClick() {
+					// inputField.setRequired(true);
+					inputField.setVisible(true);
+					inputField.setModel(configItem.getModel());
+				}
+			};
+			form.add(activateButton);
+		}
 
 		Button submitButton = new Button("submit") {
 
 			@Override
 			public void onSubmit() {
 
-				feedConfig.setName(nameModel.getObject());
-				feedConfig.setUrl(urlModel.getObject());
-				feedConfig.setDescription(descriptionModel.getObject());
-				feedConfig.setTitleSelector(titleSelectorPanel.getSelector());
-				feedConfig.setLinkSelector(linkSelectorPanel.getSelector());
-				feedConfig.setContentSelector(contentSelectorPanel
-						.getSelector());
-				WebClientInfo webClientInfo = (WebClientInfo) this
-						.getRequestCycle().getClientInfo();
-				feedConfig
-						.setUserAgentForScraping(webClientInfo.getUserAgent());
+				feedConfig.setName(FeedConfigItem.NAME.getModelString());
+				feedConfig.setUrl(FeedConfigItem.WEB_PAGE.getModelString());
+				feedConfig.setDescription(FeedConfigItem.DESCRIPTION
+						.getModelString());
+				// feedConfig.setTitleSelector(titleSelectorPanel.getSelector());
+				// feedConfig.setLinkSelector(linkSelectorPanel.getSelector());
+				// feedConfig.setContentSelector(contentSelectorPanel
+				// .getSelector());
+				// WebClientInfo webClientInfo = (WebClientInfo) this
+				// .getRequestCycle().getClientInfo();
+				// feedConfig
+				// .setUserAgentForScraping(webClientInfo.getUserAgent());
 				dataSource.saveFeedConfig(feedConfig);
 
-				getRequestCycle().setRequestTarget(
-						new RedirectRequestTarget(
-								(String) urlFor(new ResourceReference(
-										GeneratedFeedResource.REFERENCE_NAME))
-										+ "?name=" + feedConfig.getName()));
+				// getRequestCycle().setRequestTarget(
+				// new RedirectRequestTarget(
+				// (String) urlFor(new ResourceReference(
+				// GeneratedFeedResource.REFERENCE_NAME))
+				// + "?name=" + feedConfig.getName()));
 			}
 		};
 		form.add(submitButton);

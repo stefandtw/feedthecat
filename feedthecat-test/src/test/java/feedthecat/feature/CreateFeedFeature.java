@@ -28,7 +28,7 @@ public class CreateFeedFeature {
 	public void showErrorMessages() {
 		tester.beginAt("/createFeed");
 
-		tester.clickButtonWithText("Save");
+		tester.clickButtonWithText("Create");
 
 		tester.assertTextPresent("Field 'Name' is required.");
 		tester.assertTextPresent("Field 'URL' is required.");
@@ -55,7 +55,7 @@ public class CreateFeedFeature {
 		// And I set description to 'Wiki News.'
 		page.setFeedDescription("Wiki News.");
 		// And I click the 'Save' button
-		tester.clickButtonWithText("Save");
+		tester.clickButtonWithText("Create");
 		// Then feed item title 0 for 'wikipedia news' is ''
 		page.feedItemTitleIs(0, "wikipedia news",
 				"Noynoy Aquino elected Philippine president");
