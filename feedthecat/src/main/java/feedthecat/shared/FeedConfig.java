@@ -1,6 +1,6 @@
-package feedthecat.webpagefilter;
+package feedthecat.shared;
 
-public class FeedConfig implements Config {
+public class FeedConfig {
 
 	private String name;
 	private String url;
@@ -17,7 +17,6 @@ public class FeedConfig implements Config {
 	public FeedConfig() {
 	}
 
-	@Override
 	public String getUrl() {
 		return url;
 	}
@@ -26,7 +25,6 @@ public class FeedConfig implements Config {
 		this.url = url;
 	}
 
-	@Override
 	public String getName() {
 		return name;
 	}

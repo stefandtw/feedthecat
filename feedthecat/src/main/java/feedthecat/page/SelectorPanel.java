@@ -8,9 +8,9 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import feedthecat.webpagefilter.AllSelector;
-import feedthecat.webpagefilter.Selector;
-import feedthecat.webpagefilter.XPathSelector;
+import feedthecat.shared.AllSelector;
+import feedthecat.shared.Selector;
+import feedthecat.shared.XPathSelector;
 
 public class SelectorPanel extends FormComponentPanel<Selector> {
 

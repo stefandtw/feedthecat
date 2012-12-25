@@ -13,8 +13,8 @@ import org.apache.wicket.request.target.basic.RedirectRequestTarget;
 import com.google.inject.Inject;
 
 import feedthecat.datasource.DataSource;
-import feedthecat.generatedresource.GeneratedFeedResource;
-import feedthecat.webpagefilter.FeedConfig;
+import feedthecat.server.generatedresource.GeneratedFeedResource;
+import feedthecat.shared.FeedConfig;
 
 public class FeedList extends WebPage {
 

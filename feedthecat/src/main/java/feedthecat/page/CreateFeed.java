@@ -12,7 +12,7 @@ import org.apache.wicket.model.Model;
 import com.google.inject.Inject;
 
 import feedthecat.datasource.DataSource;
-import feedthecat.webpagefilter.FeedConfig;
+import feedthecat.shared.FeedConfig;
 
 public class CreateFeed extends WebPage {
 

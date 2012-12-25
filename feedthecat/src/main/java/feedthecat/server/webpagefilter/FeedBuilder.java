@@ -1,4 +1,4 @@
-package feedthecat.webpagefilter;
+package feedthecat.server.webpagefilter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +15,9 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedOutput;
+
+import feedthecat.shared.FeedConfig;
+import feedthecat.shared.Selector;
 
 public class FeedBuilder {
 

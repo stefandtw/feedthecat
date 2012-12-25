@@ -1,10 +1,11 @@
-package feedthecat.webpagefilter;
+package feedthecat.shared;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
+
 
 public class XPathSelector implements Selector {
 

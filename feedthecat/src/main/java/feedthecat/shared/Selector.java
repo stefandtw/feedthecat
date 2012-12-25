@@ -1,4 +1,4 @@
-package feedthecat.webpagefilter;
+package feedthecat.shared;
 
 import java.io.Serializable;
 import java.util.List;

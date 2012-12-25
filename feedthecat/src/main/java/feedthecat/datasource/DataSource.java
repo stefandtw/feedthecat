@@ -2,7 +2,7 @@ package feedthecat.datasource;
 
 import java.util.List;
 
-import feedthecat.webpagefilter.FeedConfig;
+import feedthecat.shared.FeedConfig;
 
 public interface DataSource {
 

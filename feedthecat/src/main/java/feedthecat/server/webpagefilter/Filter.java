@@ -1,4 +1,4 @@
-package feedthecat.webpagefilter;
+package feedthecat.server.webpagefilter;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
+import feedthecat.shared.Selector;
 
 public class Filter {
 

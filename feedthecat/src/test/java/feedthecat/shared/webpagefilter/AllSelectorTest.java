@@ -1,33 +1,33 @@
-package feedthecat.webpagefilter;
+package feedthecat.shared.webpagefilter;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.List;
 
 import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import feedthecat.page.tools.LocalResource;
+import feedthecat.server.webpagefilter.Filter;
+import feedthecat.shared.AllSelector;
 
-public class EmptySelectorTest {
+public class AllSelectorTest {
+
 	private static final String NEWS_URL = new LocalResource("Wikinews.html")
 			.getUrl();
 
 	@Test
-	public void selectionIsEmpty() throws FailingHttpStatusCodeException,
+	public void selectionEqualsInput() throws FailingHttpStatusCodeException,
 			MalformedURLException, IOException {
 		Filter filter = new Filter(NEWS_URL);
-		HtmlPage page = filter.loadPage();
-		List<HtmlElement> selection = new EmptySelector().getElements(page
-				.getDocumentElement());
+		String unfilteredPageText = filter.loadPage().asText();
+		HtmlPage filteredPage = filter.getResultPage(new AllSelector());
 
-		assertThat(selection.size(), is(0));
+		assertThat(filteredPage.asText(), equalTo(unfilteredPageText));
 	}
 
 }

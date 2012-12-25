@@ -1,4 +1,4 @@
-package feedthecat.generatedresource;
+package feedthecat.server.generatedresource;
 
 import java.io.UnsupportedEncodingException;
 
@@ -7,8 +7,8 @@ import org.apache.wicket.markup.html.DynamicWebResource;
 import com.google.inject.Inject;
 
 import feedthecat.datasource.DataSource;
-import feedthecat.webpagefilter.FeedBuilder;
-import feedthecat.webpagefilter.FeedConfig;
+import feedthecat.server.webpagefilter.FeedBuilder;
+import feedthecat.shared.FeedConfig;
 
 public class GeneratedFeedResource extends DynamicWebResource {
 

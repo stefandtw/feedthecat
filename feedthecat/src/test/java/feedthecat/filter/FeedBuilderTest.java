@@ -17,9 +17,9 @@ import com.sun.syndication.io.XmlReader;
 
 import feedthecat.page.tools.FeedAssert;
 import feedthecat.page.tools.LocalResource;
-import feedthecat.webpagefilter.FeedBuilder;
-import feedthecat.webpagefilter.FeedConfig;
-import feedthecat.webpagefilter.XPathSelector;
+import feedthecat.server.webpagefilter.FeedBuilder;
+import feedthecat.shared.FeedConfig;
+import feedthecat.shared.XPathSelector;
 
 public class FeedBuilderTest {
 

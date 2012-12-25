@@ -17,8 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Singleton;
 import com.thoughtworks.xstream.XStream;
 
-import feedthecat.webpagefilter.Config;
-import feedthecat.webpagefilter.FeedConfig;
+import feedthecat.shared.FeedConfig;
 
 @Singleton
 public class XmlFileDataSource implements DataSource {
@@ -32,7 +31,7 @@ public class XmlFileDataSource implements DataSource {
 		xstream = new XStream();
 	}
 
-	private Config loadConfig(String fileName) {
+	private FeedConfig loadConfig(String fileName) {
 		Reader reader;
 		try {
 			reader = new FileReader(fileName);
@@ -40,7 +39,7 @@ public class XmlFileDataSource implements DataSource {
 			logger.error("Can't read " + fileName, e);
 			return null;
 		}
-		Config config = (Config) xstream.fromXML(reader);
+		FeedConfig config = (FeedConfig) xstream.fromXML(reader);
 		try {
 			reader.close();
 		} catch (IOException e) {
@@ -49,7 +48,7 @@ public class XmlFileDataSource implements DataSource {
 		return config;
 	}
 
-	private void saveConfig(Config config, String fileName) {
+	private void saveConfig(FeedConfig config, String fileName) {
 		Writer writer;
 		try {
 			writer = new FileWriter(fileName);
@@ -67,7 +66,7 @@ public class XmlFileDataSource implements DataSource {
 
 	@Override
 	public FeedConfig loadFeedConfig(String name) {
-		return (FeedConfig) loadConfig(name + FEED_EXTENSION);
+		return loadConfig(name + FEED_EXTENSION);
 	}
 
 	@Override
@@ -85,7 +84,7 @@ public class XmlFileDataSource implements DataSource {
 		});
 		List<FeedConfig> feeds = new ArrayList<FeedConfig>();
 		for (String fileName : fileNames) {
-			feeds.add((FeedConfig) loadConfig(fileName));
+			feeds.add(loadConfig(fileName));
 		}
 		return feeds;
 	}

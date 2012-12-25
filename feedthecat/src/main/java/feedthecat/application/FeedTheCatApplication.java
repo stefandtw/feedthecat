@@ -5,9 +5,9 @@ import org.apache.wicket.ResourceReference;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.protocol.http.WebApplication;
 
-import feedthecat.generatedresource.GeneratedFeedResource;
 import feedthecat.page.CreateFeed;
 import feedthecat.page.FeedList;
+import feedthecat.server.generatedresource.GeneratedFeedResource;
 
 public class FeedTheCatApplication extends WebApplication {
 
