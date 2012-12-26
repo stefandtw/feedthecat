@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.inject.Inject;
 
-import feedthecat.client.FeedsService;
+import feedthecat.client.service.FeedsService;
 import feedthecat.datasource.DataSource;
 import feedthecat.shared.FeedConfig;
 

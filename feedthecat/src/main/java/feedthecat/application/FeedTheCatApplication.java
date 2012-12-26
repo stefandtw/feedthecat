@@ -5,19 +5,13 @@ import org.apache.wicket.ResourceReference;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.protocol.http.WebApplication;
 
-import feedthecat.page.CreateFeed;
-import feedthecat.page.FeedList;
+import feedthecat.client.CreateFeed;
 import feedthecat.server.generatedresource.GeneratedFeedResource;
 
 public class FeedTheCatApplication extends WebApplication {
 
 	public FeedTheCatApplication() {
 
-	}
-
-	@Override
-	public Class<? extends Page> getHomePage() {
-		return FeedList.class;
 	}
 
 	@Override
@@ -46,6 +40,11 @@ public class FeedTheCatApplication extends WebApplication {
 
 	private void mountPageUrls() {
 		mountBookmarkablePage("createFeed", CreateFeed.class);
-		mountBookmarkablePage("feedList", FeedList.class);
+	}
+
+	@Override
+	public Class<? extends Page> getHomePage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

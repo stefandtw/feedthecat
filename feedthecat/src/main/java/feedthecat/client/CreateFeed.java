@@ -1,4 +1,4 @@
-package feedthecat.page;
+package feedthecat.client;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Button;
@@ -49,7 +49,7 @@ public class CreateFeed extends WebPage {
 	public CreateFeed() {
 		final Form<?> form = new Form<Object>("createFeedForm");
 		add(form);
-		add(new NavigationPanel("navigationPanel"));
+		// add(new NavigationPanel("navigationPanel"));
 
 		form.add(new FeedbackPanel("feedback"));
 
@@ -82,6 +82,13 @@ public class CreateFeed extends WebPage {
 				feedConfig.setUrl(FeedConfigItem.WEB_PAGE.getModelString());
 				feedConfig.setDescription(FeedConfigItem.DESCRIPTION
 						.getModelString());
+				// //important for empty selectors:
+				// if (xpath == null) {
+				// xpath = "//body/*";
+				// }
+				// selector = new XPathSelector(xpath);
+				// /////
+
 				// feedConfig.setTitleSelector(titleSelectorPanel.getSelector());
 				// feedConfig.setLinkSelector(linkSelectorPanel.getSelector());
 				// feedConfig.setContentSelector(contentSelectorPanel

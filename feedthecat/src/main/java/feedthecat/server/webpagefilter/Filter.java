@@ -31,8 +31,8 @@ public class Filter {
 
 	public HtmlPage loadPage() {
 		WebClient webClient = new WebClient();
-		webClient.setThrowExceptionOnFailingStatusCode(false);
-		webClient.setThrowExceptionOnScriptError(false);
+		webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+		webClient.getOptions().setThrowExceptionOnScriptError(false);
 		if (userAgent != null) {
 			webClient.getBrowserVersion().setUserAgent(userAgent);
 		}

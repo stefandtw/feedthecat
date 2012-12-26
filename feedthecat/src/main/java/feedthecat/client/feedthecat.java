@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import feedthecat.client.service.FeedsService;
 import feedthecat.shared.FeedConfig;
 
 /**
