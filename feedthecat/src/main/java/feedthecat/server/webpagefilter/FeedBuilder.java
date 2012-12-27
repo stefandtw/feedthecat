@@ -2,6 +2,7 @@ package feedthecat.server.webpagefilter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -17,7 +18,6 @@ import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedOutput;
 
 import feedthecat.shared.FeedConfig;
-import feedthecat.shared.Selector;
 
 public class FeedBuilder {
 
@@ -53,10 +53,9 @@ public class FeedBuilder {
 	private List<SyndEntry> createEntries() {
 		filter.setUserAgent(feedConfig.getUserAgentForScraping());
 		HtmlPage page = filter.loadPage();
-		Selector titleSelector = feedConfig.getTitleSelector();
-		List<HtmlElement> titleElements = titleSelector.getElements(page
-				.getDocumentElement());
-		Selector contentSelector = feedConfig.getContentSelector();
+		HtmlElement baseElement = page.getDocumentElement();
+		List<HtmlElement> titleElements = getElements(baseElement,
+				feedConfig.getTitleSelectorString());
 
 		List<SyndEntry> entries = new ArrayList<SyndEntry>();
 		for (HtmlElement titleElement : titleElements) {
@@ -66,18 +65,27 @@ public class FeedBuilder {
 
 			SyndContent content = new SyndContentImpl();
 			content.setType(Content.HTML);
-			String contentValue = Filter.asHtmlSource(contentSelector
-					.getElements(titleElement));
+			String contentValue = Filter.asHtmlSource(getElements(titleElement,
+					feedConfig.getContentSelectorString()));
 			content.setValue(contentValue);
 			entry.setContents(Arrays.asList(content));
 
-			List<HtmlElement> linkElementList = feedConfig.getLinkSelector()
-					.getElements(titleElement);
+			List<HtmlElement> linkElementList = getElements(titleElement,
+					feedConfig.getLinkSelectorString());
 			String entryLink = Filter.getLinkSource(linkElementList);
 			entry.setLink(entryLink);
 
 			entries.add(entry);
 		}
 		return entries;
+	}
+
+	private List<HtmlElement> getElements(HtmlElement baseElement,
+			String xPathSelectorString) {
+		if (xPathSelectorString == null || xPathSelectorString.isEmpty()) {
+			return Collections.emptyList();
+		}
+		Selector selector = new XPathSelector(xPathSelectorString);
+		return selector.getElements(baseElement);
 	}
 }

@@ -19,7 +19,6 @@ import feedthecat.page.tools.FeedAssert;
 import feedthecat.page.tools.LocalResource;
 import feedthecat.server.webpagefilter.FeedBuilder;
 import feedthecat.shared.FeedConfig;
-import feedthecat.shared.XPathSelector;
 
 public class FeedBuilderTest {
 
@@ -90,8 +89,8 @@ public class FeedBuilderTest {
 		FeedConfig config = new FeedConfig();
 		config.setName(NEWS_NAME);
 		String titleXPath = "/html/body/div[@id='content']/div[@id='bodyContent']/table/tbody/tr[2]/td[@id='MainPage_latest_news']/div[@id='MainPage_latest_news_text']/ul/li/a";
-		config.setTitleSelector(new XPathSelector(titleXPath));
-		config.setLinkSelector(new XPathSelector("."));
+		config.setTitleSelectorString(titleXPath);
+		config.setLinkSelectorString(".");
 		config.setUrl(NEWS_URL);
 		config.setDescription(NEWS_DESCRIPTION);
 		return config;

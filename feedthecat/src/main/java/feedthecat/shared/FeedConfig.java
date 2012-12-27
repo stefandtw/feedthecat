@@ -1,13 +1,15 @@
 package feedthecat.shared;
 
-public class FeedConfig {
+import java.io.Serializable;
+
+public class FeedConfig implements Serializable {
 
 	private String name;
 	private String url;
 	private String description = "";
-	private Selector titleSelector;
-	private Selector contentSelector = new EmptySelector();
-	private Selector linkSelector = new EmptySelector();
+	private String titleSelectorString;
+	private String contentSelectorString;
+	private String linkSelectorString;
 	private String userAgentForScraping;
 
 	public FeedConfig(String url) {
@@ -41,28 +43,28 @@ public class FeedConfig {
 		return description;
 	}
 
-	public Selector getTitleSelector() {
-		return titleSelector;
+	public String getTitleSelectorString() {
+		return titleSelectorString;
 	}
 
-	public void setTitleSelector(Selector titleSelector) {
-		this.titleSelector = titleSelector;
+	public void setTitleSelectorString(String titleSelectorString) {
+		this.titleSelectorString = titleSelectorString;
 	}
 
-	public Selector getContentSelector() {
-		return contentSelector;
+	public String getContentSelectorString() {
+		return contentSelectorString;
 	}
 
-	public void setContentSelector(Selector contentSelector) {
-		this.contentSelector = contentSelector;
+	public void setContentSelectorString(String contentSelectorString) {
+		this.contentSelectorString = contentSelectorString;
 	}
 
-	public Selector getLinkSelector() {
-		return linkSelector;
+	public String getLinkSelectorString() {
+		return linkSelectorString;
 	}
 
-	public void setLinkSelector(Selector linkSelector) {
-		this.linkSelector = linkSelector;
+	public void setLinkSelectorString(String linkSelectorString) {
+		this.linkSelectorString = linkSelectorString;
 	}
 
 	public void setUserAgentForScraping(String userAgent) {

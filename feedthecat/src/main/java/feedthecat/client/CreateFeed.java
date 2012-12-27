@@ -1,81 +1,56 @@
 package feedthecat.client;
 
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 
-import com.google.inject.Inject;
-
-import feedthecat.datasource.DataSource;
+import feedthecat.client.service.FeedCreationService;
 import feedthecat.shared.FeedConfig;
 
-public class CreateFeed extends WebPage {
+public class CreateFeed {
+	private final FeedCreationService feedCreationService = GWT
+			.create(FeedCreationService.class);
 
-	@Inject
-	private DataSource dataSource;
 	private final FeedConfig feedConfig = new FeedConfig();
 
 	public enum FeedConfigItem {
-		NAME("name"), WEB_PAGE("sourceUrl"), DESCRIPTION("description"), TITLE_SELECTOR(
-				"titleSelector"), LINKS_SELECTOR("linkSelector"), CONTENT_SELECTOR(
-				"contentSelector");
-
-		private String wicketId;
-		private Model<String> model;
-
-		private FeedConfigItem(String wicketId) {
-			this.wicketId = wicketId;
-			model = new Model<String>();
-		}
-
-		public String getWicketId() {
-			return wicketId;
-		}
-
-		public IModel<String> getModel() {
-			return model;
-		}
+		NAME, WEB_PAGE, DESCRIPTION, TITLE_SELECTOR, LINKS_SELECTOR, CONTENT_SELECTOR;
 
 		public String getModelString() {
-			return getModel().getObject();
+			// return getModel().getObject();
+			return "TODO";
 		}
 	}
 
 	public CreateFeed() {
-		final Form<?> form = new Form<Object>("createFeedForm");
-		add(form);
+		// final Form<?> form = new Form<Object>("createFeedForm");
+		// add(form);
 		// add(new NavigationPanel("navigationPanel"));
 
-		form.add(new FeedbackPanel("feedback"));
-
-		final TextField<String> inputField = new TextField<String>("inputField") {
-			// onchange ...
-		};
-		inputField.setVisible(false);
+		// final TextField<String> inputField = new
+		// TextField<String>("inputField") {
+		// onchange ...
+		// };
+		// inputField.setVisible(false);
 		// inputField.validate();
-		form.add(inputField);
+		// form.add(inputField);
 
 		for (final FeedConfigItem configItem : FeedConfigItem.values()) {
 
-			Link activateButton = new Link(configItem.getWicketId()) {
-				@Override
-				public void onClick() {
-					// inputField.setRequired(true);
-					inputField.setVisible(true);
-					inputField.setModel(configItem.getModel());
-				}
+			Anchor activateButton = new Anchor() {
+				// @Override
+				// public void onClick() {
+				// // inputField.setRequired(true);
+				// inputField.setVisible(true);
+				// inputField.setModel(configItem.getModel());
+				// }
 			};
-			form.add(activateButton);
+			// form.add(activateButton);
 		}
 
 		Button submitButton = new Button("submit") {
 
-			@Override
+			// @Override
 			public void onSubmit() {
 
 				feedConfig.setName(FeedConfigItem.NAME.getModelString());
@@ -97,7 +72,7 @@ public class CreateFeed extends WebPage {
 				// .getRequestCycle().getClientInfo();
 				// feedConfig
 				// .setUserAgentForScraping(webClientInfo.getUserAgent());
-				dataSource.saveFeedConfig(feedConfig);
+				feedCreationService.createFeed(feedConfig);
 
 				// getRequestCycle().setRequestTarget(
 				// new RedirectRequestTarget(
@@ -106,6 +81,6 @@ public class CreateFeed extends WebPage {
 				// + "?name=" + feedConfig.getName()));
 			}
 		};
-		form.add(submitButton);
+		// form.add(submitButton);
 	}
 }

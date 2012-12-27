@@ -1,22 +1,25 @@
 package feedthecat.client;
 
+import java.util.List;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import feedthecat.client.service.FeedsService;
+import feedthecat.client.service.FeedsServiceAsync;
 import feedthecat.shared.FeedConfig;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class feedthecat implements EntryPoint {
+public class FeedList implements EntryPoint {
 	/**
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
@@ -29,13 +32,12 @@ public class feedthecat implements EntryPoint {
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
 	 */
-	private final FeedsService feedsService = GWT.create(FeedsService.class);
+	private final FeedsServiceAsync feedsService = GWT
+			.create(FeedsService.class);
 
-	private final Messages messages = GWT.create(Messages.class);
+	// private final Messages messages = GWT.create(Messages.class);
 
-	/**
-	 * This is the entry point method.
-	 */
+	@Override
 	public void onModuleLoad() {
 		// final Button sendButton = new Button(messages.createButton());
 		// final TextBox nameField = new TextBox();
@@ -46,25 +48,45 @@ public class feedthecat implements EntryPoint {
 		// sendButton.addStyleName("sendButton");
 
 		final VerticalPanel feedListPanel = new VerticalPanel();
+		feedsService.getFeedConfigs(new AsyncCallback<List<FeedConfig>>() {
 
-		for (final FeedConfig feedConfig : feedsService.getFeedConfigs()) {
-			final HorizontalPanel feedItem = new HorizontalPanel();
-			feedListPanel.add(feedItem);
-			Anchor feedLink = new Anchor(feedConfig.getName(), "/feed?name="
-					+ feedConfig.getName());
+			@Override
+			public void onSuccess(List<FeedConfig> feedConfigs) {
+				for (final FeedConfig feedConfig : feedConfigs) {
+					final HorizontalPanel feedItem = new HorizontalPanel();
+					feedListPanel.add(feedItem);
+					Anchor feedLink = new Anchor(feedConfig.getName(),
+							"/feed?name=" + feedConfig.getName());
 
-			Anchor deleteLink = new Anchor("TODO: messages.deleteLink()");
-			deleteLink.addClickHandler(new ClickHandler() {
+					Anchor deleteLink = new Anchor(
+							"TODO: messages.deleteLink()");
+					deleteLink.addClickHandler(new ClickHandler() {
 
-				@Override
-				public void onClick(ClickEvent event) {
-					feedsService.deleteFeed(feedConfig);
-					feedListPanel.remove(feedItem);
+						@Override
+						public void onClick(ClickEvent event) {
+							feedsService.deleteFeed(feedConfig,
+									new AsyncCallback<Void>() {
+
+										@Override
+										public void onSuccess(Void arg0) {
+											feedListPanel.remove(feedItem);
+										}
+
+										@Override
+										public void onFailure(Throwable arg0) {
+										}
+									});
+						}
+					});
+					feedItem.add(feedLink);
+					feedItem.add(deleteLink);
 				}
-			});
-			feedItem.add(feedLink);
-			feedItem.add(deleteLink);
-		}
+			}
+
+			@Override
+			public void onFailure(Throwable arg0) {
+			}
+		});
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
 		RootPanel.get("feedList").add(feedListPanel);

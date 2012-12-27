@@ -1,4 +1,4 @@
-package feedthecat.shared;
+package feedthecat.server.webpagefilter;
 
 import java.util.Collections;
 import java.util.List;
