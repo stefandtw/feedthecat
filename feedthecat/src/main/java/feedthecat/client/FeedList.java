@@ -8,12 +8,15 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import feedthecat.application.ServletConfig;
 import feedthecat.client.service.FeedsService;
 import feedthecat.client.service.FeedsServiceAsync;
+import feedthecat.server.FeedBuilderServlet;
 import feedthecat.shared.FeedConfig;
 
 /**
@@ -35,7 +38,7 @@ public class FeedList implements EntryPoint {
 	private final FeedsServiceAsync feedsService = GWT
 			.create(FeedsService.class);
 
-	// private final Messages messages = GWT.create(Messages.class);
+	private final Messages messages = GWT.create(Messages.class);
 
 	@Override
 	public void onModuleLoad() {
@@ -55,11 +58,15 @@ public class FeedList implements EntryPoint {
 				for (final FeedConfig feedConfig : feedConfigs) {
 					final HorizontalPanel feedItem = new HorizontalPanel();
 					feedListPanel.add(feedItem);
-					Anchor feedLink = new Anchor(feedConfig.getName(),
-							"/feed?name=" + feedConfig.getName());
+					String feedHref = "" + //
+							ServletConfig.FEED_BUILDER_PATH //
+							+ "?"//
+							+ FeedBuilderServlet.PARAMETER_KEY_NAME//
+							+ "="//
+							+ feedConfig.getName();
+					Anchor feedLink = new Anchor(feedConfig.getName(), feedHref);
 
-					Anchor deleteLink = new Anchor(
-							"TODO: messages.deleteLink()");
+					Anchor deleteLink = new Anchor(messages.deleteLink());
 					deleteLink.addClickHandler(new ClickHandler() {
 
 						@Override
@@ -79,7 +86,9 @@ public class FeedList implements EntryPoint {
 						}
 					});
 					feedItem.add(feedLink);
+					feedItem.add(new HTML(" ["));
 					feedItem.add(deleteLink);
+					feedItem.add(new HTML("]"));
 				}
 			}
 

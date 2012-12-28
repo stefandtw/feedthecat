@@ -2,17 +2,17 @@ package feedthecat.server;
 
 import com.google.inject.Inject;
 
-import feedthecat.client.service.FeedCreationService;
+import feedthecat.client.service.NewFeedService;
 import feedthecat.datasource.DataSource;
 import feedthecat.shared.FeedConfig;
 
-public class FeedCreationServiceImpl implements FeedCreationService {
+public class NewFeedServiceImpl implements NewFeedService {
 
 	@Inject
 	private DataSource dataSource;
 
 	@Override
-	public void createFeed(FeedConfig feedConfig) {
+	public void createNewFeed(FeedConfig feedConfig) {
 		dataSource.saveFeedConfig(feedConfig);
 	}
 }

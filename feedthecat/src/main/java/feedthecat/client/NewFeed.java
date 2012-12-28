@@ -4,12 +4,12 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 
-import feedthecat.client.service.FeedCreationService;
+import feedthecat.client.service.NewFeedService;
 import feedthecat.shared.FeedConfig;
 
-public class CreateFeed {
-	private final FeedCreationService feedCreationService = GWT
-			.create(FeedCreationService.class);
+public class NewFeed {
+	private final NewFeedService newFeedService = GWT
+			.create(NewFeedService.class);
 
 	private final FeedConfig feedConfig = new FeedConfig();
 
@@ -22,7 +22,7 @@ public class CreateFeed {
 		}
 	}
 
-	public CreateFeed() {
+	public NewFeed() {
 		// final Form<?> form = new Form<Object>("createFeedForm");
 		// add(form);
 		// add(new NavigationPanel("navigationPanel"));
@@ -72,7 +72,7 @@ public class CreateFeed {
 				// .getRequestCycle().getClientInfo();
 				// feedConfig
 				// .setUserAgentForScraping(webClientInfo.getUserAgent());
-				feedCreationService.createFeed(feedConfig);
+				newFeedService.createNewFeed(feedConfig);
 
 				// getRequestCycle().setRequestTarget(
 				// new RedirectRequestTarget(
