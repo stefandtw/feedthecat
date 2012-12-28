@@ -28,9 +28,9 @@ public class FeedBuilderServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String feedName = req.getParameter(PARAMETER_KEY_NAME);
 		byte[] feedContent = loadFeedContent(feedName);
+		resp.setContentType("application/atom+xml");
 		resp.getOutputStream().write(feedContent);
 		resp.getOutputStream().close();
-		resp.setContentType("application/atom+xml");
 	}
 
 	private byte[] loadFeedContent(String feedName) {

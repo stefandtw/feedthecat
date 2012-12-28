@@ -12,7 +12,6 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-
 public class Filter {
 
 	private static final Logger logger = LoggerFactory.getLogger(Filter.class);
@@ -30,8 +29,8 @@ public class Filter {
 
 	public HtmlPage loadPage() {
 		WebClient webClient = new WebClient();
-		webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-		webClient.getOptions().setThrowExceptionOnScriptError(false);
+		webClient.setThrowExceptionOnFailingStatusCode(false);
+		webClient.setThrowExceptionOnScriptError(false);
 		if (userAgent != null) {
 			webClient.getBrowserVersion().setUserAgent(userAgent);
 		}

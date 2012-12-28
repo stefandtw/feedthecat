@@ -25,7 +25,10 @@
 		<dependency>
 			<groupId>net.sourceforge.htmlunit</groupId>
 			<artifactId>htmlunit</artifactId>
-			<version>2.11</version>
+			<!-- As long as gwt-dev.jar is used by the same classloader as server-side 
+				dependencies, the htmlunit version has to match the one in gwt-dev.jar to 
+				prevent version conflicts. -->
+			<version>2.9</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -65,7 +68,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.8</version> 
+			<version>1.5.8</version>
 		</dependency>
 		<dependency>
 			<groupId>net.java.dev.rome</groupId>
@@ -106,18 +109,8 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
 				<version>2.5.0</version>
-				<!-- 
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>test</goal>
-							<goal>i18n</goal>
-							<goal>generateAsync</goal>
-						</goals>
-					</execution>
-				</executions>
-				 -->
+				<!-- <executions> <execution> <goals> <goal>compile</goal> <goal>test</goal> 
+					<goal>i18n</goal> <goal>generateAsync</goal> </goals> </execution> </executions> -->
 				<!-- Plugin configuration. There are many available options, see gwt-maven-plugin 
 					documentation at codehaus.org -->
 				<configuration>
