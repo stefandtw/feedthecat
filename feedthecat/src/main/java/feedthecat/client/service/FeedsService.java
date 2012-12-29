@@ -5,9 +5,10 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import feedthecat.application.ServletConfig;
 import feedthecat.shared.FeedConfig;
 
-@RemoteServiceRelativePath("feeds")
+@RemoteServiceRelativePath(ServletConfig.FEEDS_SERVICE_RELATIVE_PATH)
 public interface FeedsService extends RemoteService {
 
 	List<FeedConfig> getFeedConfigs();

@@ -1,47 +1,19 @@
 package feedthecat.client;
 
-import java.util.List;
-
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
-import feedthecat.application.ServletConfig;
-import feedthecat.client.service.FeedsService;
-import feedthecat.client.service.FeedsServiceAsync;
-import feedthecat.server.FeedBuilderServlet;
-import feedthecat.shared.FeedConfig;
-
-/**
- * Entry point classes define <code>onModuleLoad()</code>.
- */
-public class FeedList implements EntryPoint {
-	/**
-	 * The message displayed to the user when the server cannot be reached or
-	 * returns an error.
-	 */
-	private static final String SERVER_ERROR = "An error occurred while "
-			+ "attempting to contact the server. Please check your network "
-			+ "connection and try again.";
-
-	/**
-	 * Create a remote service proxy to talk to the server-side Greeting
-	 * service.
-	 */
-	private final FeedsServiceAsync feedsService = GWT
-			.create(FeedsService.class);
-
-	private final Messages messages = GWT.create(Messages.class);
+public class ClientEntryPoint implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+		if (pageContains("feedList")) {
+			addPanel(new FeedListView(), "feedList");
+		}
+		if (pageContains("newFeed")) {
+			addPanel(new NewFeedView(), "newFeed");
+		}
 		// final Button sendButton = new Button(messages.createButton());
 		// final TextBox nameField = new TextBox();
 		// nameField.setText("foo bar");
@@ -50,60 +22,7 @@ public class FeedList implements EntryPoint {
 		// // We can add style names to widgets
 		// sendButton.addStyleName("sendButton");
 
-		final VerticalPanel feedListPanel = new VerticalPanel();
-		feedsService.getFeedConfigs(new AsyncCallback<List<FeedConfig>>() {
-
-			@Override
-			public void onSuccess(List<FeedConfig> feedConfigs) {
-				for (final FeedConfig feedConfig : feedConfigs) {
-					final HorizontalPanel feedItem = new HorizontalPanel();
-					feedListPanel.add(feedItem);
-					String feedHref = "" + //
-							ServletConfig.FEED_BUILDER_PATH //
-							+ "?"//
-							+ FeedBuilderServlet.PARAMETER_KEY_NAME//
-							+ "="//
-							+ feedConfig.getName();
-					Anchor feedLink = new Anchor(feedConfig.getName(), feedHref);
-
-					Anchor deleteLink = new Anchor(messages.deleteLink());
-					deleteLink.addClickHandler(new ClickHandler() {
-
-						@Override
-						public void onClick(ClickEvent event) {
-							feedsService.deleteFeed(feedConfig,
-									new AsyncCallback<Void>() {
-
-										@Override
-										public void onSuccess(Void arg0) {
-											feedListPanel.remove(feedItem);
-										}
-
-										@Override
-										public void onFailure(Throwable arg0) {
-										}
-									});
-						}
-					});
-					feedItem.add(feedLink);
-					feedItem.add(new HTML(" ["));
-					feedItem.add(deleteLink);
-					feedItem.add(new HTML("]"));
-				}
-			}
-
-			@Override
-			public void onFailure(Throwable arg0) {
-			}
-		});
-		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
-		RootPanel.get("feedList").add(feedListPanel);
-		// TODO: RootPanel.get("navigationPanel").add(
-		// new NavigationPanel("navigationPanel"));
-
-		// Strin serverInfo = geSevletContext().getServerInfo();
-		// String userAgent = getThreadLocalRequest().getHeader("User-Agent");
 
 		// ////////////////
 		// RootPanel.get("sendButtonContainer").add(sendButton);
@@ -205,5 +124,14 @@ public class FeedList implements EntryPoint {
 		// MyHandler handler = new MyHandler();
 		// sendButton.addClickHandler(handler);
 		// nameField.addKeyUpHandler(handler);
+	}
+
+	private boolean pageContains(String elementId) {
+		return RootPanel.get(elementId) != null;
+	}
+
+	private void addPanel(Panel panel, String elementId) {
+		RootPanel rootElement = RootPanel.get(elementId);
+		rootElement.add(panel);
 	}
 }

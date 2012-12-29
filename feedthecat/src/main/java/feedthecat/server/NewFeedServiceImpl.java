@@ -1,12 +1,16 @@
 package feedthecat.server;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import feedthecat.client.service.NewFeedService;
 import feedthecat.datasource.DataSource;
 import feedthecat.shared.FeedConfig;
 
-public class NewFeedServiceImpl implements NewFeedService {
+@Singleton
+public class NewFeedServiceImpl extends RemoteServiceServlet implements
+		NewFeedService {
 
 	@Inject
 	private DataSource dataSource;
