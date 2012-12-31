@@ -1,18 +1,21 @@
 package feedthecat.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class ClientEntryPoint implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
 		if (pageContains("feedList")) {
-			addPanel(new FeedListView(), "feedList");
+			add(new FeedListView(), "feedList");
 		}
 		if (pageContains("newFeed")) {
-			addPanel(new NewFeedView(), "newFeed");
+			String webPageUrl = Window.Location.getParameter("url");
+			add(new NewFeedView(webPageUrl), "newFeed");
+			add(new ExternalPageFrame(webPageUrl), "newFeed");
 		}
 		// final Button sendButton = new Button(messages.createButton());
 		// final TextBox nameField = new TextBox();
@@ -130,8 +133,8 @@ public class ClientEntryPoint implements EntryPoint {
 		return RootPanel.get(elementId) != null;
 	}
 
-	private void addPanel(Panel panel, String elementId) {
+	private void add(Widget widget, String elementId) {
 		RootPanel rootElement = RootPanel.get(elementId);
-		rootElement.add(panel);
+		rootElement.add(widget);
 	}
 }

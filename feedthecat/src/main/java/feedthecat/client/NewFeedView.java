@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
@@ -99,7 +100,9 @@ public class NewFeedView extends VerticalPanel {
 		}
 	}
 
-	public NewFeedView() {
+	public NewFeedView(String webPageUrl) {
+		feedConfig.setUrl(webPageUrl);
+
 		final VerticalPanel errorPanel = new VerticalPanel();
 		add(errorPanel);
 
@@ -114,7 +117,6 @@ public class NewFeedView extends VerticalPanel {
 						inputField.getValue());
 			}
 		});
-		// inputField.validate();
 
 		Panel buttonPanel = new HorizontalPanel();
 		buttonPanel.add(new Label(messages.label_GlobalFeedConfigItems()));
@@ -139,26 +141,11 @@ public class NewFeedView extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
-				// //important for empty selectors:
-				// if (xpath == null) {
-				// xpath = "//body/*";
-				// }
-				// selector = new XPathSelector(xpath);
-				// /////
-
-				// feedConfig.setTitleSelector(titleSelectorPanel.getSelector());
-				// feedConfig.setLinkSelector(linkSelectorPanel.getSelector());
-				// feedConfig.setContentSelector(contentSelectorPanel
-				// .getSelector());
-				// WebClientInfo webClientInfo = (WebClientInfo) this
-				// .getRequestCycle().getClientInfo();
-				// feedConfig
-				// .setUserAgentForScraping(webClientInfo.getUserAgent());
-
-				// Strin serverInfo = geSevletContext().getServerInfo();
-				// String userAgent =
-				// getThreadLocalRequest().getHeader("User-Agent");
+				if (feedConfig.getContentSelectorString().isEmpty()) {
+					feedConfig.setContentSelectorString("//body/*");
+				}
+				String userAgent = Navigator.getUserAgent();
+				feedConfig.setUserAgentForScraping(userAgent);
 
 				errorPanel.clear();
 				newFeedService.createNewFeed(feedConfig,
@@ -177,12 +164,6 @@ public class NewFeedView extends VerticalPanel {
 										.error_CreateNewFeedFailed()));
 							}
 						});
-
-				// getRequestCycle().setRequestTarget(
-				// new RedirectRequestTarget(
-				// (String) urlFor(new ResourceReference(
-				// GeneratedFeedResource.REFERENCE_NAME))
-				// + "?name=" + feedConfig.getName()));
 			}
 		});
 		add(submitButton);
@@ -203,7 +184,6 @@ public class NewFeedView extends VerticalPanel {
 					currentConfigItem = configItem;
 					inputPanelField.setValue(configItem
 							.getFeedConfigValue(feedConfig));
-					// inputField.setModel(configItem.getModel());
 				}
 			});
 			buttonPanel.add(activateButton);
