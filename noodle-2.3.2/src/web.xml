@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+    "http://java.sun.com/j2ee/dtds/web-app_2.2.dtd">
+
+<web-app>
+    <servlet>
+        <servlet-name>Noodle</servlet-name>
+        <servlet-class>org.tigris.noodle.servlets.Noodle</servlet-class>
+        <init-param>
+            <param-name>properties</param-name>
+            <param-value>/WEB-INF/NoodleResources.properties</param-value>
+        </init-param>
+    </servlet> 
+
+    <servlet-mapping>
+        <servlet-name>Noodle</servlet-name>
+        <url-pattern>/Noodle</url-pattern>
+    </servlet-mapping> 
+
+    <servlet>
+        <servlet-name>NoodleTest</servlet-name>
+        <servlet-class>org.tigris.noodle.servlets.NoodleTest</servlet-class>
+    </servlet> 
+
+    <servlet-mapping>
+        <servlet-name>NoodleTest</servlet-name>
+        <url-pattern>/NoodleTest</url-pattern>
+    </servlet-mapping> 
+
+</web-app>

@@ -1,0 +1,24 @@
+
+Ant is a build system that was developed for the Jakarta Tomcat project and 
+was used internally at Sun. It was originally developed by James Davidson 
+<duncan@eng.sun.com> and has been extended by others including myself. When 
+Jakarta was released as Open Source, the developer community also obtained 
+the source to Ant as well. This is a great addition to the community.
+
+You can obtain the Ant source code from <http://jakarta.apache.org/>. It is 
+currently located in the jakarta-tools CVS repository.
+
+The build.xml file is the "code" that tells Ant what to do. The 
+beauty of Ant is that it is entirely XML based so creating installation 
+scripts is as easy as creating a XML file. You should not need to edit the 
+build.xml file unless you wish to change paths of things.
+
+The build-noodle.sh and build-noodle.bat scripts are wrappers that invoke 
+Ant and pass in some arguments, including the path to the XML file, for 
+building Noodle. The .sh script is for Unix systems and the .bat script is 
+for Win32 systems. You should edit the appropriate script for your platform 
+and specify any necessary items to add to your classpath. This is well 
+documented in the scripts source.
+
+-jon stevens
+jons@apache.org

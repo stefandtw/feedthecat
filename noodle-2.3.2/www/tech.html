@@ -1,0 +1,327 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>Noodle Technical Manual</title>
+  </head>
+
+  <body>
+
+<h1>Noodle Technical Manual</h1>
+
+<h2>Introduction</h2>
+
+<p>This document describes how to drive Noodle from a servlet and how
+to write Noodle filters. The <code>Noodle</code> servlet will do
+everything for you, but it's mainly intended to serve as an
+example--unless your needs are very basic, you will probably have to
+write your own servlet along the lines of the <code>Noodle</code>
+servlet.
+
+<h2>Noodle URLs</h2>
+
+<p>There are two ways of using the provided <code>Noodle</code>
+servlet; these apply to any other servlet you might write that drives
+Noodle. The first is easier to explain but requires modifying the
+query string, which can lead to conflicts on the other side of Noodle.
+
+<blockquote>
+<code>http://www.foo.com/noodle/Noodle?page=/noodle/NoodleTest</code>
+</blockquote>
+
+<p>The <code>Noodle</code> servlet takes the path value from the
+<code>page</code> variable and then connects to the host and port
+specified in the NoodleResources.properties file, running the
+<code>NoodleTest</code> servlet and returning the results. Please look
+at the <a
+href="http://noodle.tigris.org/nonav/apidocs/index.html">javadoc</a>
+for the NoodleTest servlet for more information on what is being
+tested and why.
+
+<p>The second approach uses request attributes to pass along the page
+information. This approach does not modify the query string, avoiding
+conflicts within the query string, and making the query string
+available in its original form to resources on the other side of the
+Noodle proxy. However, the rules for setting this up are somewhat
+servlet container specific. Here's an example using mod_rewrite (for
+the URL manipulation layer) and mod_jk with Apache 2.0 and Tomcat 4.
+
+<blockquote>
+<code>RewriteRule .* - [E=org.tigris.noodle.page:]
+RewriteCond %{HTTP_HOST} !=127.0.0.1
+RewriteRule (/source/.*) /noodle/Noodle [PT,L,E=org.tigris.noodle.page:$1]
+JkEnvVar org.tigris.noodle.page NONE
+</code>
+</blockquote>
+
+The first rewrite rule is optional; it allows mixing the two styles 
+described here, by setting the default value for org.tigris.noodle.page
+to the empty string (otherwise, the environment variable will take
+precedence over the query string, and the default value -- shown here
+as NONE -- will be used).  The RewriteCond says that if the remote host
+is not localhost, the second RewriteRule takes effect.  The second
+RewriteRule changes the URL to point to the noodle servlet, and stores
+the page to proxy in the <code>org.tigris.noodle.page</code> Apache
+environment variable.  The JkEnvVar directive tells mod_jk to pass
+along the Apache environment variable org.tigris.noodle.page with a
+default value of NONE.
+
+<h2><code>NoodleData</code></h2>
+
+<p>To run a request through Noodle you must create a <a
+href="#NoodleData"><code>NoodleData</code></a> object, call any needed
+<a href="#SetupMethods">setup methods</a> on it (<code>setURL</code>,
+at a minimum), and then call the <code>proxyRequest</code> method to
+set up the proxy and stream to your response.
+
+<p>To construct a <code>NoodleData</code> object you must provide an
+<code>HttpServletRequest</code> object and an
+<code>HttpServletResponse</code> object. These are the <b>client
+request</b> and <b>client response</b>. When you call the
+<code>proxyRequest</code> method, Noodle will create a <b>proxy
+request</b> and run filters you specify (in the third argument to the
+<code>NoodleData</code> constructor) against the resulting <b>proxy
+response</b>. The filters you specify will write a (potentially
+modified) version of the proxy response to the client response.
+
+<p>You must also provide a <code>Properties</code> object to the
+<code>NoodleData</code> constructor, defining the <a
+href="#FilterSet">filter set</a> you want to run against the proxy
+request and response.
+
+<p>NoodleData allows overrides for methods which are related to determining
+how the input stream should be handled.  The proxied response can be handled
+either as a stream of bytes or as a stream of characters.  In the former
+case, no encoding transformations will happen; in the latter, Noodle
+will attempt to determine the character set / encoding of the proxied
+data and will try to convert from that to Unicode (Java's internal format);
+then the data will be transformed into bytes using
+NoodleData.getOutputCharset().  Filters will see this data as bytes, but 
+if the data is treated as a character stream, they'll get blocks of bytes
+which respect character boundaries -- assuming the proper character set
+was determined.
+
+<p>The character set is guessed based on the HTTP Content-type header
+in the proxied response, if present. If that's not present, the
+character set will be guessed by looking for a &lt;meta
+http-equiv="Content-Type" content="text/html; charset=Shift_JIS" /&gt;
+tag within the begining of the response.  If neither is found, Noodle
+will default to using ISO-8859-1 for both input and output character
+sets (not that this means that NoodleData.getOutputCharset() will not
+be used in this case).</p>
+
+<p>NoodleData subclasses can override this behavior entirely by overriding
+getReader, or they can simply determine whether or not to use a character
+stream by overriding useCharacterReader.  By default, Noodle will use a 
+character stream for text/html data, and a byte stream for all other kinds
+of input.
+
+<h2>Filter sets</h2>
+
+<p>The <code>NoodleData</code> constructor takes as its third argument
+a <code>Properties</code> object containing a definition of the filter
+set you want applied to the proxied response. The
+<code>Properties</code> fragment you pass in should look something
+like this:
+
+<pre>
+filter.request.0=com.me.filter.MyFirstRequestFilter
+filter.request.1=com.me.filter.MySecondRequestFilter
+filter.response.0=org.tigris.noodle.filter.CheckForRedirect
+filter.response.1=org.tigris.noodle.filter.HandleContentType
+filter.response.2=org.tigris.noodle.filter.CopyCookies
+filter.response.3=org.tigris.noodle.filter.CopyAllHeaders
+filter.response.4=com.me.filter.MyFirstResponseFilter
+filter.response.5=com.me.filter.MySecondResponseFilter
+filter.response.finalizer.0=com.me.MyFirstFinalizerFilter
+filter.response.finalizer.1=com.me.MySecondFinalizerFilter
+</pre>
+
+<p><code>filter.request.[ordinal]</code> designates a <a
+href="#RequestFilter">proxy request
+filter</a>. <code>filter.response.[ordinal]</code> designates a <a
+href="#ResponseFilter">proxy response filter.</a>
+<code>filter.response.finalizer.[ordinal]</code> designates a <a
+href="#ResponseFinalizerFilter">proxy response finalizer filter.</a>. Filters of
+a certain type will be executed in the order given by their ordinals
+in the file.
+
+<a name="SetupMethods"></a><h2>Setup Methods</h2>
+
+<p>You can call any of these <code>NoodleData</code> methods before
+calling <code>proxyRequest</code>, or within the <code>filter</code>
+method of any <a
+href="#RequestFilter">NoodleRequestFilter</a>. Calling these methods
+in a <a href="#ResponseFilter">response filter</a> will not do you any
+good, since by the time response filters get run the proxy connection
+has already been established and the request has been sent off.
+
+<ol>
+
+<li>You can change the URL being used to access the proxy using the
+<code>setURL</code> method.
+
+<li>You can set the HTTP headers to be sent to the proxy using the
+<code>setHeadersToSend</code> method.
+
+<li>You can set the POST data to be sent to the proxy using the
+<code>setPostData</code> method, and set the GET data to be sent to
+the proxy using the <code>setQueryData</code> method.
+
+</ol>
+
+<h2>Noodle Filters</h2>
+
+<p>Filters are the meat of Noodle; they allow you to change the proxy
+request and response in arbitrary ways invisible to the client. There
+are three types of filters: <a href="#RequestFilter">proxy request
+filters</a>, <a href="#ResponseFilter">proxy response filters</a>, and
+<a href="#ResponseFinalizerFilters">proxy response finalizer
+filters</a>.
+
+<p>Filters are executed by <code>NoodleData</code> in the order
+specified in the filter set.
+
+<p>Note that, like servlets, filters must be be implemented in a
+thread safe manner. If your filter has any state that needs to persist
+between data chunks, you can store it and retrieve it later by using
+the <code>getValue</code> and <code>putValue</code> methods of
+<code>NoodleData</code>.
+
+<h3>Sample filters</h3>
+
+<p>Several proxy response filters are distributed with Noodle to serve
+as examples. Together with Noodle, these filters provide almost all of
+the functionality of a standard HTTP proxy for GET and POST requests.
+
+<ul>
+
+<li><code>CheckForRedirect</code> will propagate a redirect from the
+proxy response into the client response.
+
+<li><code>CopyCookies</code> will copy over Set-Cookie headers from
+the proxy response to the client response.
+
+<li><code>CopyHeaders</code> will copy all HTTP headers from the proxy
+response to the client response.
+
+<li><code>HandleContentType</code> will propagate the content type of
+the proxy response to the client response, and will disable further
+filtering if the content type is not "text/html".
+
+</ul>
+
+<a name="RequestFilter"></a><h3>Request filters</h3>
+
+<p>Request filters should implement the
+<code>NoodleRequestFilter</code> interface. They have their
+<code>filter</code> methods called once, before the proxy request is
+sent. There is no data to stream yet, since there hasn't yet been a
+response from the proxy. However, you can call any of the <a
+href="#SetupMethods">setup methods</a> from within a request filter.
+
+<a name="ResponseFilter"></a><h3>Response filters</h3>
+
+<p>Response filters should implement the
+<code>NoodleResponseFilter</code> interface. A response filter is
+called after the proxy request has been sent, once for every block of
+data read from the proxy response, until the filter elects not to read
+any more data.
+
+<h4>Streaming data</h4>
+
+<p>The current data block is provided through the filter method; it is
+an instance of ResponseBlock.  It will contain a byte array with the bytes,
+a length, and a String containing the expected encoding of the data (if
+known; if not, the String will be null).
+
+<p>For byte input streams, the block of bytes will be a regular size --
+0-8192, with most being 4096 or 4097-8192.  There will be less than 4096
+iff the response contains less than 4096 bytes; otherwise all blocks will
+be 4096, until the last one, which will be 4097-8192.  For character
+streams, the size may be more irregular, as characters are read in fixed
+sizes and then transformed into bytes.
+
+<p>Your <code>NoodleFilter</code> is responsible for writing to the
+client response all the data it wants to write. If the data it wants
+to write includes or replaces the data currently in the ResponseBlock,
+then your <code>NoodleFilter</code> is also responsible for updating the
+offset of that ResponseBlock to the offset of the first byte not
+streamed by your <code>NoodleFilter</code> (if you handle the entire
+ResponseBlock this will be the output of
+<code>ResponseBlock.getLength()</code>). There is a
+method called <code>streamBlockTo</code> which will take care of this
+for you in simple cases.
+
+<p>Example: Suppose you have a filter whose tedious task it is to
+replace the "p" character with the "q" character whenever it
+appears. Let's further say the ResponseBlock block has a byte array
+which contains the following 30 bytes:
+
+<pre>
+012345678901234567890123456789
+Mahnamahna (bop be ba de bop!)
+</pre>
+
+<p>Your <code>NoodleFilter</code> should call
+<code>streamBufferTo(block,13)</code>, which will write "Mahnamahna (bo" to
+the client request and set the current offset (the first unstreamed
+byte) to 14. You should then write a "q" byte to replace the "p" and
+manually increment block's offset by one via
+block.setOffset(block.getOffset() + 1).  A call to
+streamBufferTo(block,26), will write " be da be bo" to the client request
+and set block's offset to 27. You should then write another "q" byte,
+increment block's offset again, and return (since there are no more
+"p" characters; see below for what to return). You should not stream
+more bytes than you need to; if there are any unstreamed bytes after
+all the filters have run on a block, Noodle will automatically stream
+the remainder.
+
+<p>If you need to do things with the input which can't be done with
+byte streams, such as regular expression handling, you are of course
+free to turn the byte stream into a string (you should use the 
+encoding specified with the bytes if possible -- block.getEncoding()),
+modify it, and write the modified string out to the response. Just be
+sure to update the block's offset to point to the first byte you're not
+handling.
+
+<h4>Filter Status Codes</h4>
+
+<p>Your implementation of <code>filter</code> needs to return one of
+three status codes defined in <code>NoodleFilter</code> so that Noodle
+knows what to do with the filter on the next block.
+
+<ul>
+
+<li>MAINTAIN_THIS_FILTER: Do not change the state of this filter. It
+will be called on the next block of data to be streamed, assuming
+there is one.
+
+<li>KILL_THIS_FILTER: Do not run this filter on any more data.
+
+<li>KILL_ALL_FILTERS: Disable filtering for the remainder of this
+request. All unstreamed bytes in the proxy response will be streamed
+directly to the client response without going through any filters
+(even finalizer filters).
+
+</ul>
+
+<a name="ResponseFinalizerFilters"></a><h4>Response finalizer filters</h4>
+
+<p>These are just like reponse filters (they must implement
+<code>NoodleResponseFilter</code>) except that they are run only once,
+on the last block of data read from the proxy response. They are set
+loose on the last block after all the regular response filters (if
+there are any still alive) have had a shot at it. Whatever value they
+return from <code>filter</code> is ignored.
+
+<h2>Good luck!</h2>
+
+<p>You are now ready to create your own Noodle filters! Have fun!
+
+<hr>
+
+<p>To learn more about Noodle in general, please see the
+<a href="/">Noodle Documentation</a>.
+
+  </body>
+</html>

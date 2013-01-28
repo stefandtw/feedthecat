@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Noodle Documentation</title>
+  </head>
+
+  <body>
+
+<h1>Noodle Documentation</h1>
+
+<h2>Introduction</h2>
+
+<p>Noodle is a set of 100% Pure Java classes for transparently making
+arbitrary changes to an HTTP request and response. You can use Noodle
+to create a servlet that, on every HTTP request, runs Java 'filters'
+that you define on the request, sends the new request off to another
+web server, and streams the resulting response through another set of
+filters. The execution path looks something like this:
+
+<center>
+<p><img src="/noodle-diagram.png" height=91 width=884>
+</center>
+
+<p>The above diagram is read left to right and then right to left; it
+translates as the following:
+
+<p>The <b>HTTP client</b> is, e.g., a web browser. It makes a
+connection to the Noodle servlet through an HTTP server, just as it
+would make a connection to any other servlet. Its HTTP request is the
+<b>client request</b>. When the Noodle servlet is executed, it sets up
+some internal data and executes predefined <a
+href="tech.html#RequestFilters"><b>proxy request
+filters</b></a>. These filters have a chance to modify the
+HttpServletRequest headers as well as the content of the request (such
+as the POST data).
+
+<p>Once the proxy request filters have been executed, Noodle makes an
+HTTP connection to the <b>HTTP server</b> and sends the <b>Proxy
+request</b>. The HTTP server treats this as it would any other HTTP
+request, and returns a response (the <b>Proxy response</b>) consisting
+of a set of HTTP headers and any body data. Noodle reads the data from
+the proxy response in chunks, and filters it using <a
+href="tech.html#ResponseFilters"><b>proxy response filters</b></a>,
+which can add to, modify, or remove any of the headers or content sent
+to the client through the <b>client response</b>.
+
+<p>The beauty of the Noodle system is that it is easy to implement any
+sort of proxy request and proxy response filters. These filters can do
+anything you want to munge both the header and body data as it's
+passed back and forth, such as executing regular expressions on body
+data using a <a href="http://jakarta.apache.org/regexp/">Java regular
+expressions package</a>.
+
+<p>Noodle is considered a "transparent" HTTP proxy because neither the
+HTTP client nor the HTTP server can know about the presence of Noodle.
+With the creative use of Apache's mod_rewrite it is possible to place
+Noodle in front of nearly any type of CGI to change the CGI's UI
+without without modifications to the CGI or any need to re-write links
+within the CGI. An example of using Noodle in this way would be to add
+your own look and feel to <a
+href="http://www.mozilla.org/projects/bugzilla/">Bugzilla</a> without
+needing to modify Bugzilla's source code yourself. Implementing this
+functionality is left as an exercise to the reader.
+
+<p>Please subscribe to the Noodle <a
+href="/servlets/ProjectMailingListList">mailing list</a> if you have
+questions or comments.
+
+<h2>Licensing Information</h2>
+
+<p>Noodle is available under the <a
+href="http://www.tigris.org/">Tigris.org</a> license, which is similar
+to the BSD license. You can do pretty much whatever you want with this
+code, but please make sure to read the conditions stated in the
+license.
+
+<p>Noodle also contains a bit of utility source code from both the <a
+href="http://java.apache.org/jserv/">Apache JServ</a> project as well
+as the <a href="http://java.apache.org/turbine/">Turbine</a> project
+(it is not necessary to download either of these; the required code
+comes directly with Noodle). In order to create the internal HTTP
+connection, Noodle uses the <a
+href="http://www.innovation.ch/java/HTTPClient/">HTTPClient</a> code
+(included in the /lib directory). This replaces the poorly designed
+and buggy <code>java.net.URLConnection</code> class. We credit and
+thank the authors of all of those projects for the use of their source
+code.
+
+<p>Noodle was originally created by <a
+href="mailto:jon@latchkey.com">Jon S. Stevens</a>, and suffered a
+major rewrite at the hands of <a
+href="mailto:leonardr@segfault.org">Leonard Richardson</a>, and again
+an additional rewrite of some of the functionality by <a
+href="mailto:edk@collab.net">Ed Korthof</a>.
+
+<h2>Building</h2>
+
+<p>To build Noodle all you need to do is "cd build;
+build-noodle.{sh,bat} war". That will compile the source code and
+create a "noodle-war" WAR directory that you can move to your
+tomcat/webapps/ directory and rename to "noodle".  
+
+<p>You should use the .bat extension if you are on Win32 or the .sh
+extension if you are on Unix. You must have the JAVA_HOME environment
+variable set appropriately as well as the JSDK (Java Servlet
+Development Kit) 2.0 and higher in your classpath. All other packages
+currently required for building Noodle are included with Noodle.
+
+<p>The URL given in the introduction can be used to execute Noodle
+itself and run the NoodleTest servlet. Please look at the source code
+and the tech to see what is happening. It is all well documented and
+easy to read.
+
+<hr>
+
+<p>To read how to drive Noodle from a servlet, how regular URLs turn
+into Noodle URLs, and how to write Noodle filters, please see the <a
+href="tech.html">Noodle Technical Manual</a>.
+
+  </body>
+</html>
