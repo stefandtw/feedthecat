@@ -14,15 +14,20 @@
         </init-param>
     </servlet> 
 
+    <servlet>
+        <servlet-name>NoodleTest</servlet-name>
+        <servlet-class>org.tigris.noodle.servlets.NoodleTest</servlet-class>
+    </servlet> 
+
     <servlet-mapping>
         <servlet-name>Noodle</servlet-name>
         <url-pattern>/Noodle</url-pattern>
     </servlet-mapping> 
 
-    <servlet>
-        <servlet-name>NoodleTest</servlet-name>
-        <servlet-class>org.tigris.noodle.servlets.NoodleTest</servlet-class>
-    </servlet> 
+    <servlet-mapping>
+        <servlet-name>Noodle</servlet-name>
+        <url-pattern>/noodle/*</url-pattern>
+    </servlet-mapping> 
 
     <servlet-mapping>
         <servlet-name>NoodleTest</servlet-name>

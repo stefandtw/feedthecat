@@ -45,10 +45,14 @@
     <!-- Compiles the source directory                                       -->
     <!-- =================================================================== -->
     <target name="compile" depends="prepare">
+		<echo message="srcdir: ${build.src}"/>
+		<echo message="destdir: ${build.dest}"/>
+		<echo message="debug: ${debug}"/>
+        <property name="servlet.jar" value="../lib/servlet.jar"/>
         <javac srcdir="${build.src}"
             destdir="${build.dest}"
             debug="${debug}"
-            classpath="${servlet.jar}:../lib/httpclient.jar"
+            classpath="${servlet.jar}:../lib/httpclient.jar:../lib/jsoup-1.7.2.jar"
             deprecation="${deprecation}"
             optimize="${optimize}"/>
     </target>
@@ -156,11 +160,13 @@
 
         <!-- properties files for Noodle -->
         <copyfile src="../lib/httpclient.jar" dest="${webinf.dir}/lib/httpclient.jar"/>
+        <copyfile src="../lib/jsoup-1.7.2.jar" dest="${webinf.dir}/lib/jsoup-1.7.2.jar"/>
 
         <!-- copy the web.xml file to the WEB-INF/web.xml -->
         <copyfile src="../src/web.xml" dest="${webinf.dir}/web.xml"/>
 
         <!-- copy the dependency .jar files to WEB-INF/lib dir -->
+        <echo message="srcdir: ${build.dest}/org"/>
         <copydir src="${build.dest}/org" dest="${webinf.dir}/classes/org"/>
 
         <echo message=""/>

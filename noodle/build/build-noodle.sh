@@ -19,7 +19,9 @@ TARGET=${1}
 #-------------------------------------------------------------------
 # Define the paths to each of the packages
 #-------------------------------------------------------------------
-JSDK=/classes/JSDK2.0/lib/jsdk.jar
+#JSDK=/classes/JSDK2.0/lib/jsdk.jar
+JSDK=../lib/servlet.jar
+JSOUP=../lib/jsoup-1.7.2.jar
 HTTPCLIENT=../lib/httpclient.jar
 
 #--------------------------------------------
@@ -50,7 +52,7 @@ echo JAVAC = ${JAVAC}
 
 echo "Now building ${TARGET}..."
 
-CP=${CLASSPATH}:${JSDK}:${HTTPCLIENT}:xml.jar:ant.jar
+CP=${CLASSPATH}:${JSDK}:${HTTPCLIENT}:${JSOUP}:xml.jar:ant.jar
 
 BUILDFILE=build.xml
 
