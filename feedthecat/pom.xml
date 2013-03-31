@@ -23,12 +23,6 @@
 	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>feedthecat</groupId>
-			<artifactId>noodle</artifactId>
-			<type>war</type>
-			<version>0.1</version>
-		</dependency>
-		<dependency>
 			<groupId>net.sourceforge.htmlunit</groupId>
 			<artifactId>htmlunit</artifactId>
 			<!-- As long as gwt-dev.jar is used by the same classloader as server-side 
@@ -103,11 +97,6 @@
 			<artifactId>junit</artifactId>
 			<version>4.8.2</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.googlecode.gwt-proxy-servlet</groupId>
-			<artifactId>proxy</artifactId>
-			<version>1.0.2</version>
 		</dependency>
 	</dependencies>
 	<build>
