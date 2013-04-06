@@ -1,15 +1,27 @@
 var widgets = require("sdk/widget");
 var tabs = require("sdk/tabs");
 var self = require("sdk/self");
+var data = self.data;
+
+/*
+var panel = require("sdk/panel").Panel({
+  width:800,
+  height:220,
+  contentURL: data.url("panel.html")
+});
+*/
+var panelHtml = data.load("panel.html");
+var panelCss = data.load("panel.css") + '\n' + data.load("jquery-ui-1.10.2.custom/css/ui-lightness/jquery-ui-1.10.2.custom.min.css");
 
 var widget = widgets.Widget({
   id: "feedthecat-widget",
   label: "feedthecat",
   contentURL: "http://www.mozilla.org/favicon.ico",
+	//panel: panel,
   onClick: function() {
 	  worker = tabs.activeTab.attach({
-		  contentScriptFile: self.data.url("page.js")
+		  contentScriptFile: [data.url("page.js"), data.url("overlay.js"), data.url("jquery-1.9.1.min.js"), data.url("jquery-ui-1.10.2.custom/js/jquery-ui-1.10.2.custom.min.js")]
 	  });
-	  worker.port.emit("init");
+	  worker.port.emit("init", panelHtml, panelCss);
   }
 });
