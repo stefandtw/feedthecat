@@ -15,6 +15,11 @@ function Overlay(panelHtml, panelCss) {
 
 		var cssElement = jQuery('<style type="text/css">' + panelCss + '</style>');
 		cssElement.appendTo(document.head);
+		
+		$(".ftc_switch").click(function() {
+			$(".ftc_active_panel").removeClass("ftc_active_panel");
+			$(".ftc_panel[name='" + $(this).data('panel') + "']").addClass("ftc_active_panel");
+		});
 	}
 
 	this.hide = function() {

@@ -13,3 +13,11 @@
 	opacity: 0.95;
 	z-index: 10000;
 }
+
+.ftc_panel {
+	display: none;
+}
+
+.ftc_active_panel {
+	display: block !important;
+}
