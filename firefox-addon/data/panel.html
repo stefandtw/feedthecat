@@ -1,78 +1,73 @@
-<h2>Create a feed</h2>
-<div >
-	<table cellpadding="0" cellspacing="0">
-		<tbody>
-			<tr>
-				<td style="vertical-align: top;" align="left">
-				<table cellpadding="0" cellspacing="0">
-					<tbody>
-						<tr>
-							<td style="vertical-align: top;" align="left">
-							<div >
-								Feed:
-							</div></td><td style="vertical-align: top;" align="left">
-							<button class="ftc_switch" data-panel="name" type="button">
-								Name
-							</button></td><td style="vertical-align: top;" align="left">
-							<button class="ftc_switch" data-panel="webpage" type="button">
-								Web Page
-							</button></td><td style="vertical-align: top;" align="left">
-							<button class="ftc_switch" data-panel="description" type="button">
-								Description
-							</button></td><td style="vertical-align: top;" align="left">
-							<div >
-								Feed entries:
-							</div></td><td style="vertical-align: top;" align="left">
-							<button class="ftc_switch" data-panel="title" type="button">
-								Title
-							</button></td><td style="vertical-align: top;" align="left">
-							<button class="ftc_switch" data-panel="link" type="button">
-								Link
-							</button></td><td style="vertical-align: top;" align="left">
-							<button class="ftc_switch" data-panel="content" type="button">
-								Content
-							</button></td>
-						</tr>
-					</tbody>
-				</table></td>
-			</tr>
-			<tr>
-				<td style="vertical-align: top;" align="left">
-				<table cellpadding="0" cellspacing="0">
-					<tbody>
-						<tr class="ftc_panel" name="name">
-							<td align="left">Name</td>
-							<td align="left"><input type="text" name="name" class="ftc_data"></td>
-						</tr>
-						<tr class="ftc_panel" name="webpage">
-							<td align="left">Web Page URL</td>
-							<td align="left"><input type="text" name="webpageUrl" class="ftc_data"></td>
-						</tr>
-						<tr class="ftc_panel" name="description">
-							<td align="left">Description</td>
-							<td align="left"><textarea name="description" rows="3" cols="50" class="ftc_data"></textarea></td>
-						</tr>
-						<tr class="ftc_panel" name="title">
-							<td align="left">Title XPath Selector</td>
-							<td align="left"><input type="text" name="titleXpath" class="ftc_data"></td>
-						</tr>
-						<tr class="ftc_panel" name="link">
-							<td align="left">Link XPath Selector</td>
-							<td align="left"><input type="text" name="linkXpath" class="ftc_data"></td>
-						</tr>
-						<tr class="ftc_panel" name="content">
-							<td align="left">Content XPath Selector</td>
-							<td align="left"><input type="text" name="contentXpath" class="ftc_data"></td>
-						</tr>
-					</tbody>
-				</table></td>
-			</tr>
-			<tr>
-				<td style="vertical-align: top;" align="left">
-				<button  type="button">
-					Create
-				</button></td>
-			</tr>
-		</tbody>
-	</table>
+<h3>Create a feed</h3>
+<div>
+	<div>
+		<label>Feed:</label>
+		<ul class="button-bar">
+			<li>
+				<a class="ftc_switch" data-panel="name">
+					Name
+				</a>
+			</li>
+			<li>
+				<a class="ftc_switch" data-panel="webpage">
+					Web Page
+				</a>
+			</li>
+			<li>
+				<a class="ftc_switch" data-panel="description">
+					Description
+				</a>
+			</li>
+		</ul>
+
+		<label>Feed entries:</label>
+		<ul class="button-bar">
+			<li>
+				<a class="ftc_switch" data-panel="title">
+					Title
+				</a>
+			</li>
+			<li>
+				<a class="ftc_switch" data-panel="link">
+					Link
+				</a>
+			</li>
+			<li>
+				<a class="ftc_switch" data-panel="content">
+					Content
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div>
+		<div class="ftc_panel" name="name">
+			<label>Name</label>
+			<input type="text" name="name" class="ftc_data">
+		</div>
+		<div class="ftc_panel" name="webpage">
+			<label>Web Page URL</label>
+			<input type="text" name="webpageUrl" class="ftc_data">
+		</div>
+		<div class="ftc_panel" name="description">
+			<label>Description</label>
+			<textarea name="description" rows="3" cols="50" class="ftc_data"></textarea>
+		</div>
+		<div class="ftc_panel" name="title">
+			<label>Title XPath Selector</label>
+			<input type="text" name="titleXpath" class="ftc_data">
+		</div>
+		<div class="ftc_panel" name="link">
+			<label>Link XPath Selector</label>
+			<input type="text" name="linkXpath" class="ftc_data">
+		</div>
+		<div class="ftc_panel" name="content">
+			<label>Content XPath Selector</label>
+			<input type="text" name="contentXpath" class="ftc_data">
+		</div>
+	</div>
+	<div>
+		<button>
+			Create
+		</button>
+	</div>
 </div>
