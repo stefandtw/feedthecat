@@ -1,4 +1,4 @@
-function Overlay(panelHtml, panelCss) {
+function OverlayIntegration(pageCss, panelHtml, panelCss) {
 
 	this.visible = false;
 
@@ -9,23 +9,30 @@ function Overlay(panelHtml, panelCss) {
 	this.show = function() {
 		// write overlay HTML to document
 		this.visible = true;
-		var overlayDiv = jQuery('<div id="overlay" class="ftc_overlayDiv">' + panelHtml + '	</div>');
+		var overlayDiv = jQuery('<div id="overlay" class="ftc_overlayDiv"></div>');
 		overlayDiv.draggable();
 		overlayDiv.resizable();
 		overlayDiv.appendTo(document.body);
 
 		// write overlay CSS to document
-		var cssElement = jQuery('<style type="text/css">' + panelCss + '</style>');
+		var cssElement = jQuery('<style type="text/css">' + pageCss + '</style>');
 		cssElement.appendTo(document.head);
 		
-		// switching between panels
-		$(".ftc_switch").click(function() {
-			$(".ftc_active_panel").removeClass("ftc_active_panel");
-			$(".ftc_panel[name=" + $(this).data('panel') + "]").addClass("ftc_active_panel");
-		});
+		// create iframe
+		var iframe = jQuery('<iframe style="width:100%; height:270px;">');
+		iframe.appendTo(overlayDiv);
+		iframe.load(function(){
+			
+			var panelDocument = iframe[0].contentWindow.document;
+			$('body',panelDocument).html(panelHtml);
+
+			// write overlay content CSS to panel
+			var cssElement = jQuery('<style type="text/css">' + panelCss + '</style>');
+			cssElement.appendTo(panelDocument.head);
 		
-		// fill in webpage URL
-		$(".ftc_data[name=webpageUrl]").val(document.URL);
+			var overlayContent = new OverlayContent(panelDocument);
+			overlayContent.init();
+		});
 	}
 
 	this.hide = function() {
