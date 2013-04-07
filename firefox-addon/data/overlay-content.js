@@ -5,7 +5,10 @@ function OverlayContent(overlayDocument) {
 		// switching between panels
 		$(".ftc_switch",overlayDocument).click(function() {
 			$(".ftc_active_panel",overlayDocument).removeClass("ftc_active_panel");
-			$(".ftc_panel[name=" + $(this).data('panel') + "]",overlayDocument).addClass("ftc_active_panel");
+			var panelNames = $(this).data('panel').split(',');
+			for (var i=0; i<panelNames.length; i++) {
+				$(".ftc_panel[name=" + panelNames[i] + "]",overlayDocument).addClass("ftc_active_panel");
+			}
 		});
 		
 		// fill in webpage URL

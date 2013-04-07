@@ -23,17 +23,17 @@
 		<label>Feed entries:</label>
 		<ul class="button-bar">
 			<li>
-				<a class="ftc_switch" data-panel="title">
+				<a class="ftc_switch" data-panel="title,selector_legend">
 					Title
 				</a>
 			</li>
 			<li>
-				<a class="ftc_switch" data-panel="link">
+				<a class="ftc_switch" data-panel="link,selector_legend">
 					Link
 				</a>
 			</li>
 			<li>
-				<a class="ftc_switch" data-panel="content">
+				<a class="ftc_switch" data-panel="content,selector_legend">
 					Content
 				</a>
 			</li>
@@ -63,6 +63,14 @@
 		<div class="ftc_panel" name="content">
 			<label>Content XPath Selector</label>
 			<input type="text" name="contentXpath" class="ftc_data">
+		</div>
+		<div class="ftc_panel" name="selector_legend">
+			Select parts of the web page you wish to include.
+			<ul>
+				<li>Green - Included elements. Select them using the left mouse button.</li>
+				<li>Red - Excluded elements. Select them using the right mouse button. This is optional.</li>
+				<li>Yellow - Shows all elements covered by your selector.</li>
+			</ul>
 		</div>
 	</div>
 	<div>
