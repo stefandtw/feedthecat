@@ -1,6 +1,6 @@
-self.port.on("init", function(pageCss, panelHtml, panelCss) {
+self.port.on("init", function(pageCss, dialogHtml, dialogCss) {
 	// document.body.style.border = "5px solid red";
 
-	var overlay = new OverlayIntegration(pageCss, panelHtml, panelCss);
-	overlay.show();
+	var dialog = new DialogIntegration(pageCss, dialogHtml, dialogCss);
+	dialog.show();
 });
