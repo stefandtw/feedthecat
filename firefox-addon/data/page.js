@@ -1,6 +1,5 @@
-self.port.on("init", function(pageCss, dialogHtml, dialogCss) {
-	// document.body.style.border = "5px solid red";
+self.port.on("init", function(dialogIntegrationCss, dialogHtml, dialogCss) {
 
-	var dialog = new DialogIntegration(pageCss, dialogHtml, dialogCss);
+	var dialog = new DialogIntegration(dialogIntegrationCss, dialogHtml, dialogCss);
 	dialog.show();
 });

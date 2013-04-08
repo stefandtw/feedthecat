@@ -1,4 +1,4 @@
-function DialogIntegration(pageCss, dialogHtml, dialogCss) {
+function DialogIntegration(dialogIntegrationCss, dialogHtml, dialogCss) {
 
 	this.visible = false;
 
@@ -15,7 +15,7 @@ function DialogIntegration(pageCss, dialogHtml, dialogCss) {
 		dialogDiv.appendTo(document.body);
 
 		// write dialog CSS to document
-		var cssElement = jQuery('<style type="text/css">' + pageCss + '</style>');
+		var cssElement = jQuery('<style type="text/css">' + dialogIntegrationCss + '</style>');
 		cssElement.appendTo(document.head);
 		
 		// create iframe
