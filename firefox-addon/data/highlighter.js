@@ -8,6 +8,8 @@ function createHighlighter() {
 		switch (type) {
 			case 'includedNode':
 				return 'ftc_included';
+			case 'excludedNode':
+				return 'ftc_excluded';
 			default:
 				throw new Error('Unknown type ' + type);
 		}

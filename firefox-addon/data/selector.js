@@ -1,7 +1,8 @@
 function createSelector() {
 
 	var selector = {
-		includedNodes : []
+		includedNodes : [],
+		excludedNodes : []
 	}
 	return selector;
 }

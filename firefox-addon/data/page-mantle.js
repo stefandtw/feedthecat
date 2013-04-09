@@ -7,11 +7,19 @@ function createPageMantle(pageDocument) {
 
 	var currentSelector = null;
 
-	$('body', pageDocument).click(function(e) {
-		e.preventDefault();
-		if (currentSelector) {
-			var domNode = e.target;
-			pageMantle.toggleSelection(domNode, currentSelector.includedNodes, 'includedNode');
+	$('body', pageDocument).click(function(event) {
+		event.preventDefault();
+	});
+	$('body', pageDocument).mousedown(function(event) {
+		var domNode = event.target;
+		if (event.which === 1) {
+			if (currentSelector) {
+				pageMantle.toggleSelection(domNode, currentSelector.includedNodes, 'includedNode');
+			}
+		} else if (event.which === 2) {
+			if (currentSelector) {
+				pageMantle.toggleSelection(domNode, currentSelector.excludedNodes, 'excludedNode');
+			}
 		}
 	});
 
@@ -31,6 +39,9 @@ function createPageMantle(pageDocument) {
 		if (selector) {
 			selector.includedNodes.forEach(function(node) {
 				pageMantle.highlighter.highlight(node, 'includedNode');
+			});
+			selector.excludedNodes.forEach(function(node) {
+				pageMantle.highlighter.highlight(node, 'excludedNode');
 			});
 		}
 	}
