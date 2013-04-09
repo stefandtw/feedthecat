@@ -31,9 +31,11 @@ function createPageMantle(pageDocument) {
 			nodes.add(node);
 			pageMantle.highlighter.highlight(node, hightlightingType);
 		}
+		currentSelector.recreateXpathExpression();
 	}
 
 	pageMantle.setCurrentSelector = function(selector) {
+		var oldSelector = currentSelector;
 		currentSelector = selector;
 		pageMantle.highlighter.reset();
 		if (selector) {
@@ -43,7 +45,19 @@ function createPageMantle(pageDocument) {
 			selector.excludedNodes.forEach(function(node) {
 				pageMantle.highlighter.highlight(node, 'excludedNode');
 			});
+			pageMantle.updatePreview();			selector.addXpathObserver(pageMantle.updatePreview);
 		}
+		if (oldSelector) {
+			oldSelector.removeXpathObserver(pageMantle.updatePreview);
+		}
+	}
+
+	pageMantle.updatePreview = function() {
+		var previewNodes = currentSelector.select(pageDocument);
+		pageMantle.highlighter.reset('previewNode');
+		previewNodes.forEach(function(node) {
+			pageMantle.highlighter.highlight(node, 'previewNode');
+		});
 	}
 
 	return pageMantle;

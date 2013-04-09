@@ -10,6 +10,8 @@ function createHighlighter() {
 				return 'ftc_included';
 			case 'excludedNode':
 				return 'ftc_excluded';
+			case 'previewNode':
+				return 'ftc_preview';
 			default:
 				throw new Error('Unknown type ' + type);
 		}
@@ -31,9 +33,11 @@ function createHighlighter() {
 		});
 	}
 
-	highlighter.reset = function() {
+	highlighter.reset = function(type) {
 		changes.forEach(function(change) {
-			highlighter.removeHighlight(change.node, change.type);
+			if ( typeof type === 'undefined' || change.type === type) {
+				highlighter.removeHighlight(change.node, change.type);
+			}
 		});
 	}
 

@@ -18,6 +18,21 @@ function createDialogContent(dialogDocument, pageMantle) {
 		pageMantle.setCurrentSelector(content.selectors[$(this).data('selector')]);
 	});
 
+	// monitor xpath text field changes
+	$(".ftc_selector", dialogDocument).change(function() {
+		var selector = content.selectors[$(this).data('selector')];
+		selector.setXpath($(this).val());
+	});
+
+	// update xpath text field
+	$(".ftc_selector", dialogDocument).each(function() {
+		var selector = content.selectors[$(this).data('selector')];
+		var textField = $(this);
+		selector.addXpathObserver(function(newValue) {
+			textField.val(newValue);
+		});
+	});
+
 	// fill in webpage URL
 	$(".ftc_data[name=webpageUrl]", dialogDocument).val(pageMantle.pageDocument.URL);
 

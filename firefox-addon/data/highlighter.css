@@ -5,3 +5,7 @@
 .ftc_excluded {
 	border: 3px solid red;
 }
+
+.ftc_preview {
+	border: 10px dashed yellow;
+}
