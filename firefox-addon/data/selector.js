@@ -9,7 +9,12 @@ function createSelector() {
 	var xpathObservers = [];
 
 	selector.recreateXpathExpression = function() {
-		selector.setXpath('//p');
+		var xpr = '';
+		if (selector.includedNodes[0]) {
+			xpr = "//*[@class='news_article']";
+		}
+		selector.setXpath(xpr);
+		return xpath;
 	};
 
 	selector.setXpath = function(value) {
@@ -22,13 +27,17 @@ function createSelector() {
 		}
 	};
 
+	selector.getXpath = function() {
+		return xpath;
+	};
+
 	selector.addXpathObserver = function(observer) {
 		xpathObservers.add(observer);
-	}
+	};
 
 	selector.removeXpathObserver = function(observer) {
 		xpathObservers.remove(observer);
-	}
+	};
 
 	selector.select = function(pageDocument) {
 		var result = [];
@@ -42,7 +51,7 @@ function createSelector() {
 			result.push(node);
 		};
 		return result;
-	}
+	};
 
 	return selector;
 }

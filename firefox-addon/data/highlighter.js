@@ -15,7 +15,7 @@ function createHighlighter() {
 			default:
 				throw new Error('Unknown type ' + type);
 		}
-	}
+	};
 
 	highlighter.highlight = function(domNode, type) {
 		jQuery(domNode).addClass(getCssClassForType(type));
@@ -23,7 +23,7 @@ function createHighlighter() {
 			node : domNode,
 			type : type
 		});
-	}
+	};
 
 	highlighter.removeHighlight = function(domNode, type) {
 		jQuery(domNode).removeClass(getCssClassForType(type));
@@ -31,7 +31,7 @@ function createHighlighter() {
 			node : domNode,
 			type : type
 		});
-	}
+	};
 
 	highlighter.reset = function(type) {
 		changes.forEach(function(change) {
@@ -39,7 +39,7 @@ function createHighlighter() {
 				highlighter.removeHighlight(change.node, change.type);
 			}
 		});
-	}
+	};
 
 	return highlighter;
 }

@@ -33,7 +33,7 @@ function createDialog(pageMantle, pageCss, dialogHtml, dialogCss) {
 			var draggableHandler = jQuery('<div style="position: absolute; height: 30px; width: 30px; background-color: black; z-index: 1000;"></div>');
 			draggableHandler.appendTo(dialogDiv);
 		});
-	}
+	};
 
 	return dialog;
 }

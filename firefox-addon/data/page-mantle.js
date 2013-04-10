@@ -32,7 +32,7 @@ function createPageMantle(pageDocument) {
 			pageMantle.highlighter.highlight(node, hightlightingType);
 		}
 		currentSelector.recreateXpathExpression();
-	}
+	};
 
 	pageMantle.setCurrentSelector = function(selector) {
 		var oldSelector = currentSelector;
@@ -50,7 +50,7 @@ function createPageMantle(pageDocument) {
 		if (oldSelector) {
 			oldSelector.removeXpathObserver(pageMantle.updatePreview);
 		}
-	}
+	};
 
 	pageMantle.updatePreview = function() {
 		var previewNodes = currentSelector.select(pageDocument);
@@ -58,7 +58,7 @@ function createPageMantle(pageDocument) {
 		previewNodes.forEach(function(node) {
 			pageMantle.highlighter.highlight(node, 'previewNode');
 		});
-	}
+	};
 
 	return pageMantle;
 }
