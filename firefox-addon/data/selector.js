@@ -10,7 +10,12 @@ function createSelector() {
 	var xpathObservers = [];
 
 	selector.createXpathExpression = function() {
-		var newXpath = findXpathByMergingXpaths(selector.includedNodes);
+		try {
+			var newXpath = findXpathByMergingXpaths(selector.includedNodes);
+		} catch (e) {
+			console.log(e.message);
+			newXpath = '';
+		}
 		selector.setXpath(newXpath);
 		return xpath;
 	};
@@ -126,13 +131,13 @@ function findInformativeXpath(forNode) {
 		var classList = node.get(0).classList;
 		for (var i = 0; i < classList.length; i++) {
 			var className = classList.item(i);
-			if (!help(className).startsWith('ftc_')) { //ignore feedthecat-specific classes
+			if (!help(className).startsWith('ftc_')) {// ignore feedthecat-specific classes
 				classString = classString + "[contains(concat(' ',@class,' '),' " + className + " ')]";
 			}
 		}
 		xpath = '/' + tagName + indexString + classString + xpath;
 	} while ( (node = node.parent()) && node.length === 1 && node.get(0).localName);
-	console.log("found xpath: " + xpath);
+	console.log("found informative xpath: " + xpath);
 	return xpath;
 }
 
