@@ -9,20 +9,30 @@ function createPageMantle(pageDocument) {
 	var currentSelector = null;
 
 	$('body', pageDocument).click(function(event) {
-		event.preventDefault();
+		var domNode = event.target;
+		if (pageMantle.isSelectable(domNode)) {
+			event.preventDefault();
+		}
 	});
 	$('body', pageDocument).mousedown(function(event) {
 		var domNode = event.target;
 		if (event.which === 1) {
-			if (currentSelector) {
+			if (currentSelector && pageMantle.isSelectable(domNode)) {
 				pageMantle.toggleSelection(domNode, currentSelector.includedNodes, 'includedNode');
 			}
 		} else if (event.which === 2) {
-			if (currentSelector) {
+			if (currentSelector && pageMantle.isSelectable(domNode)) {
 				pageMantle.toggleSelection(domNode, currentSelector.excludedNodes, 'excludedNode');
 			}
 		}
 	});
+
+	pageMantle.isSelectable = function(domNode) {
+		if (jQuery(domNode).parents('.ftc_dialogDiv').length > 0) {
+			return false;
+		}
+		return true;
+	}
 
 	pageMantle.toggleSelection = function(node, nodes, hightlightingType) {
 		if (help(nodes).contains(node)) {
