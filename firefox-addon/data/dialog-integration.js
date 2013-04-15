@@ -13,7 +13,8 @@ function createDialog(pageMantle, dialogHtml, dialogCss) {
 	iframe.load(function() {
 
 		var dialogDocument = iframe[0].contentWindow.document;
-		dialogDocument.write(dialogHtml); // document.write() has the advantage to actually use the doctype from the given string.
+		// document.write() has the advantage to actually use the doctype from the given string.
+		dialogDocument.write(dialogHtml);
 		dialogDocument.close();
 
 		// write dialog content CSS to dialog
@@ -27,9 +28,7 @@ function createDialog(pageMantle, dialogHtml, dialogCss) {
 		};
 		$(dialogDiv).dialog({
 			dialogClass : 'ftc_dialogDiv',
-			/*TODO fix the vertical position. This seems especially difficult for pages without html5 doctype.
-			 position : ['center', 'bottom'], //this works with the html5 doctype, but not in quirks mode
-			 */
+			position : ['center', 'bottom'], // FIXME in quirks mode the vertical position is unpredictable and sometimes even invisible
 			width : 750,
 			height : 270,
 			create : keepPositionFixed,
