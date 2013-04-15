@@ -6,7 +6,8 @@ var data = self.data;
 
 var dialogHtml = data.load("dialog.html");
 var pageCss = data.load("highlighter.css")//
-+ '\n' + data.load("jquery-ui-1.10.2.custom/css/ui-lightness/jquery-ui-1.10.2.custom.min.css");
++ '\n' + data.load("jquery-ui-1.10.2.custom/css/ui-lightness/jquery-ui-1.10.2.custom.min.css")//
+/*ugh.. replace urls */.replace(/url\(images/g, 'url(' + data.url("jquery-ui-1.10.2.custom/css/ui-lightness/images"));
 var dialogCss = data.load("dialog.css")//
 + '\n' + data.load("HTML-KickStart-master/css/prettify.css")//
 + '\n' + data.load("HTML-KickStart-master/css/kickstart-buttons.css")//
