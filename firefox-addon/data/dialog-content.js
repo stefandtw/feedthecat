@@ -17,6 +17,8 @@ function createDialogContent(dialogDocument, pageMantle) {
 			$(".ftc_panel[name=selector_legend]", dialogDocument).addClass("ftc_active_panel");
 		}
 		pageMantle.setCurrentSelector(content.selectors[$(this).data('selector')]);
+		$("li.current", dialogDocument).removeClass("current");
+		$(this).parent('li').addClass('current');
 	});
 
 	// monitor xpath text field changes

@@ -5,3 +5,16 @@
 .ftc_active_panel {
 	display: block !important;
 }
+
+input.ftc_data {
+	width: 500px;
+}
+
+/* Override Kickstart menu so it does not take up so much room */
+.menu li a {
+	padding: 9px 20px !important;
+}
+
+.menu {
+	float: right;
+}

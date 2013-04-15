@@ -1,45 +1,31 @@
 <!DOCTYPE html>
 <div>
 	<div>
-		<label>Feed:</label>
-		<ul class="button-bar">
+		<ul class="menu vertical">
 			<li>
-				<a class="ftc_switch" data-panel="name">
-					Name
-				</a>
+				<a class="ftc_switch" data-panel="name">Name</a>
 			</li>
 			<li>
-				<a class="ftc_switch" data-panel="webpage">
-					Web Page
-				</a>
+				<a class="ftc_switch" data-panel="webpage">Web Page</a>
 			</li>
 			<li>
-				<a class="ftc_switch" data-panel="description">
-					Description
-				</a>
-			</li>
-		</ul>
-
-		<label>Feed entries:</label>
-		<ul class="button-bar">
-			<li>
-				<a class="ftc_switch" data-panel="title" data-selector="titleSelector">
-					Title
-				</a>
+				<a class="ftc_switch" data-panel="description">Description</a>
 			</li>
 			<li>
-				<a class="ftc_switch" data-panel="link" data-selector="linkSelector">
-					Link
-				</a>
+				<a class="ftc_switch" data-panel="title" data-selector="titleSelector">Entry Titles</a>
 			</li>
 			<li>
-				<a class="ftc_switch" data-panel="content" data-selector="contentSelector">
-					Content
-				</a>
+				<a class="ftc_switch" data-panel="link" data-selector="linkSelector">Entry Links</a>
+			</li>
+			<li>
+				<a class="ftc_switch" data-panel="content" data-selector="contentSelector">Entry Content</a>
+			</li>
+			<li>
+				<a class="ftc_switch" data-panel="finish">Finish Up</a>
 			</li>
 		</ul>
 	</div>
-	<div>
+	<div class="vertical">
 		<div class="ftc_panel" name="name">
 			<label>Name</label>
 			<input type="text" name="name" class="ftc_data">
@@ -64,18 +50,24 @@
 			<label>Content XPath Selector</label>
 			<input type="text" name="contentXpath" class="ftc_data ftc_selector" data-selector="contentSelector">
 		</div>
+		<div class="ftc_panel" name="finish">
+			<button>
+				Create the Feed
+			</button>
+		</div>
 		<div class="ftc_panel" name="selector_legend">
-			Select parts of the web page. It will try to find a pattern matching similar parts and create an XPath selector.
+			Use the mouse to select parts of the web page. It will try to find a pattern matching similar parts and create an XPath selector.
 			<ul>
-				<li>Green - Included elements. Select them using the left mouse button.</li>
-				<li>Red - Excluded elements. Select them using the middle mouse button. This is optional.</li>
-				<li>Yellow - Shows all elements covered by your selector.</li>
+				<li>
+					Green - Included elements. Select them using the left mouse button.
+				</li>
+				<li>
+					Red - Excluded elements. Select them using the middle mouse button. This is optional.
+				</li>
+				<li>
+					Yellow - Shows all elements covered by your selector.
+				</li>
 			</ul>
 		</div>
-	</div>
-	<div>
-		<button>
-			Create
-		</button>
 	</div>
 </div>
