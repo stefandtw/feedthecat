@@ -28,8 +28,8 @@ function createDialog(pageMantle, dialogHtml, dialogCss) {
 			dialogClass : 'ftc_dialogDiv',
 			width : 750,
 			create : keepPositionFixed,
-			resize : keepPositionFixed
-
+			resize : keepPositionFixed,
+			close : pageMantle.destroy
 		});
 
 	});
