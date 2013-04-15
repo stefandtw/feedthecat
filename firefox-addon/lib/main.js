@@ -5,10 +5,9 @@ var self = require("sdk/self");
 var data = self.data;
 
 var dialogHtml = data.load("dialog.html");
-var pageCss = data.load("dialog-integration.css")//
-+ '\n' + data.load("highlighter.css");
+var pageCss = data.load("highlighter.css")//
++ '\n' + data.load("jquery-ui-1.10.2.custom/css/ui-lightness/jquery-ui-1.10.2.custom.min.css");
 var dialogCss = data.load("dialog.css")//
-+ '\n' + data.load("jquery-ui-1.10.2.custom/css/ui-lightness/jquery-ui-1.10.2.custom.min.css")//
 + '\n' + data.load("HTML-KickStart-master/css/prettify.css")//
 + '\n' + data.load("HTML-KickStart-master/css/kickstart-buttons.css")//
 + '\n' + data.load("HTML-KickStart-master/css/kickstart-forms.css")//
