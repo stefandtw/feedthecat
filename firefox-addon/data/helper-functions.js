@@ -1,21 +1,37 @@
 "use strict";
-if ( typeof Array.prototype.remove === 'undefined') {
-	Array.prototype.remove = function(item) {
-		var i = this.indexOf(item);
-		if (i != -1) {
-			this.splice(i, 1);
-		}
-	};
+function help(object) {
+	if ( typeof object === "string") {
+		return new StringHelper(object);
+	}
+	if ( object instanceof Array) {
+		return new ArrayHelper(object);
+	}
+	throw Error("Don't know what to do with object " + object);
 }
 
-if ( typeof Array.prototype.add === 'undefined') {
-	Array.prototype.add = function(item) {
-		this.push(item);
-	};
+function ArrayHelper(array) {
+	this.array = array;
 }
 
-if ( typeof Array.prototype.contains === 'undefined') {
-	Array.prototype.contains = function(item) {
-		return this.indexOf(item) != -1;
-	};
+ArrayHelper.prototype.remove = function(item) {
+	var i = this.array.indexOf(item);
+	if (i != -1) {
+		this.array.splice(i, 1);
+	}
+};
+
+ArrayHelper.prototype.add = function(item) {
+	this.array.push(item);
+};
+
+ArrayHelper.prototype.contains = function(item) {
+	return this.array.indexOf(item) != -1;
+};
+
+function StringHelper(string) {
+	this.string = string;
 }
+
+StringHelper.prototype.startsWith = function(substring) {
+	return this.string.indexOf(substring) === 0;
+}; 

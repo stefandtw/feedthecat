@@ -30,11 +30,11 @@ function createSelector() {
 	};
 
 	selector.addXpathObserver = function(observer) {
-		xpathObservers.add(observer);
+		help(xpathObservers).add(observer);
 	};
 
 	selector.removeXpathObserver = function(observer) {
-		xpathObservers.remove(observer);
+		help(xpathObservers).remove(observer);
 	};
 
 	selector.select = function(pageDocument) {
@@ -85,10 +85,10 @@ function findXpathBlindly() {
 	var commonTraits = [SAME_CLASS];
 
 	var xpr;
-	if (commonTraits.contains(SAME_CLASS)) {
+	if (help(commonTraits).contains(SAME_CLASS)) {
 		var className = 'news_article';
 		xpr = "//*[contains(concat(' ',@class,' '),' " + className + " ')]";
-	} else if (commonTraits.contains(SAME_ELEMENT_NAME)) {
+	} else if (help(commonTraits).contains(SAME_ELEMENT_NAME)) {
 		var elementName = 'h2';
 		xpr = '//' + elementName;
 	} else {
@@ -126,7 +126,9 @@ function findInformativeXpath(forNode) {
 		var classList = node.get(0).classList;
 		for (var i = 0; i < classList.length; i++) {
 			var className = classList.item(i);
-			classString = classString + "[contains(concat(' ',@class,' '),' " + className + " ')]";
+			if (!help(className).startsWith('ftc_')) { //ignore feedthecat-specific classes
+				classString = classString + "[contains(concat(' ',@class,' '),' " + className + " ')]";
+			}
 		}
 		xpath = '/' + tagName + indexString + classString + xpath;
 	} while ( (node = node.parent()) && node.length === 1 && node.get(0).localName);
@@ -155,7 +157,7 @@ function mergeXpaths(xpaths) {
 			}
 			mergedXpath += '/' + aElement.tagName;
 			aElement.conditions.forEach(function(aCondition) {
-				if (bElement.conditions.contains(aCondition)) {
+				if (help(bElement.conditions).contains(aCondition)) {
 					mergedXpath += aCondition;
 				}
 			});

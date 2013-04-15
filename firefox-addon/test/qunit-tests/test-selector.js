@@ -11,10 +11,10 @@ module("selector.createXpathExpression()", {
 		// assert that the selector really includes or excludes specified parts
 		var coveredNodes = selector.select(document);
 		selector.includedNodes.forEach(function(node) {
-			ok(coveredNodes.contains(node), node.nodeName + " should be covered by the selector, since it was specified as an included item");
+			ok(help(coveredNodes).contains(node), node.nodeName + " should be covered by the selector, since it was specified as an included item");
 		});
 		selector.excludedNodes.forEach(function(node) {
-			ok(!coveredNodes.contains(node));
+			ok(!help(coveredNodes).contains(node));
 		});
 	}
 });

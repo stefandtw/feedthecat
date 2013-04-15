@@ -25,11 +25,11 @@ function createPageMantle(pageDocument) {
 	});
 
 	pageMantle.toggleSelection = function(node, nodes, hightlightingType) {
-		if (nodes.contains(node)) {
-			nodes.remove(node);
+		if (help(nodes).contains(node)) {
+			help(nodes).remove(node);
 			pageMantle.highlighter.removeHighlight(node, hightlightingType);
 		} else {
-			nodes.add(node);
+			help(nodes).add(node);
 			pageMantle.highlighter.highlight(node, hightlightingType);
 		}
 		currentSelector.createXpathExpression();

@@ -20,7 +20,7 @@ function createHighlighter() {
 
 	highlighter.highlight = function(domNode, type) {
 		jQuery(domNode).addClass(getCssClassForType(type));
-		changes.add({
+		help(changes).add({
 			node : domNode,
 			type : type
 		});
@@ -28,7 +28,7 @@ function createHighlighter() {
 
 	highlighter.removeHighlight = function(domNode, type) {
 		jQuery(domNode).removeClass(getCssClassForType(type));
-		changes.remove({
+		help(changes).remove({
 			node : domNode,
 			type : type
 		});
