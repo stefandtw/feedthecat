@@ -1,3 +1,4 @@
+"use strict";
 function createDialog(pageMantle, pageCss, dialogHtml, dialogCss) {
 
 	var dialog = {};

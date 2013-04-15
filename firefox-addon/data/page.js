@@ -1,3 +1,4 @@
+"use strict";
 self.port.on("init", function(pageCss, dialogHtml, dialogCss) {
 	var pageMantle = createPageMantle(document);
 

@@ -1,3 +1,4 @@
+"use strict";
 function createHighlighter() {
 
 	var highlighter = {};

@@ -1,3 +1,4 @@
+"use strict";
 function createSelector() {
 
 	var selector = {
@@ -134,11 +135,92 @@ function findInformativeXpath(forNode) {
 }
 
 function mergeXpaths(xpaths) {
-	//TODO implement a merging algorithm, like in a diff tool
-	if (xpaths.length >= 1) {
-		return xpaths[0];
+	if (xpaths.length === 0) {
+		return '';
 	}
-	return mergeXpaths([xpaths[0], xpaths[1]]);
+	return xpaths.reduce(mergeTwoXpaths);
+
+	function mergeTwoXpaths(aXpath, bXpath) {
+		var aTree = createXpathTree(aXpath);
+		var bTree = createXpathTree(bXpath);
+		if (aTree.elements.length !== bTree.elements.length) {
+			throw Error("can't handle nodes of different hierarchies");
+		}
+		var mergedXpath = '';
+		for (var i = 0; i < aTree.elements.length; i++) {
+			var aElement = aTree.elements[i];
+			var bElement = bTree.elements[i];
+			if (aElement.tagName !== bElement.tagName) {
+				throw Error("can't handle nodes with different tag names");
+			}
+			mergedXpath += '/' + aElement.tagName;
+			aElement.conditions.forEach(function(aCondition) {
+				if (bElement.conditions.contains(aCondition)) {
+					mergedXpath += aCondition;
+				}
+			});
+		}
+		return mergedXpath;
+	};
+}
+
+function createXpathTree(xpath) {
+	var xpathTree = {
+		xpathString : xpath,
+		elements : []
+	};
+	var i = 0;
+	parseXpath();
+	return xpathTree;
+
+	function parseXpath() {
+		for (; i < xpath.length; i++) {
+			if (xpath[i] === '/') {
+				i++;
+				parseXpathElement();
+			}
+		}
+		return xpathTree;
+	}
+
+	function parseXpathElement() {
+		var element = {
+			tagName : '',
+			conditions : []
+		};
+		for (; i < xpath.length; i++) {
+			if (xpath[i] === '/') {
+				i--;
+				break;
+			} else if (xpath[i] === '[') {
+				parseXpathCondition(element);
+			} else {
+				element.tagName += xpath[i];
+			}
+		}
+		xpathTree.elements.push(element);
+	}
+
+	/**
+	 * Parses a condition that starts with '[' and ends with ']'.
+	 * For now, we don't need to know what the condition is about.
+	 * We just add the condition string to the element object.
+	 */
+	function parseXpathCondition(parentElement) {
+		var openingBracketIndex = i;
+		var dontCareAboutDetails = {};
+		i++;
+		for (; i < xpath.length; i++) {
+			if (xpath[i] === '[') {
+				parseXpathCondition(dontCareAboutDetails);
+			} else if (xpath[i] === ']') {
+				var condition = xpath.substring(openingBracketIndex, i + 1);
+				parentElement.conditions.push(condition);
+				return;
+			}
+		}
+	}
+
 }
 
 function optimizeXpath(xpath) {

@@ -1,3 +1,4 @@
+"use strict";
 if ( typeof Array.prototype.remove === 'undefined') {
 	Array.prototype.remove = function(item) {
 		var i = this.indexOf(item);

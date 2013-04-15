@@ -1,3 +1,4 @@
+"use strict";
 function createDialogContent(dialogDocument, pageMantle) {
 
 	var content = {

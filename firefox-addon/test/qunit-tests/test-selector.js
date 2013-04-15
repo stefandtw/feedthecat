@@ -1,3 +1,4 @@
+"use strict";
 var selector;
 
 module("selector.createXpathExpression()", {
@@ -42,7 +43,7 @@ test("Same class => use @class", function() {
 
 	var xpath = selector.createXpathExpression();
 
-	equal(xpath, "//*[contains(concat(' ',@class,' '),' news_article ')]");
+	equal(xpath, "//div[contains(concat(' ',@class,' '),' news_article ')]");
 });
 
 test("No class => use element name", function() {
