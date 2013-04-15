@@ -3,7 +3,7 @@ function help(object) {
 	if ( typeof object === "string") {
 		return new StringHelper(object);
 	}
-	if ( object instanceof Array) {
+	if (Array.isArray(object)) {
 		return new ArrayHelper(object);
 	}
 	throw Error("Don't know what to do with object " + object);
@@ -34,4 +34,4 @@ function StringHelper(string) {
 
 StringHelper.prototype.startsWith = function(substring) {
 	return this.string.indexOf(substring) === 0;
-}; 
+};
