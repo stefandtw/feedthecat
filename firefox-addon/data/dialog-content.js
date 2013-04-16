@@ -39,8 +39,5 @@ function createDialogContent(dialogDocument, pageMantle) {
 	// fill in webpage URL
 	$(".ftc_data[name=webpageUrl]", dialogDocument).val(pageMantle.pageDocument.URL);
 
-	// test if DOM nodes can be accessed (code may be deleted later)
-	$(".ftc_data[name=description]", dialogDocument).val(pageMantle.pageDocument.body.outerHTML);
-
 	return content;
 }

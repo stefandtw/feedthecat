@@ -30,11 +30,13 @@ function createDialog(pageMantle, dialogHtml, dialogCss) {
 			dialogClass : 'ftc_dialogDiv',
 			position : ['center', 'bottom'], // FIXME in quirks mode the vertical position is unpredictable and sometimes even invisible
 			width : 750,
-			height : 270,
+			height : 300,
 			create : keepPositionFixed,
 			resize : keepPositionFixed,
 			close : pageMantle.destroy
 		});
+		$('textarea').resizable();
+		$('input:text').resizable();
 
 	});
 

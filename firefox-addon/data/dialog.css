@@ -15,6 +15,15 @@ input.ftc_data {
 	padding: 9px 20px !important;
 }
 
+/* Override Kickstart input field color. They set the background white but
+ * don't change the text color. That sucks if your default text color
+ * is a light gray or something similar. */
+input {
+	color: #111;
+}
+
 .menu {
 	float: right;
+	cursor: hand;
+	cursor: pointer;
 }
