@@ -35,8 +35,7 @@ function createDialogContainer(pageMantle, dialogHtml, dialogCss) {
 			resize : keepPositionFixed,
 			close : pageMantle.destroy
 		});
-		$('textarea').resizable();
-		$('input:text').resizable();
+		$('textarea.ftc_data').resizable();
 
 	});
 
