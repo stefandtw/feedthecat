@@ -1,9 +1,21 @@
 {
-  "name": "firefox-plugin",
-  "fullName": "firefox-plugin",
-  "id": "jid1-vLAhmjrQzj2hng",
-  "description": "a basic add-on",
-  "author": "",
-  "license": "MPL 2.0",
-  "version": "0.1"
+	"name": "feedthecat",
+	"fullName": "feedthecat",
+	"id": "jid1-vLAhmjrQzj2hng",
+	"description": "Create news feeds for any web page.",
+	"homepage": "https://github.com/junidaye/feedthecat",
+	"icon": "data/images/Cat_-3_48.png",
+	"icon64": "data/images/Cat_-3_64.png",
+	"author": "Stefan Dotterweich",
+	"license": "AGPL (http://www.gnu.org/licenses/agpl-3.0.html)",
+	"version": "0.1",
+	"preferences": [
+		{
+			"name": "serverUrl",
+			"title": "Server URL",
+			"description": "Location of the server application.",
+			"type": "string",
+			"value": "http://localhost:8080/feedthecat"
+		}
+	]
 }

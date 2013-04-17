@@ -1,5 +1,5 @@
 "use strict";
-self.port.on("init", function(pageCss, dialogHtml, dialogCss) {
+self.port.on("init", function(pageCss, dialogHtml, dialogCss, serverUrl) {
 	var pageMantle = createPageMantle(document);
 
 	var cssElement = jQuery('<style type="text/css">' + pageCss + '</style>');
