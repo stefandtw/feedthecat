@@ -63,49 +63,6 @@ function createSelector(from) {
 	return selector;
 }
 
-function findXpathBlindly() {
-	var SAME_CLASS = 'same class';
-	var SAME_ELEMENT_NAME = 'same element name';
-	var allTraitsArray = [SAME_CLASS, SAME_ELEMENT_NAME];
-	/*
-	 var getTraitsIntersection = function(traitArray1, traitArray2) {
-	 //TODO
-	 };
-	 var getTraits = function(node) {
-	 //TODO
-	 }
-	 var findCommonTraits = function findCommonTraits(possibleTraits, nodes) {
-	 if (nodes.length === 1) {
-	 //return possibleTraits;
-	 var traits = getTraits(node);
-	 return getTraitsIntersection(traits, possibleTraits);
-	 } else if (nodes.length > 2) {
-	 var lastNode = nodes.pop();
-	 var commonInTwo = findCommonTraits(possibleTraits, [nodes[0], lastNode]);
-	 return findCommonTraits(commonInTwo, nodes);
-	 } else {
-	 var nextTraits = findCommonTraits(possibleTraits, nodes[0]);
-	 findCommonTraits(nextTraits, nodes[1]);
-	 }
-
-	 };
-	 var commonTraits = findCommonTraits(allTraitsArray, selector.includedNodes);
-	 */
-	var commonTraits = [SAME_CLASS];
-
-	var xpr;
-	if (help(commonTraits).contains(SAME_CLASS)) {
-		var className = 'news_article';
-		xpr = "//*[contains(concat(' ',@class,' '),' " + className + " ')]";
-	} else if (help(commonTraits).contains(SAME_ELEMENT_NAME)) {
-		var elementName = 'h2';
-		xpr = '//' + elementName;
-	} else {
-		xpr = '';
-	}
-	return xpr;
-}
-
 function findXpathByMergingXpaths(includedNodes, pageDocument) {
 	var xpaths = findInformativeXpaths(includedNodes);
 	var xpath = mergeXpaths(xpaths);
