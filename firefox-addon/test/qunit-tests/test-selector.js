@@ -8,13 +8,10 @@ module("selector.generateXpath()", {
 	teardown : function() {
 		// print the XPath expression to give more information
 		ok( typeof selector.getXpath() !== "undefined", "Finished with XPath: " + selector.getXpath());
-		// assert that the selector really includes or excludes specified parts
+		// assert that the selector really includes specified parts
 		var coveredNodes = selector.select(document);
 		selector.includedNodes.forEach(function(node) {
 			ok(help(coveredNodes).contains(node), node.nodeName + " should be covered by the selector, since it was specified as an included item");
-		});
-		selector.excludedNodes.forEach(function(node) {
-			ok(!help(coveredNodes).contains(node));
 		});
 	}
 });
@@ -49,9 +46,6 @@ test("Same class => use @class", function() {
 test("No class => use element name and parent class", function() {
 	include("#news_article_1_headline");
 	include("#news_article_2_headline");
-	/*TODO next test: exclude("h2[not(../.news_article)][0]");
-	* note: "purrfect article 1"
-	*/
 
 	var xpath = selector.generateXpath(document);
 

@@ -9,8 +9,6 @@ function createHighlighter() {
 		switch (type) {
 			case 'includedNode':
 				return 'ftc_included';
-			case 'excludedNode':
-				return 'ftc_excluded';
 			case 'previewNode':
 				return 'ftc_preview';
 			default:

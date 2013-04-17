@@ -6,7 +6,6 @@ function createSelector(from) {
 
 	var selector = {
 		includedNodes : from.includedNodes && from.includedNodes.slice(0) || [],
-		excludedNodes : from.excludedNodes && from.excludedNodes.slice(0) || [],
 		xpath : from.xpath || ''
 	};
 

@@ -20,10 +20,6 @@ function createPageMantle(pageDocument) {
 			if (currentSelector && pageMantle.isSelectable(domNode)) {
 				pageMantle.toggleSelection(domNode, currentSelector.includedNodes, 'includedNode');
 			}
-		} else if (event.which === 2) {
-			if (currentSelector && pageMantle.isSelectable(domNode)) {
-				pageMantle.toggleSelection(domNode, currentSelector.excludedNodes, 'excludedNode');
-			}
 		}
 	};
 	$('body', pageDocument).click(clickListener);
@@ -54,9 +50,6 @@ function createPageMantle(pageDocument) {
 		if (selector) {
 			selector.includedNodes.forEach(function(node) {
 				pageMantle.highlighter.highlight(node, 'includedNode');
-			});
-			selector.excludedNodes.forEach(function(node) {
-				pageMantle.highlighter.highlight(node, 'excludedNode');
 			});
 			pageMantle.updatePreview();			selector.addXpathObserver(pageMantle.updatePreview);
 		}
