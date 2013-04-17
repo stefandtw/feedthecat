@@ -1,13 +1,1 @@
-feedthecat is a web application that allows you to create customized feeds on any web page.
-
-
-License
-=======
-
-Copyright 2010 Stefan Dotterweich.
-
-feedthecat is free software, licensed under the AGPL. See the COPYING file for more details.
-
-Note: Web pages in src/test/resources are used for testing purposes.
-They are not subject to license and copyright of the rest of the program.
-
+I stopped developing this, since Yahoo has created http://open.dapper.net/.
