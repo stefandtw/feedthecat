@@ -47,6 +47,9 @@ function createSelector(from) {
 
 	selector.select = function(pageDocument) {
 		var result = [];
+		if (selector.xpath === '') {
+			return result;
+		}
 		try {
 			var iterator = pageDocument.evaluate(selector.xpath, pageDocument, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
 		} catch (e) {
