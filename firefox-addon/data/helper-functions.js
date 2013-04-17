@@ -28,6 +28,18 @@ ArrayHelper.prototype.contains = function(item) {
 	return this.array.indexOf(item) != -1;
 };
 
+ArrayHelper.prototype.equals = function(other) {
+	if (this.array.length !== other.length) {
+		return false;
+	}
+	for (var i = 0; i < this.array.length; i++) {
+		if (this.array[i] !== other[i]) {
+			return false;
+		}
+	}
+	return true;
+};
+
 function StringHelper(string) {
 	this.string = string;
 }

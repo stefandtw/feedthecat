@@ -1,28 +1,31 @@
 "use strict";
-function createSelector() {
+function createSelector(from) {
+	if ( typeof from === 'undefined') {
+		from = {};
+	}
 
 	var selector = {
-		includedNodes : [],
-		excludedNodes : []
+		includedNodes : from.includedNodes && from.includedNodes.slice(0) || [],
+		excludedNodes : from.excludedNodes && from.excludedNodes.slice(0) || [],
+		xpath : from.xpath || ''
 	};
 
-	var xpath = '';
 	var xpathObservers = [];
 
-	selector.createXpathExpression = function() {
+	selector.createXpathExpression = function(pageDocument) {
 		try {
-			var newXpath = findXpathByMergingXpaths(selector.includedNodes);
+			var newXpath = findXpathByMergingXpaths(selector.includedNodes, pageDocument);
 		} catch (e) {
 			console.log(e.message);
 			newXpath = '';
 		}
 		selector.setXpath(newXpath);
-		return xpath;
+		return selector.xpath;
 	};
 
 	selector.setXpath = function(value) {
-		var oldValue = xpath;
-		xpath = value;
+		var oldValue = selector.xpath;
+		selector.xpath = value;
 		if (value !== oldValue) {
 			xpathObservers.forEach(function(observer) {
 				observer(value);
@@ -31,7 +34,7 @@ function createSelector() {
 	};
 
 	selector.getXpath = function() {
-		return xpath;
+		return selector.xpath;
 	};
 
 	selector.addXpathObserver = function(observer) {
@@ -45,8 +48,9 @@ function createSelector() {
 	selector.select = function(pageDocument) {
 		var result = [];
 		try {
-			var iterator = pageDocument.evaluate(xpath, pageDocument, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+			var iterator = pageDocument.evaluate(selector.xpath, pageDocument, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
 		} catch (e) {
+			console.log('could not evaluate XPath ' + selector.xpath);
 			return result;
 		}
 		var node;
@@ -102,10 +106,10 @@ function findXpathBlindly() {
 	return xpr;
 }
 
-function findXpathByMergingXpaths(includedNodes) {
+function findXpathByMergingXpaths(includedNodes, pageDocument) {
 	var xpaths = findInformativeXpaths(includedNodes);
 	var xpath = mergeXpaths(xpaths);
-	xpath = optimizeXpath(xpath, includedNodes);
+	xpath = optimizeXpath(xpath, pageDocument);
 	return xpath;
 }
 
@@ -153,36 +157,30 @@ function mergeXpaths(xpaths) {
 		if (aTree.elements.length !== bTree.elements.length) {
 			throw Error("can't handle nodes of different hierarchies");
 		}
-		var mergedXpath = '';
 		for (var i = 0; i < aTree.elements.length; i++) {
 			var aElement = aTree.elements[i];
 			var bElement = bTree.elements[i];
 			if (aElement.tagName !== bElement.tagName) {
 				throw Error("can't handle nodes with different tag names");
 			}
-			mergedXpath += '/' + aElement.tagName;
-			aElement.conditions.forEach(function(aCondition) {
-				if (help(bElement.conditions).contains(aCondition)) {
-					mergedXpath += aCondition;
-				}
+			aElement.conditions = aElement.conditions.filter(function(aCondition) {
+				return help(bElement.conditions).contains(aCondition);
 			});
 		}
-		return mergedXpath;
+		return aTree.toXpath();
 	};
 }
 
 function createXpathTree(xpath) {
 	var xpathTree = {
-		xpathString : xpath,
 		elements : []
 	};
 	var i = 0;
 	parseXpath();
-	return xpathTree;
 
 	function parseXpath() {
 		for (; i < xpath.length; i++) {
-			if (xpath[i] === '/') {
+			if (xpath[i] === '/' && xpath[i - 1] !== '/') {
 				i++;
 				parseXpathElement();
 			}
@@ -191,12 +189,9 @@ function createXpathTree(xpath) {
 	}
 
 	function parseXpathElement() {
-		var element = {
-			tagName : '',
-			conditions : []
-		};
+		var element = createXpathElement();
 		for (; i < xpath.length; i++) {
-			if (xpath[i] === '/') {
+			if (xpath[i] === '/' && xpath[i - 1] !== '/') {
 				i--;
 				break;
 			} else if (xpath[i] === '[') {
@@ -228,9 +223,68 @@ function createXpathTree(xpath) {
 		}
 	}
 
+
+	xpathTree.toXpath = function() {
+		var xpath = '';
+		xpathTree.elements.forEach(function(element) {
+			xpath += '/' + element.tagName;
+			element.conditions.forEach(function(condition) {
+				xpath += condition;
+			});
+		});
+		return xpath;
+	};
+
+	return xpathTree;
 }
 
-function optimizeXpath(xpath) {
-	//TODO optimize
+function createXpathElement(tagName, conditions) {
+	return {
+		/** The term 'tagName' is a little simplified. It can include a '/' or other axis prefixes */
+		tagName : tagName || '',
+		conditions : conditions || []
+	};
+}
+
+/**
+ * Shortens an XPath expression. The optimized expression still selects
+ * the same elements as the original one.
+ * A document object is needed to validate this.
+ */
+function optimizeXpath(xpath, pageDocument) {
+	//TODO refactor
+	var originalSelection = createSelector({
+		xpath : xpath
+	}).select(pageDocument);
+	var tree = createXpathTree(xpath);
+	replaceElementsWithDescendantsSelector();
+	removeConditions();
+
+	function replaceElementsWithDescendantsSelector() {
+		for (var i = 0; i < tree.elements.length - 1; i++) {
+			var element = tree.elements[i];
+			help(tree.elements).remove(element);
+			tree.elements[i].tagName = '/' + tree.elements[i].tagName;
+			var changedXpath = tree.toXpath();
+			var selector = createSelector({
+				xpath : changedXpath
+			});
+			var optimizedSelection = selector.select(pageDocument);
+			if (help(optimizedSelection).equals(originalSelection)) {
+				i--;
+				xpath = changedXpath;
+			} else {
+				tree = createXpathTree(xpath);
+			}
+		}
+	}
+
+	function removeConditions() {
+		//TODO remove unnecessary conditions
+		tree.elements.forEach(function(element) {
+
+		});
+	}
+
 	return xpath;
 }

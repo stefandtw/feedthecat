@@ -44,7 +44,7 @@ function createPageMantle(pageDocument) {
 			help(nodes).add(node);
 			pageMantle.highlighter.highlight(node, hightlightingType);
 		}
-		currentSelector.createXpathExpression();
+		currentSelector.createXpathExpression(pageDocument);
 	};
 
 	pageMantle.setCurrentSelector = function(selector) {
