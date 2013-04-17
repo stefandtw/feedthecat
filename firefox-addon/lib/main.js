@@ -23,7 +23,7 @@ var widget = widgets.Widget({
 	contentURL : data.url("images/Cat_-3.svg"),
 	onClick : function() {
 		var worker = tabs.activeTab.attach({
-			contentScriptFile : [data.url("helper-functions.js"), data.url("page.js"), data.url("page-mantle.js"), data.url("selector.js"), data.url("highlighter.js"), data.url("dialog-integration.js"), data.url("dialog-content.js"), data.url("jquery/jquery-1.9.1.min.js"), data.url("jquery-ui-1.10.2.custom/js/jquery-ui-1.10.2.custom.min.js"), data.url("jquery/jquery-migrate-1.1.1.min.js"), data.url("HTML-KickStart-master/js/kickstart.js")]
+			contentScriptFile : [data.url("helper-functions.js"), data.url("page.js"), data.url("page-mantle.js"), data.url("selector.js"), data.url("xpath-generator.js"), data.url("highlighter.js"), data.url("dialog-container.js"), data.url("dialog-content.js"), data.url("jquery/jquery-1.9.1.min.js"), data.url("jquery-ui-1.10.2.custom/js/jquery-ui-1.10.2.custom.min.js"), data.url("jquery/jquery-migrate-1.1.1.min.js"), data.url("HTML-KickStart-master/js/kickstart.js")]
 		});
 		worker.port.emit("init", pageCss, dialogHtml, dialogCss);
 	}

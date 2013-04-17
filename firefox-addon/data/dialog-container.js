@@ -1,5 +1,5 @@
 "use strict";
-function createDialog(pageMantle, dialogHtml, dialogCss) {
+function createDialogContainer(pageMantle, dialogHtml, dialogCss) {
 
 	var dialog = {};
 

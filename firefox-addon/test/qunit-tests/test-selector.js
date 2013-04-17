@@ -1,7 +1,7 @@
 "use strict";
 var selector;
 
-module("selector.createXpathExpression()", {
+module("selector.generateXpath()", {
 	setup : function() {
 		selector = createSelector();
 	},
@@ -33,7 +33,7 @@ function include(jQuerySelector) {
 
 test("No specifics => return empty XPath", function() {
 
-	var xpath = selector.createXpathExpression(document);
+	var xpath = selector.generateXpath(document);
 
 	equal(xpath, "", "XPath should be empty");
 });
@@ -41,7 +41,7 @@ test("No specifics => return empty XPath", function() {
 test("Same class => use @class", function() {
 	include(".news_article");
 
-	var xpath = selector.createXpathExpression(document);
+	var xpath = selector.generateXpath(document);
 
 	equal(xpath, "//div[contains(concat(' ',@class,' '),' news_article ')]");
 });
@@ -53,7 +53,7 @@ test("No class => use element name and parent class", function() {
 	* note: "purrfect article 1"
 	*/
 
-	var xpath = selector.createXpathExpression(document);
+	var xpath = selector.generateXpath(document);
 
 	equal(xpath, "//div[contains(concat(' ',@class,' '),' news_article ')]/h2");
 });

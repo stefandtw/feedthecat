@@ -5,5 +5,5 @@ self.port.on("init", function(pageCss, dialogHtml, dialogCss) {
 	var cssElement = jQuery('<style type="text/css">' + pageCss + '</style>');
 	cssElement.appendTo(document.head);
 
-	var dialog = createDialog(pageMantle, dialogHtml, dialogCss);
+	var dialog = createDialogContainer(pageMantle, dialogHtml, dialogCss);
 });
