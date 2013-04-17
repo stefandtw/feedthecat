@@ -1,0 +1,1 @@
+I stopped developing this, since Yahoo has created http://open.dapper.net/.
