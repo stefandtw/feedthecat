@@ -252,39 +252,67 @@ function createXpathElement(tagName, conditions) {
  * A document object is needed to validate this.
  */
 function optimizeXpath(xpath, pageDocument) {
-	//TODO refactor
 	var originalSelection = createSelector({
 		xpath : xpath
 	}).select(pageDocument);
 	var tree = createXpathTree(xpath);
-	replaceElementsWithDescendantsSelector();
-	removeConditions();
 
-	function replaceElementsWithDescendantsSelector() {
-		for (var i = 0; i < tree.elements.length - 1; i++) {
-			var element = tree.elements[i];
-			help(tree.elements).remove(element);
-			tree.elements[i].tagName = '/' + tree.elements[i].tagName;
+	tryAndOptimize(replaceElementWithDescendantsSelector, getElementArray);
+	tryAndOptimize(function(element) {
+		tryAndOptimize(removeCondition, getConditionArrayGetter(element));
+	}, getElementArray);
+
+	return xpath;
+
+	function tryAndOptimize(optimize, getItemArray) {
+		var array = getItemArray();
+		for (var i = 0; i < array.length; i++, array = getItemArray()) {
+			var optimization = optimize(array[i], array, i);
 			var changedXpath = tree.toXpath();
 			var selector = createSelector({
 				xpath : changedXpath
 			});
 			var optimizedSelection = selector.select(pageDocument);
 			if (help(optimizedSelection).equals(originalSelection)) {
-				i--;
 				xpath = changedXpath;
+				if (optimization && optimization.onSuccessChangeIndex) {
+					i = optimization.onSuccessChangeIndex(i);
+				}
 			} else {
 				tree = createXpathTree(xpath);
 			}
 		}
 	}
 
-	function removeConditions() {
-		//TODO remove unnecessary conditions
-		tree.elements.forEach(function(element) {
-
-		});
+	function replaceElementWithDescendantsSelector(element, array, i) {
+		if (i === array.length - 1) {
+			return;
+		}
+		help(array).remove(element);
+		array[i].tagName = '/' + array[i].tagName;
+		return {
+			onSuccessChangeIndex : function(i) {
+				return i - 1;
+			}
+		};
 	}
 
-	return xpath;
+	function removeCondition(condition, array, i) {
+		help(array).remove(condition);
+		return {
+			onSuccessChangeIndex : function(i) {
+				return i - 1;
+			}
+		};
+	}
+
+	function getElementArray() {
+		return tree.elements;
+	}
+
+	function getConditionArrayGetter(element) {
+		return function() {
+			return element.conditions;
+		};
+	}
 }
